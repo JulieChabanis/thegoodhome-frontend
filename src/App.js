@@ -2,6 +2,7 @@ import './App.css';
 import AgencyComponent from './components/AgencyComponent';
 import { ColorModeContext, useMode } from './components/UI/Themes/theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import Topbar from './components/Global/Topbar';
 
 function App() {
   const [theme, colorMode] = useMode(); 
@@ -12,7 +13,7 @@ function App() {
         <CssBaseline/>
         <div className='app'> 
           <main className='content'>
-          <AgencyComponent/>
+            <Topbar />
           </main>
         </div>
         </ThemeProvider>
