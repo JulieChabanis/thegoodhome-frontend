@@ -21,7 +21,7 @@ function AgencyComponent() {
   }; 
 
   return (
-    <div className="container">
+    <div className='container'>
       <h1 className="text-center">Agencies List</h1>
       <table className='table table-striped'>
         <thead>
@@ -56,7 +56,7 @@ function AgencyComponent() {
   )
 }
 
-export default AgencyComponent
+export default AgencyComponent;
 
 
 

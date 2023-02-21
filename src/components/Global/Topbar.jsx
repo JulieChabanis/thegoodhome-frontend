@@ -4,7 +4,6 @@ import { ColorModeContext, tokens} from '../../components/UI/Themes/theme';
 import { InputBase} from '@mui/material'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
-import NightlightRoundedIcon from '@mui/icons-material/NightlightRounded';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import SearchIcon from '@mui/icons-material/Search';
