@@ -1,12 +1,12 @@
 import './App.css';
 import { useState } from'react';
 import { Routes, Route } from'react-router-dom';
-// import AgencyComponent from './components/AgencyComponent';
 import { ColorModeContext, useMode } from './components/UI/Themes/theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import Topbar from './components/Global/Topbar';
 import MyProSidebar from './components/Global/Sidebar';
 import Dashboard from './components/Dashboard';
+import AgenciesList from './components/Agencies/Index';
 
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
               <Route path='/' element={<Dashboard />} />
+              <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
         </div>

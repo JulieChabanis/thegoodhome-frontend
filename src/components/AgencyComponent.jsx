@@ -1,7 +1,13 @@
 import React, { useState, useEffect} from 'react';
 import AgencyService from '../api/AgencyService';
+import { tokens } from './UI/Themes/theme';
+import { useTheme } from '@mui/material';
 
 function AgencyComponent() {
+
+  
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const [agencies, setAgencies] = useState([]);
 
@@ -21,7 +27,7 @@ function AgencyComponent() {
   }; 
 
   return (
-    <div className='container'>
+    <div className='container' style={{color: colors.grey[100]}}>
       <h1 className="text-center">Agencies List</h1>
       <table className='table table-striped'>
         <thead>
