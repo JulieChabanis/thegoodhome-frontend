@@ -2,6 +2,8 @@ import { Box, IconButton, useTheme } from '@mui/material';
 import { useContext } from 'react';
 import { ColorModeContext, tokens} from '../../components/UI/Themes/theme';
 import { InputBase} from '@mui/material'
+
+// Import MUI Icons
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';

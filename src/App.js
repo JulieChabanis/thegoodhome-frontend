@@ -1,13 +1,12 @@
 import './App.css';
 import { useState } from'react';
 import { Routes, Route } from'react-router-dom';
-import AgencyComponent from './components/AgencyComponent';
+// import AgencyComponent from './components/AgencyComponent';
 import { ColorModeContext, useMode } from './components/UI/Themes/theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import Topbar from './components/Global/Topbar';
-import Sidebar from './components/Global/Sidebar';
-
-
+import MyProSidebar from './components/Global/Sidebar';
+import Dashboard from './components/Dashboard';
 
 
 function App() {
@@ -20,11 +19,11 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <div className='app'> 
-       <Sidebar isSidebar={isSidebar}/>
+          <MyProSidebar isSidebar={isSidebar}/>
           <main className='content'>
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
-              <Route path='/' element={<AgencyComponent />} />
+              <Route path='/' element={<Dashboard />} />
             </Routes>
           </main>
         </div>

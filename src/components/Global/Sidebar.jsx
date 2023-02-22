@@ -2,14 +2,18 @@ import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme} from '@mui/material'; 
 import { Link } from 'react-router-dom';
-import { tokens } from "../UI/Themes/theme";
-import CottageRoundedIcon from '@mui/icons-material/CottageRounded';
-import ChairRoundedIcon from '@mui/icons-material/ChairRounded';
-import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
-import FaceRoundedIcon from '@mui/icons-material/FaceRounded';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import { tokens } from '../../components/UI/Themes/theme';
 import Image from 'react-bootstrap/Image';
 import "react-pro-sidebar/dist/css/styles.css";
+
+// Import MUI icons
+import DashboardCustomizeRoundedIcon from '@mui/icons-material/DashboardCustomizeRounded';
+import FaceRoundedIcon from '@mui/icons-material/FaceRounded';
+import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined';
+import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
+import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -39,14 +43,14 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        '&.pro-sidebar-inner': {
-          background: `${colors.primary[400]} !important`
+        '& .pro-sidebar-inner': {
+          background: `${colors.primary[400]} !important`,
         }, 
         '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
         },
         '& .pro-inner-item': {
-          padding: '5px 35px 5px 20px !important',
+          padding: '5px 20px 5px 20px !important',
         },
         '& .pro-inner-item:hover': {
           color: '#868dfb !important',
@@ -61,7 +65,7 @@ const Sidebar = () => {
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onDoubleClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <ChairRoundedIcon /> : undefined}     
+            icon={isCollapsed ? < MenuOutlinedIcon /> : undefined}     
             style={{
               margin: '10px 0 20 px 0', 
               color: colors.grey[100], 
@@ -72,10 +76,10 @@ const Sidebar = () => {
                 display='flex'
                 justifyContent='space-between'
                 alignItems='center'
-                ml='15px'
+                ml='10px'
               >
                 <Typography variant='h3' color={colors.grey[100]}>
-                    ADMINIS
+                    LOGO
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   < MenuOutlinedIcon />
@@ -120,9 +124,9 @@ const Sidebar = () => {
             {/* MENU ITEMS */}
             <Box paddingLeft={isCollapsed ? undefined : '10%'}>
               <Item
-                title='Locations'
+                title='Dashboard'
                 to='/'
-                icon={<CottageRoundedIcon />}
+                icon={<DashboardCustomizeRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -132,7 +136,7 @@ const Sidebar = () => {
                 color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
-                Bonjour
+                Gestion
               </Typography>
               <Item
                 title='Locataires'
@@ -142,16 +146,16 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Locataires'
+                title='Appartements'
                 to="/tenants"
-                icon={<FaceRoundedIcon />}
+                icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title='Locataires'
+                title='Dossiers'
                 to="/tenants"
-                icon={<FaceRoundedIcon />}
+                icon={<FolderSharedOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -161,19 +165,19 @@ const Sidebar = () => {
                 color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
-                Suivi des dossiers
+                Planning
               </Typography>
               <Item
-                title='Locataires'
+                title='Calendrier'
                 to="/tenants"
-                icon={<ChairOutlinedIcon />}
+                icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title='Dossiers'
+                title='Paramètres'
                 to="/tenants"
-                icon={<FaceRoundedIcon />}
+                icon={<SettingsRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
