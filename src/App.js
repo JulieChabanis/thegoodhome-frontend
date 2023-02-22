@@ -24,7 +24,7 @@ function App() {
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
               <Route path='/' element={<Dashboard />} />
-              <Route path='/agencies' element={<AgenciesList />} />
+              <Route path='/agences' element={<AgenciesList />} />
             </Routes>
           </main>
         </div>

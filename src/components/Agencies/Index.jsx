@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from "../UI/Themes/theme";
 import AgencyService from '../../api/AgencyService';
 import Header from '../Global/Header';
+// import MultiActionAreaCard from '../Agencies/card'
 
 function AgenciesList() {
 
@@ -28,50 +29,57 @@ function AgenciesList() {
   }; 
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'id', headerName: 'ID', width: 5 },
     { 
       field: 'name', 
       headerName: 'Agence',
-      flex: 1,
       cellClassName: "name-column--cell",
+      headerAlign: 'left', 
+      align: 'left',
+      width: 200,
     },
     { 
       field: 'address',
-       headerName: 'Adresse',
-       headerAlign: 'left', 
-       align: 'left',
-       },
-    { 
-      field: 'address',
-      headerName: 'Complément Adresse',
+      headerName: 'Adresse',
       headerAlign: 'left', 
       align: 'left',
+      width: 150,
+      },
+    { 
+      field: 'additionalAddress',
+      headerName: 'Comp.',
+      headerAlign: 'left', 
+      align: 'left',
+      width: 150,
     },
     { 
       field: 'city',
       headerName: 'Ville',
       headerAlign: 'left', 
       align: 'left',
+      width: 100,
      },
     { 
       field: 'zipcode',
-      headerName: 'Code Postal',
+      headerName: 'CP',
       type: 'number',
       headerAlign: 'left', 
       align: 'left',
+      width: 60,
      },
     { 
       field: 'description',
       headerName: 'Infos',
       headerAlign: 'left', 
       align: 'left',
+      width: 200,
     },
   ];
 
   return (
     <Box m='20px'>
       <Header title="AGENCES" subtitle="Agences Partenaires" />
-      <Box ù='40px 0 0 0' height='75vh' sx={{
+      <Box m='40px 0 0 0' height='30vh' sx={{
         '& .MuiDataGrid-root': {
           border: 'none',
         }, 
@@ -99,7 +107,9 @@ function AgenciesList() {
        />
        
       </Box>
-      <Box>
+      
+      {/*< MultiActionAreaCard/>*/}
+      {/*<Box>
         {
           agencies.map(
             agencies =>
@@ -113,14 +123,9 @@ function AgenciesList() {
             </Box>
           )
         }
-      </Box>
+      </Box>*/}
     </Box>
   )
-
 }
-
-
-
-
 
 export default AgenciesList;

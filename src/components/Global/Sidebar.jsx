@@ -162,8 +162,8 @@ const Sidebar = () => {
                 Planning
               </Typography>
               <Item
-                title='Calendrier'
-                to="/tenants"
+                title='Agences'
+                to="/agences"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
