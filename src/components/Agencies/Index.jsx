@@ -30,35 +30,41 @@ function AgenciesList() {
   }; 
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 5 },
+    { 
+      field: 'id',
+      headerName: 'ID',
+      flex: 0.5,
+      headerAlign: 'center', 
+      align: 'center',
+    },
     { 
       field: 'name', 
       headerName: 'Agence',
       cellClassName: "name-column--cell",
       headerAlign: 'left', 
       align: 'left',
-      width: 200,
+      flex: 1,
     },
     { 
       field: 'address',
       headerName: 'Adresse',
       headerAlign: 'left', 
       align: 'left',
-      width: 150,
+      flex: 1,
       },
     { 
       field: 'additionalAddress',
       headerName: 'Comp.',
       headerAlign: 'left', 
       align: 'left',
-      width: 150,
+      flex: 1,
     },
     { 
       field: 'city',
       headerName: 'Ville',
       headerAlign: 'left', 
       align: 'left',
-      width: 100,
+      flex: 1,
      },
     { 
       field: 'zipcode',
@@ -66,14 +72,14 @@ function AgenciesList() {
       type: 'number',
       headerAlign: 'left', 
       align: 'left',
-      width: 60,
+      flex: 0.5,
      },
     { 
       field: 'description',
       headerName: 'Infos',
       headerAlign: 'left', 
       align: 'left',
-      width: 300,
+      flex: 2,
     },
   ];
 
@@ -86,7 +92,7 @@ function AgenciesList() {
         }, 
         '& .MuiDataGrid-cell': {
           borderBottom: 'none',
-          py: 2,
+          py: 1,
         },
         '& .name-column--cell' : {
           color: colors.green[300],
@@ -104,7 +110,9 @@ function AgenciesList() {
         },
     }}>
       < TabPanel />
-       <DataGrid getRowHeight={() => 'auto'} getEstimatedRowHeight={() => 200} 
+       <DataGrid 
+       getRowHeight={() => 'auto'} 
+       getEstimatedRowHeight={() => 200} 
        rows={agencies}
        columns={columns}
        />
