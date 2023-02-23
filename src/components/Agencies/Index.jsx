@@ -3,7 +3,11 @@ import { Box, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from "../UI/Themes/theme";
 import AgencyService from '../../api/AgencyService';
+
+// Import Map components
 import Header from '../Global/Header';
+import Requests from '../Global/Requests';
+
 // import MultiActionAreaCard from '../Agencies/card'
 import TabPanel from './Tabs';
 
@@ -86,6 +90,7 @@ function AgenciesList() {
   return (
     <Box m='20px'>
       <Header title="AGENCES" subtitle="Agences Partenaires" />
+      <Requests title="Que voulez-vous faire ?"/>
       <Box m='40px 0 40px 0' height='50vh' sx={{
         '& .MuiDataGrid-root': {
           border: 'none',

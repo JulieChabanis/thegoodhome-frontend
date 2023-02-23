@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, useTheme } from '@mui/material'; 
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import Header from '../Global/Header';
+import UpdateModal from './Updatemodal';
 
 function TenantsList() {
   const theme = useTheme();
@@ -64,6 +65,16 @@ function TenantsList() {
       align: 'left',
       flex: 1,
      },
+     {
+      field: '',
+      headerName: 'Action',
+      flex: 1,
+      renderCell: () => {
+        return (
+          < UpdateModal />
+        )
+     },
+    },
   ];
 
   return (
@@ -104,12 +115,9 @@ function TenantsList() {
        <DataGrid 
        rows={tenants}
        columns={columns}
-       components={{  Toolbar: GridToolbar }}
        />
     </Box>
-
     </Box>
-
   )
 }
 
