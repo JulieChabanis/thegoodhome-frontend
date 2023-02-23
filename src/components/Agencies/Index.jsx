@@ -5,6 +5,7 @@ import { tokens } from "../UI/Themes/theme";
 import AgencyService from '../../api/AgencyService';
 import Header from '../Global/Header';
 // import MultiActionAreaCard from '../Agencies/card'
+import TabPanel from './Tabs';
 
 function AgenciesList() {
 
@@ -72,19 +73,20 @@ function AgenciesList() {
       headerName: 'Infos',
       headerAlign: 'left', 
       align: 'left',
-      width: 200,
+      width: 300,
     },
   ];
 
   return (
     <Box m='20px'>
       <Header title="AGENCES" subtitle="Agences Partenaires" />
-      <Box m='40px 0 0 0' height='30vh' sx={{
+      <Box m='40px 0 40px 0' height='50vh' sx={{
         '& .MuiDataGrid-root': {
           border: 'none',
         }, 
         '& .MuiDataGrid-cell': {
           borderBottom: 'none',
+          py: 2,
         },
         '& .name-column--cell' : {
           color: colors.green[300],
@@ -101,7 +103,8 @@ function AgenciesList() {
           backgroundColor: colors.blue[700],
         },
     }}>
-       <DataGrid
+      < TabPanel />
+       <DataGrid getRowHeight={() => 'auto'} getEstimatedRowHeight={() => 200} 
        rows={agencies}
        columns={columns}
        />

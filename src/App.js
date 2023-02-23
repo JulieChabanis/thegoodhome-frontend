@@ -3,10 +3,15 @@ import { useState } from'react';
 import { Routes, Route } from'react-router-dom';
 import { ColorModeContext, useMode } from './components/UI/Themes/theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+
+// Import Global Components
 import Topbar from './components/Global/Topbar';
 import MyProSidebar from './components/Global/Sidebar';
 import Dashboard from './components/Dashboard';
+
+// Import API Data from Data Grid
 import AgenciesList from './components/Agencies/Index';
+import TenantsList from './components/Tenants';
 
 
 function App() {
@@ -24,6 +29,7 @@ function App() {
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
               <Route path='/' element={<Dashboard />} />
+              <Route path='/tenants' element={<TenantsList />} />
               <Route path='/agences' element={<AgenciesList />} />
             </Routes>
           </main>
