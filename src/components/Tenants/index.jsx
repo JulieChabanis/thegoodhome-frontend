@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import Header from '../Global/Header';
-import UpdateModal from './Updatemodal';
+import AddModal from './AddModal';
 
 function TenantsList() {
   const theme = useTheme();
@@ -71,7 +71,7 @@ function TenantsList() {
       flex: 1,
       renderCell: () => {
         return (
-          < UpdateModal />
+          < AddModal />
         )
      },
     },
