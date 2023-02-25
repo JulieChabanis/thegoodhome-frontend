@@ -6,14 +6,21 @@ class TenantService {
   getTenants() {
     return axios.get(TENANT_REST_API_URL);
   }
-  createTenant() {
-    return axios.post(TENANT_REST_API_URL);
+
+  createTenant(tenant) {
+    return axios.post(TENANT_REST_API_URL, tenant);
   }
-  updateTenant(tenant) {
-    return axios.put(TENANT_REST_API_URL + "/" + tenant.id);
+
+  getTenantbyId(tenantId) {
+    return axios.get(TENANT_REST_API_URL + "/" + tenantId);
   }
-  deleteTenant(id) {
-    return axios.delete(TENANT_REST_API_URL + "/" + id);
+
+  updateTenant(tenant, tenantId) {
+    return axios.put(TENANT_REST_API_URL + "/" + tenantId, tenant);
+  }
+
+  deleteTenant(tenantId) {
+    return axios.delete(TENANT_REST_API_URL + "/" + tenantId);
   }
 }
 export default new TenantService();
