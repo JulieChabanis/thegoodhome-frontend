@@ -1,14 +1,42 @@
-import React, { useState, useEffect,} from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { FormControl, Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
+import TenantService from '../../../api/TenantService';
 
-export default function CreateTenantForm() {
-
+const CreateTenantForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
-  
+  const [newTenant, setNewTenant] = useState("");
+
+  const createTenant = () => {
+    TenantService.createTenant()
+    .then(response => {
+        setNewTenant(response.data);
+        console.log(response.data);
+      })
+    .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    createTenant();
+  }, []);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setNewTenant({...newTenant, [name]: value }); 
+    }
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (newTenant.name.length > 0) {
+      handleChange(e, createTenant(newTenant));
+      }
+    }
+    
   return (
     <Box sx={{
       position: 'absolute',
@@ -36,27 +64,32 @@ export default function CreateTenantForm() {
             <TextField 
             margin='normal'
             required
+            value={newTenant.name}
             id="name"
             label="Nom" 
             variant="outlined"
+            onChange={handleChange}
             >
             </TextField>
             <br /> 
-            <TextField required id="outlined-basid" label="Prénom" variant="outlined"></TextField>
+            <TextField required value={newTenant.lastname} onChange={handleChange} id="outlined-basid" label="Prénom" variant="outlined"></TextField>
             <br /> 
-            <TextField required  id="outlined-basid" label="Email" variant="outlined"></TextField>
+            <TextField required value={newTenant.email} onChange={handleChange} id="outlined-basid" label="Email" variant="outlined"></TextField>
             <br /> 
-            <TextField required id="outlined-basid" label="Telephone" variant="outlined"></TextField>
+            <TextField required value={newTenant.phone}  onChange={handleChange} id="outlined-basid" label="Telephone" variant="outlined"></TextField>
         </FormControl>
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2}}
+          onClick={handleSubmit}
         > Ajouter
         </Button>
         </form>
         </Box>
       </Box>
     )
-};
+}
+
+export default CreateTenantForm;
