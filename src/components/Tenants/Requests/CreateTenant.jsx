@@ -1,41 +1,45 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState } from 'react'; 
 import { FormControl, Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
-import TenantService from '../../../api/TenantService';
+import axios from 'axios';
 
-const CreateTenantForm = () => {
+const CreateTenant = () => {
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
-  const [newTenant, setNewTenant] = useState("");
 
-  const createTenant = () => {
-    TenantService.createTenant()
-    .then(response => {
-        setNewTenant(response.data);
-        console.log(response.data);
+  const [name, setName] = useState('');
+  const [lastname,setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [ phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+
+  const HandleSubmit = () => {
+    setLoading(true);
+    const data = {
+      name: name,
+      lastname: lastname,
+      email: email,
+      phone: phone
+    }
+    
+    axios.post('http://localhost:8080/api/v1/tenants', data)
+      .then(res => {
+        setData(res.data);
+        setName('');
+        setLastname('');
+        setEmail('');
+        setPhone('');
+        setLoading(false);
       })
-    .catch(error => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    createTenant();
-  }, []);
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setNewTenant({...newTenant, [name]: value }); 
-    }
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      if (newTenant.name.length > 0) {
-      handleChange(e, createTenant(newTenant));
-      }
-    }
+      .catch(err => {
+        setLoading(false);
+      }); 
+    
+  }
     
   return (
     <Box sx={{
@@ -64,27 +68,28 @@ const CreateTenantForm = () => {
             <TextField 
             margin='normal'
             required
-            value={newTenant.name}
+            value={name}
             id="name"
             label="Nom" 
             variant="outlined"
-            onChange={handleChange}
+            onChange={e => setName(e.target.value)}
             >
             </TextField>
             <br /> 
-            <TextField required value={newTenant.lastname} onChange={handleChange} id="outlined-basid" label="Prénom" variant="outlined"></TextField>
+            <TextField required value={lastname} onChange={e => setLastname(e.target.value)} id="outlined-basid" label="Prénom" variant="outlined"></TextField>
             <br /> 
-            <TextField required value={newTenant.email} onChange={handleChange} id="outlined-basid" label="Email" variant="outlined"></TextField>
+            <TextField required value={email} onChange={e => setEmail(e.target.value)} id="outlined-basid" label="Email" variant="outlined"></TextField>
             <br /> 
-            <TextField required value={newTenant.phone}  onChange={handleChange} id="outlined-basid" label="Telephone" variant="outlined"></TextField>
+            <TextField required value={phone} onChange={e => setPhone(e.target.value)} id="outlined-basid" label="Telephone" variant="outlined"></TextField>
         </FormControl>
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2}}
-          onClick={handleSubmit}
-        > Ajouter
+          onClick={HandleSubmit}
+          disabled={loading}
+        > {loading ? 'Loading...' : 'Submit'}
         </Button>
         </form>
         </Box>
@@ -92,4 +97,4 @@ const CreateTenantForm = () => {
     )
 }
 
-export default CreateTenantForm;
+export default CreateTenant;

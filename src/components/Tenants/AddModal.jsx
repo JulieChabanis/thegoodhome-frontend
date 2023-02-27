@@ -3,7 +3,7 @@ import { useTheme } from '@emotion/react';
 import { tokens } from '../UI/Themes/theme';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import CreateTenantForm from './Requests/CreateTenant'
+import AddTenantButton from './ModalButtonAdd';
 
 export default function AddModal() {
   const theme = useTheme();
@@ -30,7 +30,7 @@ export default function AddModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <CreateTenantForm/>
+        <AddTenantButton/>
       </Modal>
     </div>
   );

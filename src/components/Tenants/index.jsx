@@ -5,6 +5,7 @@ import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import Header from '../Global/Header';
 import AddModal from './AddModal';
+import AddTenantButton from './ModalButtonAdd'
 
 function TenantsList() {
   const theme = useTheme();
@@ -83,6 +84,10 @@ function TenantsList() {
         title="MES LOCATAIRES"
         subtitle="Gestion de mes locataires"
       />
+      {/*Add Button for add tenant*/}
+      <Box>
+        <AddTenantButton />
+      </Box>
       <Box 
         m='40px 0 40px 0' 
         height='50vh' 
