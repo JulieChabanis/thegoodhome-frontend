@@ -4,7 +4,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import { tokens } from "../UI/Themes/theme";
 import Modal from '@mui/material/Modal';
-import CreateTenant from './Requests/CreateTenant';
+// import CreateTenant from './Requests/CreateTenant';
+import FormTenant from './Requests/FormTenant';
 
 
 export default function AddTenantButton() {
@@ -40,7 +41,7 @@ export default function AddTenantButton() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <CreateTenant/>
+        <FormTenant/>
       </Modal>
     </Stack>
   )
