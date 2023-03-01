@@ -3,7 +3,7 @@ import { useTheme } from '@emotion/react';
 import { tokens } from '../UI/Themes/theme';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import AddTenantButton from './ModalButtonAdd';
+import AddTenantButton from './AddTenantButton';
 
 export default function AddModal() {
   const theme = useTheme();

@@ -5,7 +5,7 @@ import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import Header from '../Global/Header';
 import AddModal from './AddModal';
-import AddTenantButton from './ModalButtonAdd'
+import AddTenantButton from './AddTenantButton'
 
 function TenantsList() {
   const theme = useTheme();
