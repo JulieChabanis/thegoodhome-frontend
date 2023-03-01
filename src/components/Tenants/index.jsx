@@ -4,8 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import Header from '../Global/Header';
-import AddModal from './AddModal';
 import AddTenantButton from './AddTenantButton'
+import TenantsActions from './TenantsActions';
 
 function TenantsList() {
   const theme = useTheme();
@@ -42,7 +42,7 @@ function TenantsList() {
       cellClassName: "name-column--cell",
       headerAlign: 'left', 
       align: 'left',
-      flex: 1,
+      flex: 0.8,
     },
     { 
       field: 'lastname',
@@ -50,7 +50,7 @@ function TenantsList() {
       cellClassName: "name-column--cell",
       headerAlign: 'left', 
       align: 'left',
-      flex: 1,
+      flex: 0.8,
       },
     { 
       field: 'email',
@@ -64,17 +64,14 @@ function TenantsList() {
       headerName: 'Tel.',
       headerAlign: 'left', 
       align: 'left',
-      flex: 1,
+      flex: 0.8,
      },
      {
-      field: '',
+      field: 'actions',
       headerName: 'Action',
+      type: 'actions',
       flex: 1,
-      renderCell: () => {
-        return (
-          < AddModal />
-        )
-     },
+      renderCell: (params) => <TenantsActions {... {params}} />
     },
   ];
 

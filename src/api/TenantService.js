@@ -2,25 +2,30 @@ import axios from "axios";
 
 const TENANT_REST_API_URL = "http://localhost:8080/api/v1/tenants";
 
-class TenantService {
-  getTenants() {
+  const getTenants = () => {
     return axios.get(TENANT_REST_API_URL);
-  }
+  };
 
-  createTenant(tenant) {
+  const createTenant = (tenant) => {
     return axios.post(TENANT_REST_API_URL, tenant);
-  }
+  };
 
-  getTenantbyId(tenantId) {
+  const getTenantbyId = (tenantId) => {
     return axios.get(TENANT_REST_API_URL + "/" + tenantId);
   }
 
-  updateTenant(tenant, tenantId) {
+  const updateTenant = (tenant, tenantId) => {
     return axios.put(TENANT_REST_API_URL + "/" + tenantId, tenant);
   }
 
-  deleteTenant(tenantId) {
-    return axios.delete(TENANT_REST_API_URL + "/" + tenantId);
+  const deleteTenant = (id) => {
+    return axios.delete(TENANT_REST_API_URL + "/" + id);
   }
-}
-export default new TenantService();
+
+export default {
+  getTenants,
+  createTenant,
+  getTenantbyId,
+  updateTenant,
+  deleteTenant
+};

@@ -4,11 +4,11 @@ import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import { tokens } from "../UI/Themes/theme";
 import Modal from '@mui/material/Modal';
-import AddTenant from "./Requests/AddTenant"
+import UpdateTenant from './Requests/UpdateTenant';
 
 
-// Button + Add a new tenant
-export default function AddTenantButton() {
+// Button to update a tenant
+export default function UpdateTenantButton() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -33,7 +33,7 @@ export default function AddTenantButton() {
           }
         }}
       >
-        New Locataire
+        UPDATE
       </Button>
       <Modal
         open={open}
@@ -41,7 +41,7 @@ export default function AddTenantButton() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <AddTenant/>
+        <UpdateTenant/>
       </Modal>
     </Stack>
   )
