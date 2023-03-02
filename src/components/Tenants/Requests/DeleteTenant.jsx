@@ -1,39 +1,40 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 
-const DeleteTenant = ({ open, id, onDelete }) => {
+const DeleteTenant = ({ id, open, handleClose}) => {
 
-  const handleClose = () => {
-    onDelete();
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/tenants/${id}`);
+  const handleDelete = () => {
+    axios.delete(`http://localhost:8080/api/tenants/${id}`)
+    .then (res => {
+      console.log(res.data); 
       handleClose();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      window.location.reload();
+    })
+    .catch (err => {
+      console.log(err);
+    })
+  }; 
 
   return (
-    <Dialog open={open}>
+    <Fragment>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>
-        Delete Tenant
+        Supprimer un locataire
       </DialogTitle>
       <DialogContent>
-        Are you sure you want to delete this tenant?
+        Êtes-vous sûr de vouloir supprimer ce locataire ?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>
-          Cancel
+          Annuler
         </Button>
-        <Button onClick={handleDelete} color="error">
+        <Button color="error" onClick={handleDelete}>
           Delete
         </Button>
       </DialogActions>
     </Dialog>
+    </Fragment>
   );
 };
 

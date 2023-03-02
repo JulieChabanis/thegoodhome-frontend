@@ -3,18 +3,14 @@ import { Box, Tooltip, IconButton} from '@mui/material';
 import { Delete, Edit, Preview } from '@mui/icons-material';
 import DeleteTenant from './Requests/DeleteTenant';
 
-const TenantsActions = ({params}) => {
-  
+const TenantsActions = ({ id }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [tenantIdToDelete, setTenantIdToDelete] = useState(null);
 
-  const handleDelete = (id) => {
-    setTenantIdToDelete(id);
+  const handleClickDelete = () => {
     setOpenDeleteDialog(true);
-  };
+  }; 
 
-  const handleCancelDelete = () => {
-    setTenantIdToDelete(null);
+  const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
   };
 
@@ -33,22 +29,13 @@ const TenantsActions = ({params}) => {
       </Tooltip>
 
       <Tooltip title="Delete Tenant">
-        <IconButton
-          onClick={() => handleDelete(123)}
-      >
+        <IconButton onClick={handleClickDelete}>
           <Delete />
         </IconButton> 
       </Tooltip>
-      <DeleteTenant
-        open={openDeleteDialog}
-        tenantId={tenantIdToDelete}
-        onDelete={() => {
-          setTenantIdToDelete(null);
-          setOpenDeleteDialog(false);
-        }}
-      />
+      <DeleteTenant open={openDeleteDialog} handleClose={handleCloseDeleteDialog} id={id}/>
     </Box>
   );
-}; 
+  }
 
 export default TenantsActions;

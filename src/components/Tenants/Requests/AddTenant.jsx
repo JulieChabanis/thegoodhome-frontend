@@ -27,7 +27,7 @@ const CreateTenant = () => {
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      axios.post('http://localhost:8080/api/v1/tenants', values)
+      axios.post('http://localhost:8080/api/tenants', values)
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
