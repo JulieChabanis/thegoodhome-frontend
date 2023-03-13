@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
+import TenantService from '../../../api/TenantService';
 
 // UPDATE a tenant with a PUT request
 const UpdateTenant = () => {
-
   const { id } = useParams();
   const [tenant, setTenant] = useState(null);
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/tenants/${id}`)
+    axios.get(`http://localhost:8080/api/tenants/${id}`)
       .then(res => {
         setTenant(res.data);
       })
@@ -29,10 +30,10 @@ const UpdateTenant = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      lastname: '',
-      email: '',
-      phone: ''
+      name: tenant ? tenant.name : '' ,
+      lastname: tenant ? tenant.lastname : '',
+      email: tenant ? tenant.email : '',
+      phone: tenant ? tenant.phone : '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
@@ -42,10 +43,12 @@ const UpdateTenant = () => {
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      axios.put(`http://localhost:8080/api/v1/tenants/${id}`, values)
+      TenantService.updateTenant(`http://localhost:8080/api/v1/tenants/${id}`, values)
         .then(res => {
           console.log(res.data);
+          setTenant(res.data);
           setSubmitting(false);
+          navigate('/tenants');
         })
         .catch(err => {
           console.log(err);

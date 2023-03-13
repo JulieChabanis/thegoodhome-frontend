@@ -12,6 +12,8 @@ import Dashboard from './components/Dashboard';
 // Import API Data from Data Grid
 import AgenciesList from './components/Agencies/Index';
 import TenantsList from './components/Tenants';
+import UpdateTenant from './components/Tenants/Requests/UpdateTenant';
+import DeleteTenant from './components/Tenants/Requests/DeleteTenant';
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path='/tenants' element={<TenantsList />} />
+              <Route path='/tenants/:id' element={<UpdateTenant />} />
+              <Route path='/tenants/:id' element={<DeleteTenant />} />
               <Route path='/agences' element={<AgenciesList />} />
             </Routes>
           </main>

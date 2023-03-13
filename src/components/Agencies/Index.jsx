@@ -8,8 +8,6 @@ import AgencyService from '../../api/AgencyService';
 import Header from '../Global/Header';
 import Requests from '../Global/Requests';
 
-// import MultiActionAreaCard from '../Agencies/card'
-import TabPanel from './Tabs';
 
 function AgenciesList() {
 
@@ -114,7 +112,6 @@ function AgenciesList() {
           backgroundColor: colors.blue[700],
         },
     }}>
-      < TabPanel />
        <DataGrid 
        getRowHeight={() => 'auto'} 
        getEstimatedRowHeight={() => 200} 

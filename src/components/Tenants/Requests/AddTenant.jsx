@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
+import TenantService from '../../../api/TenantService';
 
 // Create a POST request FORM to add Tenant
-const CreateTenant = () => {
+const CreateTenant = forwardRef((props, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -27,7 +27,7 @@ const CreateTenant = () => {
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      axios.post('http://localhost:8080/api/tenants', values)
+      TenantService.createTenant(values)
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
@@ -41,7 +41,7 @@ const CreateTenant = () => {
   });
 
   return (
-    <Box sx={{
+    <Box ref={ref} sx={{
       position: 'absolute',
       top: '50%',
       left: '50%',
@@ -124,6 +124,6 @@ const CreateTenant = () => {
           </form>
           </Box>
           );
-          };
+          });
           
           export default CreateTenant;

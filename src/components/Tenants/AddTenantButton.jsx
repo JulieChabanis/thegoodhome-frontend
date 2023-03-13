@@ -41,7 +41,9 @@ export default function AddTenantButton() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <AddTenant/>
+        <div tabIndex={-1}>
+          <AddTenant/>
+        </div>
       </Modal>
     </Stack>
   )

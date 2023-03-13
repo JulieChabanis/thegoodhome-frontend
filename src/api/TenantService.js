@@ -18,8 +18,8 @@ const TENANT_REST_API_URL = "http://localhost:8080/api/tenants";
     return axios.put(TENANT_REST_API_URL + "/" + tenantId, tenant);
   }
 
-  const deleteTenant = (id) => {
-    return axios.delete(TENANT_REST_API_URL + "/" + id);
+  const deleteTenantById = (id) => {
+    return axios.delete(`${TENANT_REST_API_URL}/${id}`);
   }
 
 export default {
@@ -27,5 +27,5 @@ export default {
   createTenant,
   getTenantbyId,
   updateTenant,
-  deleteTenant
+  deleteTenantById,
 };
