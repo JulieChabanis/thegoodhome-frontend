@@ -141,7 +141,7 @@ const Sidebar = () => {
               />
               <Item
                 title='Appartements'
-                to="/tenants"
+                to="/appartments"
                 icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}

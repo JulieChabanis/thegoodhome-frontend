@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Box, Tooltip, IconButton, Modal} from '@mui/material';
 import { Delete, Edit, Preview } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import DeleteTenant from './Requests/DeleteTenant';
 import UpdateTenant from './Requests/UpdateTenant';
 

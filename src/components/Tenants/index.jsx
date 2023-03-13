@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react'; 
 import { Box, useTheme } from '@mui/material'; 
-import { DataGrid } from '@mui/x-data-grid';
+// import { Delete } from '@mui/icons-material';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+// import DeleteTenant from './Requests/DeleteTenant';
+
+// Import Map Component
 import Header from '../Global/Header';
+
+// import TenantsActions from './TenantsActions';
 import AddTenantButton from './AddTenantButton'
-import TenantsActions from './TenantsActions';
 
 function TenantsList() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
   const [tenants, setTenants] = useState([]);
 
   useEffect(() => {
     getTenants()
   }, []);
 
+  // Tenants List
   const getTenants = () => {
     TenantService.getTenants()
     .then(response => {
@@ -28,6 +34,18 @@ function TenantsList() {
       });
   };
 
+  // Functionnal Delete Tenant
+  const handleDeleteClick = (id) => () => {
+    TenantService.deleteTenantById(id)
+    .then (response => {
+      console.log(response.data);
+      setTenants(tenants.filter((tenant) => tenant.id !== id))
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
   const columns = [
     { 
       field: 'id', 
@@ -38,15 +56,15 @@ function TenantsList() {
     },
     { 
       field: 'name', 
-      headerName: 'Nom',
+      headerName: 'Prénom',
       cellClassName: "name-column--cell",
       headerAlign: 'left', 
       align: 'left',
       flex: 0.8,
     },
     { 
-      field: 'lastname',
-      headerName: 'Prénom',
+      field: 'lastName',
+      headerName: 'Nom de famille',
       cellClassName: "name-column--cell",
       headerAlign: 'left', 
       align: 'left',
@@ -60,18 +78,27 @@ function TenantsList() {
       flex: 1,
     },
     { 
-      field: 'phone',
+      field: 'phoneNumber',
       headerName: 'Tel.',
       headerAlign: 'left', 
       align: 'left',
       flex: 0.8,
      },
      {
+      // ADD Buttons Actions
       field: 'actions',
       headerName: 'Action',
       type: 'actions',
       flex: 1,
-      renderCell: (params) => <TenantsActions {... {params}} />
+      getActions:({ id }) => {
+        return [
+          <GridActionsCellItem
+          icon={<DeleteIcon/>}
+          label='Delete'
+          onClick={handleDeleteClick(id)}
+          />
+        ]
+      }
     },
   ];
 
@@ -110,7 +137,7 @@ function TenantsList() {
           borderTop: 'none',
           backgroundColor: colors.blue[700],
         },
-        ' & .MuiDataGrid-toolbarContainer . MuiButton-text' : {
+        ' & .MuiDataGrid-toolbarContainer .MuiButton-text' : {
           color: `${colors.grey[100]} !important`,
         },  
     }}>
