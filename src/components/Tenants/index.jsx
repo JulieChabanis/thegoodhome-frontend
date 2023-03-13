@@ -37,8 +37,8 @@ function TenantsList() {
   };
 
   // Functionnal Delete Tenant
-  const handleDeleteClick = (id) => () => {
-    setTenantToDelete(id);
+  const handleDeleteClick = (id, name, lastName) => () => {
+    setTenantToDelete({id, name, lastName});
     setOpen(true);
   }
   const handleDeleteConfirm = () => {
@@ -164,11 +164,11 @@ function TenantsList() {
     onClose={handleDeleteCancel}
   >
     <DialogTitle>
-      {"Supprimer ce locataire ?"}
+      {"SUPPRIMER UN LOCATAIRE"}
     </DialogTitle>
     <DialogContent>
       <DialogContentText>
-        Êtes-vous sûr de vouloir supprimer ce locataire ?
+        Êtes-vous sûr de vouloir supprimer (ID locataire : {tenantToDelete?.id}) ?
       </DialogContentText>
     </DialogContent>
     <DialogActions>
