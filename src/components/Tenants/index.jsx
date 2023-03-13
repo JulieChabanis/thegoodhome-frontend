@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'; 
-import { Box, useTheme } from '@mui/material'; 
+import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 // import { Delete } from '@mui/icons-material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
@@ -17,6 +17,8 @@ function TenantsList() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [tenants, setTenants] = useState([]);
+  const [open, setOpen] = useState(false); 
+  const [tenantToDelete, setTenantToDelete] = useState(null);
 
   useEffect(() => {
     getTenants()
@@ -36,14 +38,23 @@ function TenantsList() {
 
   // Functionnal Delete Tenant
   const handleDeleteClick = (id) => () => {
-    TenantService.deleteTenantById(id)
+    setTenantToDelete(id);
+    setOpen(true);
+  }
+  const handleDeleteConfirm = () => {
+    TenantService.deleteTenantById(tenantToDelete)
     .then (response => {
       console.log(response.data);
-      setTenants(tenants.filter((tenant) => tenant.id !== id))
+      setTenants(tenants.filter((tenant) => tenant.id !== tenantToDelete));
+      setOpen(false);
     })
     .catch(error => {
       console.log(error);
     })
+  }
+  const handleDeleteCancel = () => {
+    setTenantToDelete(null);
+    setOpen(false); 
   }
 
   const columns = [
@@ -146,6 +157,30 @@ function TenantsList() {
        columns={columns}
        />
     </Box>
+    {/*Add Confirmation Dialog*/}
+    <Box>
+  <Dialog
+    open={open}
+    onClose={handleDeleteCancel}
+  >
+    <DialogTitle>
+      {"Supprimer ce locataire ?"}
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Êtes-vous sûr de vouloir supprimer ce locataire ?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleDeleteCancel} color="secondary">
+        Annuler
+      </Button>
+      <Button onClick={handleDeleteConfirm} color="primary">
+        Supprimer
+      </Button>
+    </DialogActions>
+  </Dialog>
+</Box>
     </Box>
   )
 }
