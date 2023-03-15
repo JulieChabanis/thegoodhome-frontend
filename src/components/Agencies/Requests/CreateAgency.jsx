@@ -5,10 +5,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
-import AgencyService from '../../../api/TenantService';
+import AgencyService from '../../../api/AgencyService';
 
 // Create a POST request FORM to add Agency
-const AddAgency = forwardRef((props, ref) => {
+const CreateAgency = forwardRef((props, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -157,4 +157,4 @@ const AddAgency = forwardRef((props, ref) => {
           );
           });
           
-          export default AddAgency;
+          export default CreateAgency;

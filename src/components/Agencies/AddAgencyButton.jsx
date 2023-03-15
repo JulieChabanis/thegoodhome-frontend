@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import { tokens } from "../UI/Themes/theme";
 import Modal from '@mui/material/Modal';
-import AddAgency from './Requests/AddAgency';
+import CreateAgency from './Requests/CreateAgency';
 
 
 // Button + Add a new agency
@@ -42,7 +42,7 @@ export default function AddAgencyButton() {
         aria-describedby="modal-modal-description"
       >
         <div tabIndex={-1}>
-          <AddAgency/>
+          <CreateAgency />
         </div>
       </Modal>
     </Stack>

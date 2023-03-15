@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import { tokens } from "../UI/Themes/theme";
 import Modal from '@mui/material/Modal';
-import AddTenant from "./Requests/AddTenant"
+import CreateTenant from "./Requests/CreateTenant"
 
 
 // Button + Add a new tenant
@@ -42,7 +42,7 @@ export default function AddTenantButton() {
         aria-describedby="modal-modal-description"
       >
         <div tabIndex={-1}>
-          <AddTenant/>
+          <CreateTenant/>
         </div>
       </Modal>
     </Stack>
