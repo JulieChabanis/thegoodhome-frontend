@@ -27,8 +27,8 @@ const CreateAgency = forwardRef((props, ref) => {
       address: Yup.string().required('Adresse requise'),
       additionalAddress: Yup.string().required('Adresse additionnelle requise'),
       city: Yup.string().required('La ville est requise'),
-      zipcode: Yup.string().required('Le Code Postal est requis'),
-      description: Yup.string().required('La description est requise'),
+      zipcode: Yup.string().required('Le Code Postal est requis').matches(/^\d{5}$/, 'le code postal doit contenir 5 chiffres'),
+      description: Yup.string().required('La description est requise')
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);

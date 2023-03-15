@@ -23,8 +23,11 @@ const CreateTenant = forwardRef((props, ref) => {
       name: Yup.string().required('Le nom est requis'),
       lastname: Yup.string().required('Le prénom est requis'),
       email: Yup.string().email('Email invalide').required('L\'email est requis'),
-      phone: Yup.string().required('Le numéro de téléphone est requis').matches(/^[0-9]{10}$/, 'Le numéro de téléphone doit contenir 10 chiffres')
+      phone: Yup.string()
+        .required('Le numéro de téléphone est requis')
+        /*.matches(/^[0-9]{10}$/, 'Le numéro de téléphone doit contenir 10 chiffres'*/
     }),
+
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       TenantService.createTenant(values)
@@ -68,7 +71,14 @@ const CreateTenant = forwardRef((props, ref) => {
           label="Nom"
           variant="outlined"
           value={formik.values.name}
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            const inputVal = e.target.value;
+            const regex = /^[a-zA-ZÀ-ÿ]+$/; // A-Z Alphabet
+            if (regex.test(inputVal)) {
+              const formattedVal = inputVal.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+              formik.setFieldValue('name', formattedVal);
+            }
+          }}
           onBlur={formik.handleBlur}
           error={formik.touched.name && Boolean(formik.errors.name)}
           helperText={formik.touched.name && formik.errors.name}
@@ -81,7 +91,14 @@ const CreateTenant = forwardRef((props, ref) => {
           label="Prénom"
           variant="outlined"
           value={formik.values.lastname}
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            const inputVal = e.target.value;
+            const regex = /^[a-zA-ZÀ-ÿ]+$/; // permet uniquement les lettres de A à Z et les accents
+            if (regex.test(inputVal)) {
+              const formattedVal = inputVal.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+              formik.setFieldValue('lastname', formattedVal);
+            }
+          }}
           onBlur={formik.handleBlur}
           error={formik.touched.lastname && Boolean(formik.errors.lastname)}
           helperText={formik.touched.lastname && formik.errors.lastname}
@@ -94,7 +111,12 @@ const CreateTenant = forwardRef((props, ref) => {
           label="Email"
           variant="outlined"
           value={formik.values.email}
-          onChange={formik.handleChange}
+          onChange={(event) => {
+            formik.setFieldValue(
+              "email",
+              event.target.value.toLowerCase()           
+            );
+          }}
           onBlur={formik.handleBlur}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
@@ -107,7 +129,12 @@ const CreateTenant = forwardRef((props, ref) => {
           label="Telephone"
           variant="outlined"
           value={formik.values.phone}
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            const inputVal = e.target.value.replace(/\D/g,'').slice(0,10); 
+            const regex = /^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/;
+            const formattedVal = inputVal.replace(regex, '$1.$2.$3.$4.$5');
+            formik.setFieldValue('phone', formattedVal);
+          }}
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}
           helperText={formik.touched.phone && formik.errors.phone}
