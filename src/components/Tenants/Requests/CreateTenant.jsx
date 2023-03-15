@@ -17,14 +17,14 @@ const CreateTenant = forwardRef((props, ref) => {
       name: '',
       lastname: '',
       email: '',
-      /*phone: '',*/
+      phone: '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
       lastname: Yup.string().required('Le prénom est requis'),
       email: Yup.string().email('Email invalide').required('L\'email est requis'),
-      /*phone: Yup.string()
-        .required('Le numéro de téléphone est requis'),*/
+      phone: Yup.string()
+        .required('Le numéro de téléphone est requis'),
     }),
 
     onSubmit: (values, { setSubmitting }) => {
@@ -120,7 +120,7 @@ const CreateTenant = forwardRef((props, ref) => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        {/*<TextField
+        <TextField
           margin='normal'
           fullWidth
           id="phone"
@@ -128,16 +128,20 @@ const CreateTenant = forwardRef((props, ref) => {
           label="Telephone"
           variant="outlined"
           value={formik.values.phone}
-          onChange={(e) => {
+          onChange={(event) => {
+            const phoneNumber = event.target.value.replace(/\D/g, '').slice(0, 10);
+            formik.setFieldValue('phone', phoneNumber);
+          }}
+          /*onChange={(e) => {
             const inputVal = e.target.value.replace(/\D/g,'').slice(0,10); 
             const regex = /^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/;
             const formattedVal = inputVal.replace(regex, '$1.$2.$3.$4.$5');
             formik.setFieldValue('phone', formattedVal);
-          }}
+          }}*/
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}
           helperText={formik.touched.phone && formik.errors.phone}
-        />*/}
+        />
         <Button
           type="submit"
           fullWidth

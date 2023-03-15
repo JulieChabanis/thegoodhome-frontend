@@ -86,13 +86,13 @@ function TenantsList() {
       align: 'left',
       flex: 1,
     },
-    /*{ 
+    { 
       field: 'phone',
       headerName: 'Tel.',
       headerAlign: 'left', 
       align: 'left',
       flex: 0.8,
-     },*/
+     },
      {
       // ADD Buttons Actions
       field: 'actions',
