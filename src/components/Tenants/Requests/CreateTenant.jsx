@@ -2,9 +2,9 @@ import React, { forwardRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
+import { useTheme } from '@emotion/react';
 import * as Yup from 'yup';
 import { tokens } from '../../UI/Themes/theme';
-import { useTheme } from '@emotion/react';
 import TenantService from '../../../api/TenantService';
 
 // Create a POST request FORM to add Tenant
@@ -17,15 +17,14 @@ const CreateTenant = forwardRef((props, ref) => {
       name: '',
       lastname: '',
       email: '',
-      phone: '',
+      /*phone: '',*/
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
       lastname: Yup.string().required('Le prénom est requis'),
       email: Yup.string().email('Email invalide').required('L\'email est requis'),
-      phone: Yup.string()
-        .required('Le numéro de téléphone est requis')
-        /*.matches(/^[0-9]{10}$/, 'Le numéro de téléphone doit contenir 10 chiffres'*/
+      /*phone: Yup.string()
+        .required('Le numéro de téléphone est requis'),*/
     }),
 
     onSubmit: (values, { setSubmitting }) => {
@@ -121,7 +120,7 @@ const CreateTenant = forwardRef((props, ref) => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        <TextField
+        {/*<TextField
           margin='normal'
           fullWidth
           id="phone"
@@ -138,7 +137,7 @@ const CreateTenant = forwardRef((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}
           helperText={formik.touched.phone && formik.errors.phone}
-        />
+        />*/}
         <Button
           type="submit"
           fullWidth
