@@ -132,12 +132,6 @@ const CreateTenant = forwardRef((props, ref) => {
             const phoneNumber = event.target.value.replace(/\D/g, '').slice(0, 10);
             formik.setFieldValue('phone', phoneNumber);
           }}
-          /*onChange={(e) => {
-            const inputVal = e.target.value.replace(/\D/g,'').slice(0,10); 
-            const regex = /^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/;
-            const formattedVal = inputVal.replace(regex, '$1.$2.$3.$4.$5');
-            formik.setFieldValue('phone', formattedVal);
-          }}*/
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}
           helperText={formik.touched.phone && formik.errors.phone}
