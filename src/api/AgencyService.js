@@ -1,11 +1,16 @@
 import axios from "axios";
 
-const AGENCY_REST_API_URL = "http://localhost:8080/api/v1/agencies";
+const AGENCY_REST_API_URL = "http://localhost:8080/api/agencies";
 
-class AgencyService {
-  getAgencies() {
-    return axios.get(AGENCY_REST_API_URL)
-  }
+const getAgencies = () => {
+  return axios.get(AGENCY_REST_API_URL);
+}; 
+
+const createAgency = (agency) => {
+  return axios.post(AGENCY_REST_API_URL, agency); 
 }
 
-export default new AgencyService();
+export default {
+  getAgencies, 
+  createAgency,
+};

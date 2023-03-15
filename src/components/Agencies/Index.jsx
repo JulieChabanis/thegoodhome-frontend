@@ -9,6 +9,9 @@ import Header from '../Global/Header';
 import Requests from '../Global/Requests';
 
 
+import AddAgencyButton from './AddAgencyButton'
+
+
 function AgenciesList() {
 
   const theme = useTheme();
@@ -88,6 +91,9 @@ function AgenciesList() {
   return (
     <Box m='20px'>
       <Header title="AGENCES" subtitle="Agences Partenaires" />
+      <Box>
+        <AddAgencyButton />
+      </Box>
       <Requests title="Que voulez-vous faire ?"/>
       <Box m='40px 0 40px 0' height='50vh' sx={{
         '& .MuiDataGrid-root': {

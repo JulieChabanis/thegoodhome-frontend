@@ -141,14 +141,14 @@ const Sidebar = () => {
               />
               <Item
                 title='Appartements'
-                to="/agences"
+                to="/"
                 icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title='Dossiers'
-                to="/agences"
+                to="/"
                 icon={<FolderSharedOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -163,14 +163,14 @@ const Sidebar = () => {
               </Typography>
               <Item
                 title='Agences'
-                to="/agences"
+                to="/agencies"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title='Paramètres'
-                to="/agences"
+                to="/"
                 icon={<SettingsRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}

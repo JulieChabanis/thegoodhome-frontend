@@ -87,7 +87,7 @@ function TenantsList() {
       flex: 1,
     },
     { 
-      field: 'phoneNumber',
+      field: 'phone',
       headerName: 'Tel.',
       headerAlign: 'left', 
       align: 'left',

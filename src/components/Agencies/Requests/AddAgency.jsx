@@ -5,29 +5,34 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { tokens } from '../../UI/Themes/theme';
 import { useTheme } from '@emotion/react';
-import TenantService from '../../../api/TenantService';
+import AgencyService from '../../../api/TenantService';
 
-// Create a POST request FORM to add Tenant
-const CreateTenant = forwardRef((props, ref) => {
+// Create a POST request FORM to add Agency
+const AddAgency = forwardRef((props, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const formik = useFormik({
     initialValues: {
       name: '',
-      lastname: '',
-      email: '',
-      phone: '',
+      address: '',
+      additionalAddress: '',
+      city: '',
+      zipcode: '',
+      description: '',
+
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
-      lastname: Yup.string().required('Le prénom est requis'),
-      email: Yup.string().email('Email invalide').required('L\'email est requis'),
-      phone: Yup.string().required('Le numéro de téléphone est requis').matches(/^[0-9]{10}$/, 'Le numéro de téléphone doit contenir 10 chiffres')
+      address: Yup.string().required('Adresse requise'),
+      additionalAddress: Yup.string().required('Adresse additionnelle requise'),
+      city: Yup.string().required('La ville est requise'),
+      zipcode: Yup.string().required('Le Code Postal est requis'),
+      description: Yup.string().required('La description est requise'),
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      TenantService.createTenant(values)
+      AgencyService.createAgency(values)
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
@@ -57,7 +62,7 @@ const CreateTenant = forwardRef((props, ref) => {
         fontWeight: 400,
         mb: 3,
       }}>
-        Ajouter un locataire
+        Ajouter une Agence
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -65,7 +70,7 @@ const CreateTenant = forwardRef((props, ref) => {
           fullWidth
           id="name"
           name="name"
-          label="Nom"
+          label="Nom de l'Agence"
           variant="outlined"
           value={formik.values.name}
           onChange={formik.handleChange}
@@ -76,41 +81,67 @@ const CreateTenant = forwardRef((props, ref) => {
         <TextField
           margin='normal'
           fullWidth
-          id="lastname"
-          name="lastname"
-          label="Prénom"
+          id="address"
+          name="address"
+          label="Adresse"
           variant="outlined"
-          value={formik.values.lastname}
+          value={formik.values.address}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-          helperText={formik.touched.lastname && formik.errors.lastname}
+          error={formik.touched.address && Boolean(formik.errors.address)}
+          helperText={formik.touched.address && formik.errors.address}
         />
         <TextField
           margin='normal'
           fullWidth
-          id="email"
-          name="email"
-          label="Email"
+          id="additionalAddress"
+          name="additionalAddress"
+          label="Adresse additionnelle"
           variant="outlined"
-          value={formik.values.email}
+          value={formik.values.additionalAddress}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
+          error={formik.touched.additionalAddress && Boolean(formik.errors.additionalAddress)}
+          helperText={formik.touched.additionalAddress && formik.errors.additionalAddress}
         />
         <TextField
           margin='normal'
           fullWidth
-          id="phone"
-          name="phone"
-          label="Telephone"
+          id="city"
+          name="city"
+          label="Ville"
           variant="outlined"
-          value={formik.values.phone}
+          value={formik.values.city}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.phone && Boolean(formik.errors.phone)}
-          helperText={formik.touched.phone && formik.errors.phone}
+          error={formik.touched.city && Boolean(formik.errors.city)}
+          helperText={formik.touched.city && formik.errors.city}
+        />
+        <TextField
+          margin='normal'
+          fullWidth
+          id="zipcode"
+          name="zipcode"
+          label="Code Postal"
+          variant="outlined"
+          value={formik.values.zipcode}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.zipcode && Boolean(formik.errors.zipcode)}
+          helperText={formik.touched.zipcode && formik.errors.zipcode}
+        />
+                <TextField
+          margin='normal'
+          fullWidth
+          id="description"
+          name="description"
+          label="Description"
+          variant="outlined"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.description && Boolean(formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
         />
         <Button
           type="submit"
@@ -126,4 +157,4 @@ const CreateTenant = forwardRef((props, ref) => {
           );
           });
           
-          export default CreateTenant;
+          export default AddAgency;
