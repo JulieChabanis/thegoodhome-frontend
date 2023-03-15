@@ -1,11 +1,9 @@
 import React, { useState, useEffect} from 'react'; 
 import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-// import { Delete } from '@mui/icons-material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-// import DeleteTenant from './Requests/DeleteTenant';
 
 // Import Map Component
 import Header from '../Global/Header';
@@ -37,15 +35,15 @@ function TenantsList() {
   };
 
   // Functionnal Delete Tenant
-  const handleDeleteClick = (id, name, lastName) => () => {
-    setTenantToDelete({id, name, lastName});
+  const handleDeleteClick = (id) => () => {
+    setTenantToDelete({ id });
     setOpen(true);
   }
   const handleDeleteConfirm = () => {
-    TenantService.deleteTenantById(tenantToDelete)
+    TenantService.deleteTenantById(tenantToDelete.id)
     .then (response => {
       console.log(response.data);
-      setTenants(tenants.filter((tenant) => tenant.id !== tenantToDelete));
+      setTenants(tenants.filter((tenant) => tenant.id !== tenantToDelete.id));
       setOpen(false);
     })
     .catch(error => {
