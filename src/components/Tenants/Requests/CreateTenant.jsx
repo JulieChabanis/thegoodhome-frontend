@@ -24,7 +24,8 @@ const CreateTenant = forwardRef((props, ref) => {
       lastname: Yup.string().required('Le prénom est requis'),
       email: Yup.string().email('Email invalide').required('L\'email est requis'),
       phone: Yup.string()
-        .required('Le numéro de téléphone est requis'),
+        .required('Le numéro de téléphone est requis')
+        .matches(/^[0-9]{10}$/, 'Le numéro de téléphone doit contenir 10 chiffres'),
     }),
 
     onSubmit: (values, { setSubmitting }) => {
