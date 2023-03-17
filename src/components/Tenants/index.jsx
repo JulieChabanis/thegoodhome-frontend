@@ -4,6 +4,8 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Import Map Component
 import Header from '../Global/Header';
@@ -45,6 +47,16 @@ function TenantsList() {
       console.log(response.data);
       setTenants(tenants.filter((tenant) => tenant.id !== tenantToDelete.id));
       setOpen(false);
+      toast.info(`Locataire ${tenantToDelete.id} supprimé`, {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     })
     .catch(error => {
       console.log(error);
@@ -157,28 +169,29 @@ function TenantsList() {
     </Box>
     {/*Add Confirmation Dialog*/}
     <Box>
-  <Dialog
-    open={open}
-    onClose={handleDeleteCancel}
-  >
-    <DialogTitle>
-      {"SUPPRIMER UN LOCATAIRE"}
-    </DialogTitle>
-    <DialogContent>
-      <DialogContentText>
-        Êtes-vous sûr de vouloir supprimer (ID locataire : {tenantToDelete?.id}) ?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleDeleteCancel} color="secondary">
-        Annuler
-      </Button>
-      <Button onClick={handleDeleteConfirm} color="primary">
-        Supprimer
-      </Button>
-    </DialogActions>
-  </Dialog>
-</Box>
+      <Dialog
+        open={open}
+        onClose={handleDeleteCancel}
+      >
+        <DialogTitle>
+          {"SUPPRIMER UN LOCATAIRE"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Êtes-vous sûr de vouloir supprimer (ID locataire : {tenantToDelete?.id}) ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} color="secondary">
+            Annuler
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="primary">
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+    < ToastContainer />
     </Box>
   )
 }
