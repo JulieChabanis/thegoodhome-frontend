@@ -3,6 +3,8 @@ import { useState } from'react';
 import { Routes, Route } from'react-router-dom';
 import { ColorModeContext, useMode } from './components/UI/Themes/theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Import Global Components
 import Topbar from './components/Global/Topbar';
@@ -12,6 +14,7 @@ import Dashboard from './components/Dashboard';
 // Import API Data from Data Grid
 import AgenciesList from './components/Agencies/index';
 import TenantsList from './components/Tenants/index';
+import AddTenantButton from './components/Tenants/AddTenantButton';
 
 
 
@@ -31,11 +34,13 @@ function App() {
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path='/tenants' element={<TenantsList />} />
+              <Route path='/tenants/create' element={<AddTenantButton />} />  
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
         </div>
         </ThemeProvider>
+        <ToastContainer />
     </ColorModeContext.Provider>
   ); 
 }
