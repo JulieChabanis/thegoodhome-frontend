@@ -4,7 +4,7 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Import Map Component
@@ -49,7 +49,7 @@ function TenantsList() {
       setOpen(false);
       toast.info(`Locataire ${tenantToDelete.id} supprimé`, {
         position: toast.POSITION.BOTTOM_LEFT,
-        autoClose: 3500,
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -165,6 +165,7 @@ function TenantsList() {
        <DataGrid 
        rows={tenants}
        columns={columns}
+       sortModel={[ { field: 'id', sort: 'desc', },  ]}
        />
     </Box>
     {/*Add Confirmation Dialog*/}
@@ -178,7 +179,7 @@ function TenantsList() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer (ID locataire : {tenantToDelete?.id}) ?
+            Êtes-vous sûr de vouloir supprimer le locataire {tenantToDelete?.id} ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -191,7 +192,6 @@ function TenantsList() {
         </DialogActions>
       </Dialog>
     </Box>
-    < ToastContainer />
     </Box>
   )
 }

@@ -14,7 +14,7 @@ export default function AddTenantButton() {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false) ;
   
   return (
     <Stack direction='row' justifyContent='flex-end'alignItems='flex-end'>

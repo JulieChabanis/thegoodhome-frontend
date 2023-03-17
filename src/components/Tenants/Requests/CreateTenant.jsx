@@ -6,6 +6,8 @@ import { useTheme } from '@emotion/react';
 import * as Yup from 'yup';
 import { tokens } from '../../UI/Themes/theme';
 import TenantService from '../../../api/TenantService';
+import { toast } from 'react-toastify';
+
 
 // Create a POST request FORM to add Tenant
 const CreateTenant = forwardRef((props, ref) => {
@@ -34,7 +36,17 @@ const CreateTenant = forwardRef((props, ref) => {
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
-          window.location.reload(); // recharger la page après avoir effectué la requête POST
+          toast.success('Locataire ajouté avec succès', {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 4500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
+            window.location.reload();// recharger la page après avoir effectué la requête POST
         })
         .catch(err => {
           console.log(err);
@@ -146,9 +158,9 @@ const CreateTenant = forwardRef((props, ref) => {
           >
           {formik.isSubmitting ? 'En cours...' : 'Ajouter'}
           </Button>
-          </form>
-          </Box>
-          );
-          });
+       </form>
+    </Box>
+  );
+})
           
-          export default CreateTenant;
+export default CreateTenant;
