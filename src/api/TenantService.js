@@ -14,14 +14,15 @@ const TENANT_REST_API_URL = "http://localhost:8080/api/tenants";
     return axios.get(TENANT_REST_API_URL + "/" + tenantId);
   }
 
-  const updateTenant = (tenant, tenantId) => {
-    return axios.put(TENANT_REST_API_URL + "/" + tenantId, tenant);
+  const updateTenant = (id) => {
+    return axios.put(`${TENANT_REST_API_URL}/${id}`);
   }
 
   const deleteTenantById = (id) => {
     return axios.delete(`${TENANT_REST_API_URL}/${id}`);
   }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getTenants,
   createTenant,

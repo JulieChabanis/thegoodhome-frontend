@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
@@ -10,31 +8,28 @@ import { useTheme } from '@emotion/react';
 import TenantService from '../../../api/TenantService';
 
 // UPDATE a tenant with a PUT request
-const UpdateTenant = () => {
-  const { id } = useParams();
-  const [tenant, setTenant] = useState(null);
-  const navigate = useNavigate();
+const UpdateTenant = ({ tenant }) => {
+  const [values, setValues] = useState ({
+    name: tenant.name,
+    lastname: tenant.lastname,
+    email: tenant.email,
+    phone: tenant.phone,
+  });
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/tenants/${id}`)
-      .then(res => {
-        setTenant(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [id]);
+    setValues ({
+      name: tenant.name,
+      lastname: tenant.lastname,
+      email: tenant.email,
+      phone: tenant.phone,
+    });
+  }, [tenant]);
 
   const formik = useFormik({
-    initialValues: {
-      name: tenant ? tenant.name : '' ,
-      lastname: tenant ? tenant.lastname : '',
-      email: tenant ? tenant.email : '',
-      phone: tenant ? tenant.phone : '',
-    },
+    initialValues: {values},
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
       lastname: Yup.string().required('Le prénom est requis'),
@@ -43,23 +38,25 @@ const UpdateTenant = () => {
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      TenantService.updateTenant(`http://localhost:8080/api/v1/tenants/${id}`, values)
+      TenantService.updateTenant(values)
         .then(res => {
           console.log(res.data);
-          setTenant(res.data);
-          setSubmitting(false);
-          navigate('/tenants');
         })
         .catch(err => {
           console.log(err);
           setSubmitting(false);
-        });
+        })
+        .finally(() => {
+          setSubmitting(false);
+        })
     }
   });
 
-  if (!tenant) {
-    return null;
+  const handleUpdateTenant = (event) => {
+    event.preventDefault();
+    formik.handleSubmit();
   }
+
 
   return (
     <Box sx={{
@@ -80,7 +77,7 @@ const UpdateTenant = () => {
       }}>
         Modifier le locataire {tenant.name} {tenant.lastname}
       </Typography>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleUpdateTenant}>
         <TextField
           margin='normal'
           fullWidth
@@ -88,7 +85,7 @@ const UpdateTenant = () => {
           name="name"
           label="Nom"
           variant="outlined"
-          value={formik.values.name || tenant.name}
+          value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.name && Boolean(formik.errors.name)}
@@ -101,7 +98,7 @@ const UpdateTenant = () => {
           name="lastname"
           label="Prénom"
           variant="outlined"
-          value={formik.values.lastname || tenant.lastname}
+          value={formik.values.lastname}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.lastname && Boolean(formik.errors.lastname)}
@@ -114,7 +111,7 @@ const UpdateTenant = () => {
           name="email"
           label="Email"
           variant="outlined"
-          value={formik.values.email || tenant.email}
+          value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email && Boolean(formik.errors.email)}
@@ -127,7 +124,7 @@ const UpdateTenant = () => {
           name="phone"
           label="Téléphone"
           variant="outlined"
-          value={formik.values.phone || tenant.phone}
+          value={formik.values.phone}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}

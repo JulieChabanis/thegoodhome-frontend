@@ -3,28 +3,30 @@ import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, D
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
+import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Import Map Component
+// Import Header Text
 import Header from '../Global/Header';
 
-// import TenantsActions from './TenantsActions';
+// import add New Tenant Button ;
 import AddTenantButton from './AddTenantButton'
 
 function TenantsList() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [tenants, setTenants] = useState([]);
-  const [open, setOpen] = useState(false); 
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); 
   const [tenantToDelete, setTenantToDelete] = useState(null);
+
 
   useEffect(() => {
     getTenants()
   }, []);
 
-  // Tenants List
+  // GET Tenant List
   const getTenants = () => {
     TenantService.getTenants()
     .then(response => {
@@ -36,17 +38,17 @@ function TenantsList() {
       });
   };
 
-  // Functionnal Delete Tenant
+  // DELETE Tenant from List
   const handleDeleteClick = (id) => () => {
     setTenantToDelete({ id });
-    setOpen(true);
+    setOpenDeleteDialog(true);
   }
   const handleDeleteConfirm = () => {
     TenantService.deleteTenantById(tenantToDelete.id)
     .then (response => {
       console.log(response.data);
       setTenants(tenants.filter((tenant) => tenant.id !== tenantToDelete.id));
-      setOpen(false);
+      setOpenDeleteDialog(false);
       toast.info(`Locataire ${tenantToDelete.id} supprimé`, {
         position: toast.POSITION.BOTTOM_LEFT,
         autoClose: 5000,
@@ -64,14 +66,15 @@ function TenantsList() {
   }
   const handleDeleteCancel = () => {
     setTenantToDelete(null);
-    setOpen(false); 
+    setOpenDeleteDialog(false); 
   }
 
+  // Map Tenant List in Data-Grid
   const columns = [
     { 
       field: 'id', 
       headerName: 'ID',
-      flex: 0.1,
+      flex: 0.2,
       headerAlign: 'center', 
       align: 'center',
     },
@@ -113,6 +116,10 @@ function TenantsList() {
       flex: 1,
       getActions:({ id }) => {
         return [
+          <GridActionsCellItem
+          icon={<EditIcon/>}
+          label='Modifier un locataire'
+          />,
           <GridActionsCellItem
           icon={<DeleteIcon/>}
           label='Delete'
@@ -161,37 +168,42 @@ function TenantsList() {
         ' & .MuiDataGrid-toolbarContainer .MuiButton-text' : {
           color: `${colors.grey[100]} !important`,
         },  
-    }}>
-       <DataGrid 
-       rows={tenants}
-       columns={columns}
-       sortModel={[ { field: 'id', sort: 'desc', },  ]}
-       />
-    </Box>
-    {/*Add Confirmation Dialog*/}
-    <Box>
-      <Dialog
-        open={open}
-        onClose={handleDeleteCancel}
-      >
-        <DialogTitle>
-          {"SUPPRIMER UN LOCATAIRE"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer le locataire {tenantToDelete?.id} ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancel} color="secondary">
-            Annuler
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="primary">
-            Supprimer
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+      }}>
+        <DataGrid 
+        rows={tenants}
+        columns={columns}
+        sortModel={[ { field: 'id', sort: 'desc', },  ]}
+        />
+      </Box>
+      {/*Add Confirmation Delete Dialog*/}
+      <Box>
+        <Dialog
+          open={openDeleteDialog}
+          onClose={handleDeleteCancel}
+          sx={{
+            '& .MuiDialog-paper': {
+              backgroundColor: colors.primary[800],
+            }
+          }}
+        >
+          <DialogTitle>
+            {"SUPPRIMER UN LOCATAIRE"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Êtes-vous sûr de vouloir supprimer le locataire {tenantToDelete?.id} ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleDeleteCancel} color="secondary">
+              Annuler
+            </Button>
+            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleDeleteConfirm} color="error">
+              Supprimer
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   )
 }
