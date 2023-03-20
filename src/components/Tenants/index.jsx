@@ -5,6 +5,8 @@ import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+// import SaveIcon from '@mui/icons-material/Save';
+//import CancelIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
