@@ -5,6 +5,7 @@ import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -228,43 +229,53 @@ function TenantsList() {
         <Dialog
         open={openEditDialog}
         onClose={handleEditCancel}
+        sx={{
+          '& .MuiDialog-paper': {
+            backgroundColor: colors.primary[900],
+          }
+        }}
         >
-          <DialogTitle>
+          <DialogTitle  sx={{ fontSize: '18px'}}>
+            {"MODIFIER LE LOCATAIRE"}
           </DialogTitle>
           <DialogContent>
            <DialogContentText>
             Modifier les informations du locataire ci-dessous
             </DialogContentText> 
-              <TextField             
+              <TextField    
+                margin='normal'         
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 id="name"
                 name="name"
                 label="Prénom"
                 value= {tenantToEdit?.name}
                 onChange={handleEditChange}
               />
-              <TextField             
+              <TextField  
+                margin='normal'           
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 id="lastName"
                 name="lastName"
                 label="Nom de Famille"
                 value= {tenantToEdit?.lastName}
                 onChange={handleEditChange}
               />
-              <TextField             
+              <TextField    
+                margin='normal'         
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 id="email"
                 name="email"
                 label="Email"
                 value= {tenantToEdit?.email}
                 onChange={handleEditChange}
               />
-              <TextField             
+              <TextField   
+                margin='normal'          
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 id="phone"
                 name="phone"
                 label="Telephone"
@@ -273,10 +284,26 @@ function TenantsList() {
               />
           </DialogContent>
           <DialogActions>
-            <Button variant="outlined" onClick={handleEditCancel} color="secondary">
+            <Button 
+              variant="outlined" 
+              onClick={handleEditCancel} 
+              sx={{
+                background: 'none',
+                color: `${colors.blue[400]} !important`, 
+                borderColor: `${colors.blue[400]}!important`, 
+                '&:hover': {
+                  color: `${colors.blue[200]}!important`, 
+                }
+              }}
+            >
               Annuler
             </Button>
-            <Button variant="outlined" onClick={handleEditConfirm} color="success">
+            <Button 
+              variant="outlined" 
+              endIcon={<SendRoundedIcon />} 
+              onClick={handleEditConfirm} 
+              color="secondary"
+            >
               Modifier
             </Button>
           </DialogActions>
