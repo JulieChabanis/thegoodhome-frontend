@@ -21,8 +21,10 @@ function TenantsList() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false); 
   const [tenantToDelete, setTenantToDelete] = useState(null);
 
-  const [tenantToEdit, setTenantToEdit] = useState('');
+  const [tenantToEdit, setTenantToEdit] = useState({ name: '', lastName: '', email: '', phone: '' });
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingTenantId, setEditingTenantId] = useState(null);
+
 
   useEffect(() => {
     getTenants()
@@ -43,20 +45,18 @@ function TenantsList() {
   // EDIT Tenant from List
   const handleEditClick = (id) => () => {
     const tenant = tenants.find((tenant) => tenant.id === id);
-    setTenantToEdit(tenant);
+    setEditingTenantId(id);
+    setTenantToEdit({...tenant});
     setOpenEditDialog(true);
   }
 
   const handleEditConfirm = () => {
-    TenantService.updateTenant(tenantToEdit.id, tenantToEdit)
+    TenantService.updateTenant(editingTenantId, tenantToEdit)
       .then((response) => {
         const updatedTenant = response.data;
         setTenants(tenants.map((tenant) => 
-          tenant.id === updatedTenant.id || tenant.name === updatedTenant.name || tenant.lastName === updatedTenant.lastName || tenant.email === updatedTenant.email || tenant.phone === updatedTenant.phone
-          ? updatedTenant
-          : tenant
-        ));
-        setTenantToEdit(tenants);
+          (tenant.id === updatedTenant.id ? updatedTenant : tenant)));
+        // setTenantToEdit(tenants);
         setOpenEditDialog(false);
         toast.success(`Locataire ${tenantToEdit.id} modifié`, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -68,15 +68,20 @@ function TenantsList() {
           progress: undefined,
           theme: "colored",
         });
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const handleEditChange = (event) => {
+    const { name, value} = event.target;
+    setTenantToEdit({ ...tenantToEdit, [name] : value});
+  }
 
   const handleEditCancel= () => {
-    setTenantToEdit(null);
+    setTenantToEdit({ name: '', lastName: '', email: '', phone: '' });
     setOpenEditDialog(false);
   }
 
@@ -237,7 +242,7 @@ function TenantsList() {
                 name="name"
                 label="Prénom"
                 value= {tenantToEdit?.name}
-                onChange={(e) => setTenantToEdit({...tenantToEdit, name: e.target.value})}
+                onChange={handleEditChange}
               />
               <TextField             
                 fullWidth
@@ -246,7 +251,7 @@ function TenantsList() {
                 name="lastName"
                 label="Nom de Famille"
                 value= {tenantToEdit?.lastName}
-                onChange={(e) => setTenantToEdit({...tenantToEdit, lastName: e.target.value})}
+                onChange={handleEditChange}
               />
               <TextField             
                 fullWidth
@@ -255,7 +260,7 @@ function TenantsList() {
                 name="email"
                 label="Email"
                 value= {tenantToEdit?.email}
-                onChange={(e) => setTenantToEdit({...tenantToEdit, email: e.target.value})}
+                onChange={handleEditChange}
               />
               <TextField             
                 fullWidth
@@ -264,7 +269,7 @@ function TenantsList() {
                 name="lemail"
                 label="Email"
                 value= {tenantToEdit?.phone}
-                onChange={(e) => setTenantToEdit({...tenantToEdit, phone: e.target.value})}
+                onChange={handleEditChange}
               />
           </DialogContent>
           <DialogActions>
