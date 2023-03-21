@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'; 
-import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../Global/Header';
 
 // import add New Tenant Button ;
-import AddTenantButton from './AddTenantButton'
+import AddTenantButton from './AddTenantButton';
 
 function TenantsList() {
   const theme = useTheme();
@@ -23,6 +23,8 @@ function TenantsList() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false); 
   const [tenantToDelete, setTenantToDelete] = useState(null);
 
+  const [tenantToEdit, setTenantToEdit] = useState(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   useEffect(() => {
     getTenants()
@@ -39,6 +41,46 @@ function TenantsList() {
         console.log(error);
       });
   };
+
+  // EDIT Tenant from List
+  const handleEditClick = (id) => () => {
+    const tenant = tenants.find((tenant) => tenant.id === id);
+    setTenantToEdit(tenant);
+    setOpenEditDialog(true);
+  }
+
+
+  const handleEditConfirm = () => {
+    TenantService.updateTenant(tenantToEdit.id, tenantToEdit)
+      .then((response) => {
+        const updatedTenant = response.data;
+        setTenants(tenants.map((tenant) => 
+          tenant.id === updatedTenant.id || tenant.name === updatedTenant.name || tenant.lastName === updatedTenant.lastName || tenant.email === updatedTenant.email || tenant.phone === updatedTenant.phone
+          ? updatedTenant
+          : tenant
+        ));
+        setOpenEditDialog(false);
+        toast.info(`Locataire ${updatedTenant.id} modifié`, {
+          position: toast.success.POSITION.BOTTOM_LEFT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+
+  const handleEditCancel= () => {
+    setTenantToEdit(null);
+    setOpenEditDialog(false);
+  }
 
   // DELETE Tenant from List
   const handleDeleteClick = (id) => () => {
@@ -121,6 +163,7 @@ function TenantsList() {
           <GridActionsCellItem
           icon={<EditIcon/>}
           label='Modifier un locataire'
+          onClick={handleEditClick(id)}
           />,
           <GridActionsCellItem
           icon={<DeleteIcon/>}
@@ -176,6 +219,67 @@ function TenantsList() {
         columns={columns}
         sortModel={[ { field: 'id', sort: 'desc', },  ]}
         />
+      </Box>
+      {/*Add Confirmation Edit Dialog*/}
+      <Box>
+        <Dialog
+        open={openEditDialog}
+        onClose={handleEditCancel}
+        >
+          <DialogTitle>
+          </DialogTitle>
+          <DialogContent>
+           <DialogContentText>
+            Modifier les informations du locataire ci-dessous
+            </DialogContentText> 
+            <form>  
+              <TextField             
+                fullWidth
+                variant="filled"
+                id="name"
+                name="name"
+                label="Prénom"
+                value= {tenantToEdit?.name}
+                onChange={(e) => setTenantToEdit({...tenantToEdit, name: e.target.value})}
+              />
+              <TextField             
+                fullWidth
+                variant="filled"
+                id="lastName"
+                name="lastName"
+                label="Nom de Famille"
+                value= {tenantToEdit?.lastName}
+                onChange={(e) => setTenantToEdit({...tenantToEdit, lastName: e.target.value})}
+              />
+              <TextField             
+                fullWidth
+                variant="filled"
+                id="email"
+                name="email"
+                label="Email"
+                value= {tenantToEdit?.email}
+                onChange={(e) => setTenantToEdit({...tenantToEdit, email: e.target.value})}
+              />
+              <TextField             
+                fullWidth
+                variant="filled"
+                id="email"
+                name="lemail"
+                label="Email"
+                value= {tenantToEdit?.phone}
+                onChange={(e) => setTenantToEdit({...tenantToEdit, phone: e.target.value})}
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleEditCancel} color="secondary">
+              Annuler
+            </Button>
+            <Button variant="outlined" onClick={handleEditConfirm} color="success">
+              Modifier
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
       {/*Add Confirmation Delete Dialog*/}
       <Box>

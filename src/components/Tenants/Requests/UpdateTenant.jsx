@@ -1,14 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Button, TextField} from "@mui/material";
 import Header from '../../Global/Header';
 import { useFormik } from 'formik';
-// import TenantService from '../../../api/TenantService';
+import TenantService from '../../../api/TenantService';
 
-const UpdateTenant = () => {
+const UpdateTenant = ({match}) => {
+  const [tenant, setTenant] = useState(null);
+
+
+  useEffect(() => {
+    TenantService.getTenants(match.params.id)
+    .then (response => {
+      setTenant({ ...response.data, id: match.params.id });
+    })
+    .catch (error => console.log(error));
+  }, [match.params.id]);
 
   const formik = useFormik({
-
-  })
+    initialValues: {
+      name: "", 
+      lastname: "",
+      email: "",
+      phone: "",
+    },
+    onSubmit: (values) => {
+      TenantService.updateTenant(tenant.id, values)
+      .then (response => console.log(response))
+      .catch (error => console.log(error));
+    }
+    })
 
   return (
     <Box m="20px">
@@ -28,8 +48,8 @@ const UpdateTenant = () => {
             id="name"
             name="name"
             label="Prénom"
-            value=""
-            onChange=""
+            value={formik.values.name || tenant.name}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
@@ -41,8 +61,8 @@ const UpdateTenant = () => {
             id="lastname"
             name="lastname"
             label="Nom de Famille"
-            value=""
-            onChange=""
+            value={formik.values.lastname || tenant.lastname}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.lastname && Boolean(formik.errors.lastname)}
             helperText={formik.touched.lastname && formik.errors.lastname}
@@ -54,8 +74,8 @@ const UpdateTenant = () => {
             id="email"
             name="email"
             label="Email"
-            value=""
-            onChange=""
+            value={formik.values.email || tenant.email}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
@@ -67,8 +87,8 @@ const UpdateTenant = () => {
             id="phone"
             name="phone"
             label="Telephone"
-            value=""
-            onChange=""
+            value={formik.values.phone || tenant.phone}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
