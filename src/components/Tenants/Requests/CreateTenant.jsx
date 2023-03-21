@@ -17,13 +17,13 @@ const CreateTenant = forwardRef((props, ref) => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      lastname: '',
+      lastName: '',
       email: '',
       phone: '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Le nom est requis'),
-      lastname: Yup.string().required('Le prénom est requis'),
+      lastName: Yup.string().required('Le prénom est requis'),
       email: Yup.string().email('Email invalide').required('L\'email est requis'),
       phone: Yup.string()
         .required('Le numéro de téléphone est requis')
@@ -98,22 +98,22 @@ const CreateTenant = forwardRef((props, ref) => {
         <TextField
           margin='normal'
           fullWidth
-          id="lastname"
-          name="lastname"
+          id="lastName"
+          name="lastName"
           label="Prénom"
           variant="outlined"
-          value={formik.values.lastname}
+          value={formik.values.lastName}
           onChange={(e) => {
             const inputVal = e.target.value;
             const regex = /^[a-zA-ZÀ-ÿ]+$/; // permet uniquement les lettres de A à Z et les accents
             if (regex.test(inputVal)) {
               const formattedVal = inputVal.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-              formik.setFieldValue('lastname', formattedVal);
+              formik.setFieldValue('lastName', formattedVal);
             }
           }}
           onBlur={formik.handleBlur}
-          error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-          helperText={formik.touched.lastname && formik.errors.lastname}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
         />
         <TextField
           margin='normal'

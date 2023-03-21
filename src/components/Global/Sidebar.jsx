@@ -140,13 +140,6 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Edition'
-                to="/editer"
-                icon={<FaceRoundedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
                 title='Appartements'
                 to="/"
                 icon={<CottageOutlinedIcon />}

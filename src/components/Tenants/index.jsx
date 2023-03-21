@@ -265,9 +265,9 @@ function TenantsList() {
               <TextField             
                 fullWidth
                 variant="filled"
-                id="email"
-                name="lemail"
-                label="Email"
+                id="phone"
+                name="phone"
+                label="Telephone"
                 value= {tenantToEdit?.phone}
                 onChange={handleEditChange}
               />
