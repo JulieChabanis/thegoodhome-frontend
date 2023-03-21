@@ -1,12 +1,11 @@
 import React, { useState, useEffect} from 'react'; 
-import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Box, useTheme, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-// import SaveIcon from '@mui/icons-material/Save';
-//import CancelIcon from '@mui/icons-material/Close';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../Global/Header';
 
 // import add New Tenant Button ;
-import AddTenantButton from './AddTenantButton'
+import AddTenantButton from './AddTenantButton';
 
 function TenantsList() {
   const theme = useTheme();
@@ -22,6 +21,10 @@ function TenantsList() {
   const [tenants, setTenants] = useState([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false); 
   const [tenantToDelete, setTenantToDelete] = useState(null);
+
+  const [tenantToEdit, setTenantToEdit] = useState({ name: '', lastName: '', email: '', phone: '' });
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingTenantId, setEditingTenantId] = useState(null);
 
 
   useEffect(() => {
@@ -39,6 +42,49 @@ function TenantsList() {
         console.log(error);
       });
   };
+
+  // EDIT Tenant from List
+  const handleEditClick = (id) => () => {
+    const tenant = tenants.find((tenant) => tenant.id === id);
+    setEditingTenantId(id);
+    setTenantToEdit({...tenant});
+    setOpenEditDialog(true);
+  }
+
+  const handleEditConfirm = () => {
+    TenantService.updateTenant(editingTenantId, tenantToEdit)
+      .then((response) => {
+        const updatedTenant = response.data;
+        setTenants(tenants.map((tenant) => 
+          (tenant.id === updatedTenant.id ? updatedTenant : tenant)));
+        // setTenantToEdit(tenants);
+        setOpenEditDialog(false);
+        toast.success(`Locataire ${tenantToEdit.id} modifié`, {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleEditChange = (event) => {
+    const { name, value} = event.target;
+    setTenantToEdit({ ...tenantToEdit, [name] : value});
+  }
+
+  const handleEditCancel= () => {
+    setTenantToEdit({ name: '', lastName: '', email: '', phone: '' });
+    setOpenEditDialog(false);
+  }
 
   // DELETE Tenant from List
   const handleDeleteClick = (id) => () => {
@@ -121,6 +167,7 @@ function TenantsList() {
           <GridActionsCellItem
           icon={<EditIcon/>}
           label='Modifier un locataire'
+          onClick={handleEditClick(id)}
           />,
           <GridActionsCellItem
           icon={<DeleteIcon/>}
@@ -176,6 +223,91 @@ function TenantsList() {
         columns={columns}
         sortModel={[ { field: 'id', sort: 'desc', },  ]}
         />
+      </Box>
+      {/*Add Confirmation Edit Dialog*/}
+      <Box>
+        <Dialog
+        open={openEditDialog}
+        onClose={handleEditCancel}
+        sx={{
+          '& .MuiDialog-paper': {
+            backgroundColor: colors.primary[900],
+          }
+        }}
+        >
+          <DialogTitle  sx={{ fontSize: '18px'}}>
+            {"MODIFIER LE LOCATAIRE"}
+          </DialogTitle>
+          <DialogContent>
+           <DialogContentText>
+            Modifier les informations du locataire ci-dessous
+            </DialogContentText> 
+              <TextField    
+                margin='normal'         
+                fullWidth
+                variant="outlined"
+                id="name"
+                name="name"
+                label="Prénom"
+                value= {tenantToEdit?.name}
+                onChange={handleEditChange}
+              />
+              <TextField  
+                margin='normal'           
+                fullWidth
+                variant="outlined"
+                id="lastName"
+                name="lastName"
+                label="Nom de Famille"
+                value= {tenantToEdit?.lastName}
+                onChange={handleEditChange}
+              />
+              <TextField    
+                margin='normal'         
+                fullWidth
+                variant="outlined"
+                id="email"
+                name="email"
+                label="Email"
+                value= {tenantToEdit?.email}
+                onChange={handleEditChange}
+              />
+              <TextField   
+                margin='normal'          
+                fullWidth
+                variant="outlined"
+                id="phone"
+                name="phone"
+                label="Telephone"
+                value= {tenantToEdit?.phone}
+                onChange={handleEditChange}
+              />
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              variant="outlined" 
+              onClick={handleEditCancel} 
+              sx={{
+                background: 'none',
+                color: `${colors.blue[400]} !important`, 
+                borderColor: `${colors.blue[400]}!important`, 
+                '&:hover': {
+                  color: `${colors.blue[200]}!important`, 
+                }
+              }}
+            >
+              Annuler
+            </Button>
+            <Button 
+              variant="outlined" 
+              endIcon={<SendRoundedIcon />} 
+              onClick={handleEditConfirm} 
+              color="secondary"
+            >
+              Modifier
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
       {/*Add Confirmation Delete Dialog*/}
       <Box>
