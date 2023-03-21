@@ -14,8 +14,8 @@ const TENANT_REST_API_URL = "http://localhost:8080/api/tenants";
     return axios.get(TENANT_REST_API_URL + "/" + tenantId);
   }
 
-  const updateTenant = (id) => {
-    return axios.put(`${TENANT_REST_API_URL}/${id}`);
+  const updateTenant = (id, tenantEntity) => {
+    return axios.put(`${TENANT_REST_API_URL}/${id}`, tenantEntity);
   }
 
   const deleteTenantById = (id) => {

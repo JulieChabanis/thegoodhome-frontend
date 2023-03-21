@@ -5,8 +5,6 @@ import { tokens } from '../UI/Themes/theme';
 import TenantService from '../../api/TenantService';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-// import SaveIcon from '@mui/icons-material/Save';
-//import CancelIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,7 +21,7 @@ function TenantsList() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false); 
   const [tenantToDelete, setTenantToDelete] = useState(null);
 
-  const [tenantToEdit, setTenantToEdit] = useState(null);
+  const [tenantToEdit, setTenantToEdit] = useState('');
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
   useEffect(() => {
@@ -49,7 +47,6 @@ function TenantsList() {
     setOpenEditDialog(true);
   }
 
-
   const handleEditConfirm = () => {
     TenantService.updateTenant(tenantToEdit.id, tenantToEdit)
       .then((response) => {
@@ -59,9 +56,10 @@ function TenantsList() {
           ? updatedTenant
           : tenant
         ));
+        setTenantToEdit(tenants);
         setOpenEditDialog(false);
-        toast.info(`Locataire ${updatedTenant.id} modifié`, {
-          position: toast.success.POSITION.BOTTOM_LEFT,
+        toast.success(`Locataire ${tenantToEdit.id} modifié`, {
+          position: toast.POSITION.BOTTOM_LEFT,
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -232,7 +230,6 @@ function TenantsList() {
            <DialogContentText>
             Modifier les informations du locataire ci-dessous
             </DialogContentText> 
-            <form>  
               <TextField             
                 fullWidth
                 variant="filled"
@@ -269,7 +266,6 @@ function TenantsList() {
                 value= {tenantToEdit?.phone}
                 onChange={(e) => setTenantToEdit({...tenantToEdit, phone: e.target.value})}
               />
-            </form>
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" onClick={handleEditCancel} color="secondary">
