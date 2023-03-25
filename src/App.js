@@ -14,6 +14,9 @@ import Dashboard from './components/Dashboard';
 // Import API Data from Data Grid
 import AgenciesList from './components/Agencies/index';
 import TenantsList from './components/Tenants/index';
+import AppartmentsList from './components/Appartments/index';
+
+import CreateAppartment from './components/Appartments/Requests/CreateAppartment';
 
 
 
@@ -33,6 +36,8 @@ function App() {
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path='/tenants' element={<TenantsList />} />
+              <Route path='/appartments' element={<AppartmentsList />} />
+              <Route path='/appartments/ajouter' element={<CreateAppartment />} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
