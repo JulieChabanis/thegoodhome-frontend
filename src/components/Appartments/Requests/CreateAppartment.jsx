@@ -1,12 +1,17 @@
-import React, {forwardRef} from 'react'; 
-import { TextField, Box, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import React, {forwardRef, useRef, useState } from 'react'; 
+import { InputAdornment, Typography, TextField, Box, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'; 
 import AppartmentService from '../../../api/AppartmentService';
 import Header from '../../Global/Header';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import ClearIcon from '@mui/icons-material/Clear';
+
 
 
 const CreateAppartment = forwardRef ((props, ref) => {
+  const [viewImage, setViewImage] = useState();
+  const fileInput = useRef();
 
   const formik = useFormik({
     initialValues: {
@@ -62,6 +67,70 @@ const CreateAppartment = forwardRef ((props, ref) => {
           gap="20px"
           gridTemplateColums="repeat(4,minmax(0, 1fr)"
         >
+          
+        {/*Add images*/}
+          <Box sx={{ gridColumn: "span 1" }}>
+            <Button 
+              color="secondary"
+              variant="outlined"
+              startIcon={<PhotoCamera />}
+              onClick={() => fileInput.current.click()}
+              style={{marginRight: '10px'}}
+            >
+                Upload Image
+            </Button>
+            {viewImage && (
+              <Button
+                color="error"
+                variant="outlined"
+                startIcon={<ClearIcon />}
+                disabled={!viewImage}
+                onClick={() => {
+                  formik.setFieldValue("image", null);
+                  setViewImage(null);
+                }}
+              > 
+                Delete
+              </Button>
+            )}
+            <input
+              hidden
+              type='file'
+              name='image'
+              ref={fileInput}
+              onChange={(event) => {
+                formik.setFieldValue("image", event.currentTarget.files[0]);
+                setViewImage(URL.createObjectURL(event.target.files[0]));
+              }}
+
+            />
+            {viewImage && (
+              <Box display="flex" flexDirection="column" alignItems="start" mt={1}>
+                <img 
+                  src={viewImage} 
+                  alt=""
+                  style={{  height: 250, width: 250, objectFit: "cover", borderRadius:"2%" }}
+                />
+              </Box>
+            )}
+          </Box>
+
+        {/*Appartment available ? true : false*/}
+          <FormControl variant="filled" fullWidth sx={{ gridColumn: "span 1" }}>
+            <InputLabel hmtlFor="available">Le bien est-il disponible à la location ?</InputLabel>
+            <Select
+              id="available"
+              name="available"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.available && Boolean(formik.errors.available)}
+              label="Disponibilité"
+            >
+              <MenuItem value={true}>Disponible</MenuItem>
+              <MenuItem value={false}>Non disponible</MenuItem>
+            </Select>
+          </FormControl>
+
           <TextField
           fullWidth
           variant="filled"
@@ -76,7 +145,8 @@ const CreateAppartment = forwardRef ((props, ref) => {
           sx={{ gridColumn: "span 1" }}
           />
           <TextField
-          fullWidth
+          multiline
+          rows={5}
           variant="filled"
           id="description"
           name="description"
@@ -86,7 +156,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ gridColumn: "span 3" }}
           />
           <TextField
           fullWidth
@@ -99,7 +169,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.address && Boolean(formik.errors.address)}
           helperText={formik.touched.address && formik.errors.address}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ gridColumn: "span 2" }}
           />
           <TextField
           fullWidth
@@ -125,7 +195,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.city && Boolean(formik.errors.city)}
           helperText={formik.touched.city && formik.errors.city}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ gridColumn: "span 2" }}
           />
           <TextField
           fullWidth
@@ -151,7 +221,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.rental && Boolean(formik.errors.rental)}
           helperText={formik.touched.rental && formik.errors.rental}
-          sx={{ gridColumn: "span 3" }}
+          sx={{ gridColumn: "span 1" }}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+          }}
           />
           <TextField
           fullWidth
@@ -164,7 +237,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.rentalCharges && Boolean(formik.errors.rentalCharges)}
           helperText={formik.touched.rentalCharges && formik.errors.rentalCharges}
-          sx={{ gridColumn: "span 3" }}
+          sx={{ gridColumn: "span 1" }}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+          }}
           />
           <TextField
           fullWidth
@@ -177,29 +253,9 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.securityDeposit && Boolean(formik.errors.securityDeposit)}
           helperText={formik.touched.securityDeposit && formik.errors.securityDeposit}
-          sx={{ gridColumn: "span 3" }}
-          />
-          <FormControl variant="filled" fullWidth>
-            <InputLabel hmtlFor="available">Le bien est-il disponible à la location ?</InputLabel>
-            <Select
-              id="available"
-              name="available"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.available && Boolean(formik.errors.available)}
-              label="Disponibilité"
-            >
-              <MenuItem value={true}>Disponible</MenuItem>
-              <MenuItem value={false}>Non disponible</MenuItem>
-            </Select>
-          </FormControl>
-
-          
-          <input
-          type='file'
-          name='image'
-          onChange={(event) => {
-            formik.setFieldValue("image", event.currentTarget.files[0]);
+          sx={{ gridColumn: "span 1" }}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
           }}
           />
           <Button
