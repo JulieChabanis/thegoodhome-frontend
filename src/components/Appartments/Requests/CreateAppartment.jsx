@@ -1,17 +1,15 @@
-import React, {forwardRef, useRef, useState } from 'react'; 
-import { InputAdornment, Typography, TextField, Box, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import React, {forwardRef } from 'react'; 
+import { InputAdornment, TextField, Box, Button } from '@mui/material';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'; 
 import AppartmentService from '../../../api/AppartmentService';
 import Header from '../../Global/Header';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import ClearIcon from '@mui/icons-material/Clear';
-
+import { toast } from 'react-toastify';
 
 
 const CreateAppartment = forwardRef ((props, ref) => {
-  const [viewImage, setViewImage] = useState();
-  const fileInput = useRef();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +22,6 @@ const CreateAppartment = forwardRef ((props, ref) => {
       rental: '',
       rentalCharges: '',
       securityDeposit: '',
-      available: '',
     }, 
 
     validationSchema: Yup.object({
@@ -37,16 +34,25 @@ const CreateAppartment = forwardRef ((props, ref) => {
       rental: Yup.number().required('le prix du loyer est requis'),
       rentalCharges: Yup.number().required('les Charges du loyer sont requises'),
       securityDeposit: Yup.number().required('Les frais sont requis'),
-      available: Yup.boolean(),
-      image: Yup.mixed().required("Une image est requise"),
     }), 
 
-    onSubmit: async (values, { setSubmitting }) => {
-      setSubmitting(true);
+    onSubmit: (values, { setSubmitting }) => {
+      setSubmitting(true)
       AppartmentService.createAppartment(values)
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
+          navigate('/appartments')
+          toast.success('Appartement ajouté avec succès', {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 4500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
         })
         .catch(err => {
           console.log(err);
@@ -65,71 +71,8 @@ const CreateAppartment = forwardRef ((props, ref) => {
         <Box
           display="grid"
           gap="20px"
-          gridTemplateColums="repeat(4,minmax(0, 1fr)"
+          gridTemplateColumns="repeat(4,minmax(0, 1fr)"
         >
-          
-        {/*Add images*/}
-          <Box sx={{ gridColumn: "span 1" }}>
-            <Button 
-              color="secondary"
-              variant="outlined"
-              startIcon={<PhotoCamera />}
-              onClick={() => fileInput.current.click()}
-              style={{marginRight: '10px'}}
-            >
-                Upload Image
-            </Button>
-            {viewImage && (
-              <Button
-                color="error"
-                variant="outlined"
-                startIcon={<ClearIcon />}
-                disabled={!viewImage}
-                onClick={() => {
-                  formik.setFieldValue("image", null);
-                  setViewImage(null);
-                }}
-              > 
-                Delete
-              </Button>
-            )}
-            <input
-              hidden
-              type='file'
-              name='image'
-              ref={fileInput}
-              onChange={(event) => {
-                formik.setFieldValue("image", event.currentTarget.files[0]);
-                setViewImage(URL.createObjectURL(event.target.files[0]));
-              }}
-
-            />
-            {viewImage && (
-              <Box display="flex" flexDirection="column" alignItems="start" mt={1}>
-                <img 
-                  src={viewImage} 
-                  alt=""
-                  style={{  height: 250, width: 250, objectFit: "cover", borderRadius:"2%" }}
-                />
-              </Box>
-            )}
-          </Box>
-
-        {/*Appartment available ? true : false*/}
-          <FormControl variant="filled" fullWidth sx={{ gridColumn: "span 1" }}>
-            <InputLabel hmtlFor="available">Le bien est-il disponible à la location ?</InputLabel>
-            <Select
-              id="available"
-              name="available"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.available && Boolean(formik.errors.available)}
-              label="Disponibilité"
-            >
-              <MenuItem value={true}>Disponible</MenuItem>
-              <MenuItem value={false}>Non disponible</MenuItem>
-            </Select>
-          </FormControl>
 
           <TextField
           fullWidth
@@ -216,6 +159,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           id="rental"
           name="rental"
           label="rental"
+          type="number"
           value={formik.values.rental}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -232,6 +176,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           id="rentalCharges"
           name="rentalCharges"
           label="rentalCharges"
+          type="number"
           value={formik.values.rentalCharges}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -246,6 +191,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           fullWidth
           variant="filled"
           id="securityDeposit"
+          type="number"
           name="securityDeposit"
           label="securityDeposit"
           value={formik.values.securityDeposit}
@@ -262,8 +208,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           type="submit"
           fullWidth
           variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          disabled={formik.isSubmitting}
           >
-            {formik.isSubmitting ? 'En cours...' : 'Ajouter'}
+          {formik.isSubmitting ? 'En cours...' : 'Ajouter'}
           </Button>
         </Box>
       </form>
