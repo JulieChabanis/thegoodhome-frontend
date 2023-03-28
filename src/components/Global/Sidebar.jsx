@@ -140,16 +140,30 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Appartements'
+                title='Dossiers'
                 to="/"
+                icon={<FolderSharedOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Typography
+                variant='h6'
+                color={colors.grey[300]}
+                sx={{ m: '15px 0 5px 20px' }}
+              >
+                Appartements
+              </Typography>
+              <Item
+                title='Liste'
+                to="/appartments"
                 icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title='Dossiers'
-                to="/"
-                icon={<FolderSharedOutlinedIcon />}
+                title='Ajouter'
+                to="/appartments/ajouter"
+                icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
