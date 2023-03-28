@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { Button, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import { tokens } from "../UI/Themes/theme";
-import Modal from '@mui/material/Modal';
-import CreateAppartment from "./Requests/CreateAppartment"
+
 
 
 // Button + Add a new appartment
 export default function AddAppartmentButton() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false) ;
+
+  const handleOpen = () => {
+    setOpen(true);
+    navigate('/appartments/ajouter');
+  }
+
+ 
   
   return (
     <Stack direction='row' justifyContent='flex-end'alignItems='flex-end'>
@@ -35,16 +41,6 @@ export default function AddAppartmentButton() {
       >
         New Appartment
       </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div tabIndex={-1}>
-          <CreateAppartment/>
-        </div>
-      </Modal>
     </Stack>
   )
 }

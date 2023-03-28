@@ -71,9 +71,8 @@ const CreateAppartment = forwardRef ((props, ref) => {
         <Box
           display="grid"
           gap="20px"
-          gridTemplateColumns="repeat(4,minmax(0, 1fr)"
+          gridTemplateColumns="repeat(6,minmax(0, 1fr)"
         >
-
           <TextField
           fullWidth
           variant="filled"
@@ -85,7 +84,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ gridColumn: "span 2" }}
           />
           <TextField
           multiline
@@ -99,7 +98,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
-          sx={{ gridColumn: "span 3" }}
+          sx={{ gridColumn: "span 2" }}
           />
           <TextField
           fullWidth
@@ -125,7 +124,7 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.additionalAddress && Boolean(formik.errors.additionalAddress)}
           helperText={formik.touched.additionalAddress && formik.errors.additionalAddress}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ gridColumn: "span 2" }}
           />
           <TextField
           fullWidth
