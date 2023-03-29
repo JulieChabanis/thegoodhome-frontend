@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AppartmentService from '../../api/AppartmentService';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
 import { Box, Grid,CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import AddAppartmentButton from './AddAppartmentButton';
+
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAppartments();
@@ -22,6 +25,10 @@ function AppartmentsList() {
         console.log(error);
       });
   };
+
+  const handleClickCard = (id) => {
+    navigate(`/appartments/${id}`);
+  }
 
   return (
     <Box m='20px'>
@@ -55,7 +62,7 @@ function AppartmentsList() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton color='secondary'>
+                  <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
                     <PreviewRoundedIcon />
                   </IconButton>
                 </CardActions>

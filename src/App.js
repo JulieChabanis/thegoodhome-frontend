@@ -17,6 +17,7 @@ import TenantsList from './components/Tenants/index';
 import AppartmentsList from './components/Appartments/index';
 
 import CreateAppartment from './components/Appartments/Requests/CreateAppartment';
+import CardInfosAppart from './components/Appartments/CardInfosAppart';
 
 
 
@@ -38,6 +39,7 @@ function App() {
               <Route path='/tenants' element={<TenantsList />} />
               <Route path='/appartments' element={<AppartmentsList />} />
               <Route path='/appartments/ajouter' element={<CreateAppartment />} />
+              <Route path='/appartments/:id' element={<CardInfosAppart />} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
