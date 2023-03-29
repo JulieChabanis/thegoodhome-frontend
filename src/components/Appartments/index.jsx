@@ -18,8 +18,7 @@ function AppartmentsList() {
   const getAppartments = () => {
     AppartmentService.getAppartments()
       .then(response => {
-        const sortedAppartments = response.data.sort((a, b) => b.dateAdded - a.dateAdded);
-        setAppartments(sortedAppartments);
+        setAppartments(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -27,8 +26,10 @@ function AppartmentsList() {
   };
 
   const handleClickCard = (id) => {
-    navigate(`/appartments/${id}`);
-  }
+    const selectedAppartment = appartments.find((appartment) => appartment.id === id);
+    console.log('Selected appartment:', selectedAppartment);
+    navigate(`/appartments/${selectedAppartment.id}`, { state: { appartment: selectedAppartment } });
+  };
 
   return (
     <Box m='20px'>
