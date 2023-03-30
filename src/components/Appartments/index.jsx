@@ -3,14 +3,21 @@ import AppartmentService from '../../api/AppartmentService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
 import { Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
-import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import AddAppartmentButton from './AddAppartmentButton';
 import { useMediaQuery } from '@mui/material';
+
+import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const [appartmentToEdit, setAppartmentsToEdit] = useState({ title: '', description: '', address: '', additionalAddres: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: '',  });
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingAppartmentId, setEditingAppartmentId] = useState(null);
+  // Generate Breackpoints 
   const isMd = useMediaQuery("(max-width:1200px)")
   const isXsOrSm = useMediaQuery("(max-width:1000px)")
   const appartmentsPerPage = isXsOrSm ? 2 : isMd ? 6 : 8;
@@ -31,16 +38,50 @@ function AppartmentsList() {
       });
   };
 
+  // Open Card Appartment by ID
   const handleClickCard = (id) => {
     const selectedAppartment = appartments.find((appartment) => appartment.id === id);
     console.log('Selected appartment:', selectedAppartment);
     navigate(`/appartments/${selectedAppartment.id}`, { state: { appartment: selectedAppartment } });
   };
 
+  // Change Page Pagination
   const handleChangePage = (event, value) => {
     setPage(value);
   }; 
 
+  // EDIT Appartment from List
+  const handleEditClick = (id) => () => {
+    const appartment = appartments.find((appartment) => appartment.id === id); 
+    setEditingAppartmentId(id); 
+    setAppartmentsToEdit({...appartment});
+    setOpenEditDialog(true); 
+  };
+
+  const handleEditConfirm = () => {
+    AppartmentService.updateAppartment(editingAppartmentId, appartmentToEdit)
+    .then ((response) => {
+      const updatedAppartment = response.data;
+      setAppartments(appartments.map((appartment) => 
+      (appartment.id === updatedAppartment.id ? updatedAppartment : appartment)));
+      setOpenEditDialog(false);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const handleEditChange = (event) => {
+    const { name, value} = event.target; 
+    setAppartmentsToEdit({...appartmentToEdit, [name] : value});
+  }
+
+  const handleEditCancel = () => {
+    setAppartmentsToEdit({ title: '', description: '', address: '', additionalAddres: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: '',  });
+    setOpenEditDialog(false);
+  };
+
+  // Pagination Fonctionnality
   const startIndex = (page - 1) * appartmentsPerPage;
   const endIndex = startIndex + appartmentsPerPage;
   const currentAppartments = appartments.slice(startIndex, endIndex);
@@ -52,6 +93,7 @@ function AppartmentsList() {
       <AddAppartmentButton />
       </Box>
       <Box m='15px 0 0 0'>
+        {/*Appartments Cards Map*/}
         <Grid container spacing={2}>
           {currentAppartments.map(appartment => (
             <Grid item xs={isXsOrSm ? 6 : 8} sm={isXsOrSm ? 6 : 8} md={isMd ? 4 : 8} lg={3} key={appartment.id}>
@@ -75,9 +117,16 @@ function AppartmentsList() {
                     {appartment.rental} €
                   </Typography>
                 </CardContent>
-                <CardActions>
+                {/* Actions GETbyId, PUT, DELETE Appartment*/}
+                <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
                     <PreviewRoundedIcon />
+                  </IconButton>
+                  <IconButton color='secondary' onClick={() => handleEditClick(appartment.id)}>
+                    <EditIcon  />
+                  </IconButton>
+                  <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
+                    <DeleteIcon />
                   </IconButton>
                 </CardActions>
               </Card>
@@ -90,7 +139,6 @@ function AppartmentsList() {
         page={page}
         onChange={handleChangePage}
         sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}
-
       />
     </Box>
   );
