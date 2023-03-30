@@ -14,9 +14,6 @@ function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-  const [appartmentToEdit, setAppartmentsToEdit] = useState({ title: '', description: '', address: '', additionalAddres: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: '',  });
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [editingAppartmentId, setEditingAppartmentId] = useState(null);
   // Generate Breackpoints 
   const isMd = useMediaQuery("(max-width:1200px)")
   const isXsOrSm = useMediaQuery("(max-width:1000px)")
@@ -49,37 +46,6 @@ function AppartmentsList() {
   const handleChangePage = (event, value) => {
     setPage(value);
   }; 
-
-  // EDIT Appartment from List
-  const handleEditClick = (id) => () => {
-    const appartment = appartments.find((appartment) => appartment.id === id); 
-    setEditingAppartmentId(id); 
-    setAppartmentsToEdit({...appartment});
-    setOpenEditDialog(true); 
-  };
-
-  const handleEditConfirm = () => {
-    AppartmentService.updateAppartment(editingAppartmentId, appartmentToEdit)
-    .then ((response) => {
-      const updatedAppartment = response.data;
-      setAppartments(appartments.map((appartment) => 
-      (appartment.id === updatedAppartment.id ? updatedAppartment : appartment)));
-      setOpenEditDialog(false);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  };
-
-  const handleEditChange = (event) => {
-    const { name, value} = event.target; 
-    setAppartmentsToEdit({...appartmentToEdit, [name] : value});
-  }
-
-  const handleEditCancel = () => {
-    setAppartmentsToEdit({ title: '', description: '', address: '', additionalAddres: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: '',  });
-    setOpenEditDialog(false);
-  };
 
   // Pagination Fonctionnality
   const startIndex = (page - 1) * appartmentsPerPage;
@@ -122,10 +88,10 @@ function AppartmentsList() {
                   <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
                     <PreviewRoundedIcon />
                   </IconButton>
-                  <IconButton color='secondary' onClick={() => handleEditClick(appartment.id)}>
+                  <IconButton color='secondary'>
                     <EditIcon  />
                   </IconButton>
-                  <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
+                  <IconButton color='secondary'>
                     <DeleteIcon />
                   </IconButton>
                 </CardActions>
