@@ -5,12 +5,16 @@ import Header from '../Global/Header';
 import { Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import AddAppartmentButton from './AddAppartmentButton';
+import { useMediaQuery } from '@mui/material';
 
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-  const appartmentsPerPage = 8;
+  const isMd = useMediaQuery("(max-width:1200px)")
+  const isXsOrSm = useMediaQuery("(max-width:1000px)")
+  const appartmentsPerPage = isXsOrSm ? 2 : isMd ? 6 : 8;
+
 
   useEffect(() => {
     getAppartments();
@@ -50,7 +54,7 @@ function AppartmentsList() {
       <Box m='15px 0 0 0'>
         <Grid container spacing={2}>
           {currentAppartments.map(appartment => (
-            <Grid item xs={6} sm={6} md={4} lg={3} key={appartment.id}>
+            <Grid item xs={isXsOrSm ? 6 : 8} sm={isXsOrSm ? 6 : 8} md={isMd ? 4 : 8} lg={3} key={appartment.id}>
               <Card elevation={4} sx={{ minHeight:'100px', maxWidth:'410px', minWidth:'150px'}}>
                 <CardMedia
                   component='img'
