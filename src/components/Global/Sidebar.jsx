@@ -13,6 +13,7 @@ import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import AddIcon from '@mui/icons-material/Add';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -154,20 +155,19 @@ const Sidebar = () => {
                 Appartements
               </Typography>
               <Item
+                title='Ajouter'
+                to="/appartments/ajouter"
+                icon={<AddIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
                 title='Liste'
                 to="/appartments"
                 icon={<CottageOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
-              <Item
-                title='Ajouter'
-                to="/appartments/ajouter"
-                icon={<CottageOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              
               <Typography
                 variant='h6'
                 color={colors.grey[300]}

@@ -1,13 +1,17 @@
 import React  from 'react';
-import { Icon, Box, Typography, Grid, IconButton } from '@mui/material';
+import { Icon, Box, Typography, Grid, Stack, Button, useTheme } from '@mui/material';
 import { useLocation, useNavigate} from 'react-router-dom';
 import Header from '../Global/Header';
 import Carousel from 'react-material-ui-carousel'
+import { tokens } from "../UI/Themes/theme";
 // import AppartmentService from '../../api/AppartmentService';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
+import CloseIcon from '@mui/icons-material/Close';
 
 const CardInfosAppart = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const location = useLocation(); 
   const navigate = useNavigate();
   const selectedAppartment = location.state && location.state.appartment ? location.state.appartment : null;
@@ -31,6 +35,25 @@ if (!selectedAppartment) {
         title={`APPARTEMENT ${selectedAppartment.id}`}
         subtitle={`Informations sur l'appartement ${selectedAppartment.id}`}
       />
+      <Stack alignItems='flex-start' m='20px'>
+        <Button 
+          variant='outlined'
+          startIcon={<CloseIcon/>}
+          onClick={handleClickBack}
+          sx={{
+            background: 'none',
+            color: `${colors.green[400]} !important`, 
+            fontWeight: 'bold',
+            borderColor: `${colors.green[400]}!important`, 
+            '&:hover': {
+              background: `${colors.green[400]}!important`,
+              color: `${colors.primary[500]}!important`, 
+            }
+          }}
+          >
+          Fermer la fiche
+        </Button>
+      </Stack>
       <Grid ml='0px' mt="10px" container spacing={2}>
         <Grid item>
         <Carousel
@@ -90,9 +113,6 @@ if (!selectedAppartment) {
         </Grid>
       </Grid>
       <Grid ml='0px' mt="10px" container spacing={2}>
-      <IconButton color='secondary' onClick={handleClickBack}>
-            <EuroRoundedIcon />
-          </IconButton>
       </Grid>
     </Box>
   );
