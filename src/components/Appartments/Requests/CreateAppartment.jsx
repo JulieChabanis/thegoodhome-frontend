@@ -1,14 +1,20 @@
 import React, {forwardRef } from 'react'; 
-import { InputAdornment, TextField, Box, Button } from '@mui/material';
+import { InputAdornment, TextField, Box, Button, useTheme} from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'; 
 import AppartmentService from '../../../api/AppartmentService';
 import Header from '../../Global/Header';
 import { toast } from 'react-toastify';
+import { tokens } from '../../UI/Themes/theme';
+import AddIcon from '@mui/icons-material/Add';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const CreateAppartment = forwardRef ((props, ref) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -69,9 +75,12 @@ const CreateAppartment = forwardRef ((props, ref) => {
       />
       <form onSubmit={formik.handleSubmit}>
         <Box
+          m="30px"
           display="grid"
           gap="20px"
-          gridTemplateColumns="repeat(6,minmax(0, 1fr)"
+          gridTemplateColumns="repeat(5,minmax(0, 1fr)"
+          gridTemplateRows="repeat(2, auto)"
+          sx={{ display: matches ? 'grid' : 'column',}}
         >
           <TextField
           fullWidth
@@ -84,9 +93,13 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ 
+            gridColumn: "span 6", gridRow: "1", 
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
+          fullWidth
           multiline
           rows={5}
           variant="filled"
@@ -98,7 +111,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ 
+            gridColumn: "span 6", gridRow: "2",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
           fullWidth
@@ -111,7 +127,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.address && Boolean(formik.errors.address)}
           helperText={formik.touched.address && formik.errors.address}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "3",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
           fullWidth
@@ -124,7 +143,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.additionalAddress && Boolean(formik.errors.additionalAddress)}
           helperText={formik.touched.additionalAddress && formik.errors.additionalAddress}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "3",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
           fullWidth
@@ -137,7 +159,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.city && Boolean(formik.errors.city)}
           helperText={formik.touched.city && formik.errors.city}
-          sx={{ gridColumn: "span 2" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "4",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
           fullWidth
@@ -150,7 +175,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.zipcode && Boolean(formik.errors.zipcode)}
           helperText={formik.touched.zipcode && formik.errors.zipcode}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "4",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           />
           <TextField
           fullWidth
@@ -164,7 +192,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.rental && Boolean(formik.errors.rental)}
           helperText={formik.touched.rental && formik.errors.rental}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "5",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           InputProps={{
             endAdornment: <InputAdornment position="end">€</InputAdornment>,
           }}
@@ -181,7 +212,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.rentalCharges && Boolean(formik.errors.rentalCharges)}
           helperText={formik.touched.rentalCharges && formik.errors.rentalCharges}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "5",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           InputProps={{
             endAdornment: <InputAdornment position="end">€</InputAdornment>,
           }}
@@ -198,7 +232,10 @@ const CreateAppartment = forwardRef ((props, ref) => {
           onBlur={formik.handleBlur}
           error={formik.touched.securityDeposit && Boolean(formik.errors.securityDeposit)}
           helperText={formik.touched.securityDeposit && formik.errors.securityDeposit}
-          sx={{ gridColumn: "span 1" }}
+          sx={{ 
+            gridColumn: "span 3", gridRow: "6",
+            marginBottom: matches ? 'none' : '15px',
+          }}
           InputProps={{
             endAdornment: <InputAdornment position="end">€</InputAdornment>,
           }}
@@ -206,8 +243,21 @@ const CreateAppartment = forwardRef ((props, ref) => {
           <Button
           type="submit"
           fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          variant="outlined"
+          startIcon={<AddIcon/>}
+          sx={{
+            gridColumn: "span 3", gridRow: "6",
+            height: "50px",
+            width: "200px",
+            background: 'none',
+            color: `${colors.green[400]} !important`, 
+            fontWeight: 'bold',
+            borderColor: `${colors.green[400]}!important`, 
+            '&:hover': {
+              background: `${colors.green[400]}!important`,
+              color: `${colors.primary[500]}!important`, 
+            }
+          }}
           disabled={formik.isSubmitting}
           >
           {formik.isSubmitting ? 'En cours...' : 'Ajouter'}
