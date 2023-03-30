@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import AppartmentService from '../../api/AppartmentService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
-import { Box, Grid,CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
+import { Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import AddAppartmentButton from './AddAppartmentButton';
 
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const appartmentsPerPage = 6;
 
   useEffect(() => {
     getAppartments();
@@ -31,21 +33,28 @@ function AppartmentsList() {
     navigate(`/appartments/${selectedAppartment.id}`, { state: { appartment: selectedAppartment } });
   };
 
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  }; 
+
+  const startIndex = (page - 1) * appartmentsPerPage;
+  const endIndex = startIndex + appartmentsPerPage;
+  const currentAppartments = appartments.slice(startIndex, endIndex);
+
   return (
     <Box m='20px'>
+      <Box display='flex' flexDirection='column'>
       <Header title='APPARTMENTS' subtitle='Gestion des appartements' />
-      {/* Add Button for add new appartment */}
-      <Box>
-        <AddAppartmentButton />
+      <AddAppartmentButton />
       </Box>
-      <Box m='20px 0 40px 0' height='50vh'>
-        <Grid container spacing={3}>
-          {appartments.map(appartment => (
-            <Grid item xs={6} sm={5} md={4} lg={3} key={appartment.id}>
+      <Box m='20px 0 0px 0'>
+        <Grid container spacing={2}>
+          {currentAppartments.map(appartment => (
+            <Grid item xs={6} sm={4} md={3} lg={3} key={appartment.id}>
               <Card elevation={4}>
                 <CardMedia
                   component='img'
-                  height='200'
+                  height='150'
                   image='https://picsum.photos/600'
                 />
                 <CardContent>
@@ -72,6 +81,11 @@ function AppartmentsList() {
           ))}
         </Grid>
       </Box>
+     <Pagination
+        count={Math.ceil(appartments.length / appartmentsPerPage)}
+        page={page}
+        onChange={handleChangePage}
+      />
     </Box>
   );
 }
