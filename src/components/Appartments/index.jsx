@@ -10,7 +10,7 @@ function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-  const appartmentsPerPage = 6;
+  const appartmentsPerPage = 8;
 
   useEffect(() => {
     getAppartments();
@@ -47,17 +47,17 @@ function AppartmentsList() {
       <Header title='APPARTMENTS' subtitle='Gestion des appartements' />
       <AddAppartmentButton />
       </Box>
-      <Box m='20px 0 0px 0'>
+      <Box m='15px 0 0 0'>
         <Grid container spacing={2}>
           {currentAppartments.map(appartment => (
-            <Grid item xs={6} sm={4} md={3} lg={3} key={appartment.id}>
-              <Card elevation={4}>
+            <Grid item xs={6} sm={6} md={4} lg={3} key={appartment.id}>
+              <Card elevation={4} sx={{ minHeight:'100px', maxWidth:'410px', minWidth:'150px'}}>
                 <CardMedia
                   component='img'
-                  height='150'
+                  height='110'
                   image='https://picsum.photos/600'
                 />
-                <CardContent>
+                <CardContent sx={{ maxHeight:'130px'}}>
                   <Typography variant='body2' color='text.secondary'>
                     {appartment.city}
                   </Typography>
@@ -65,7 +65,7 @@ function AppartmentsList() {
                     {appartment.title}
                   </Typography>
                   <Typography variant='body2' color='text.secondary'>
-                    {appartment.description}
+                    {appartment.address}
                   </Typography>
                   <Typography variant='h5' color='text.primary'>
                     {appartment.rental} €
@@ -85,6 +85,8 @@ function AppartmentsList() {
         count={Math.ceil(appartments.length / appartmentsPerPage)}
         page={page}
         onChange={handleChangePage}
+        sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}
+
       />
     </Box>
   );
