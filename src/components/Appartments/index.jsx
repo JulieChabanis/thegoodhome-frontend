@@ -157,7 +157,7 @@ function AppartmentsList() {
         open={openEditDialog}
         onClose={handleEditCancel}
       >
-        <DialogTitle>
+        <DialogTitle sx={{ fontSize:'2.2em'}}>
           {"MODIFIER L'APPARTEMENT"}
         </DialogTitle>
         <DialogContent>
@@ -176,6 +176,8 @@ function AppartmentsList() {
           />
           <TextField 
             margin='normal'
+            multiline
+            rows={4}
             fullWidth
             variant='outlined'
             id="description"
@@ -204,70 +206,84 @@ function AppartmentsList() {
             value= {AppartmentToEdit?.additionalAddress}
             onChange={handleEditChange}
           />
-          <TextField 
-            margin='normal'
-            fullWidth
-            variant='outlined'
-            id="city"
-            name="city"
-            label="Ville"
-            value= {AppartmentToEdit?.city}
-            onChange={handleEditChange}
-          />
-          <TextField 
-            margin='normal'
-            fullWidth
-            variant='outlined'
-            id="zipcode"
-            name="zipcode"
-            label="Code Postal"
-            value= {AppartmentToEdit?.zipcode}
-            onChange={handleEditChange}
-          />
-          <TextField 
-            margin='normal'
-            fullWidth
-            variant='outlined'
-            id="rental"
-            name="rental"
-            label="rental"
-            value= {AppartmentToEdit?.rental}
-            onChange={handleEditChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">€</InputAdornment>,
-            }}
-          />
-          <TextField 
-            margin='normal'
-            fullWidth
-            variant='outlined'
-            id="rentalCharges"
-            name="rentalCharges"
-            label="Charges locatives"
-            value= {AppartmentToEdit?.rentalCharges}
-            onChange={handleEditChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">€</InputAdornment>,
-            }}
-          />
-          <TextField 
-            margin='normal'
-            fullWidth
-            variant='outlined'
-            id="securityDeposit"
-            name="securityDeposit"
-            label="Dépot de sécurité"
-            value= {AppartmentToEdit?.securityDeposit}
-            onChange={handleEditChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">€</InputAdornment>,
-            }}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField 
+                margin='normal'
+                fullWidth
+                variant='outlined'
+                id="city"
+                name="city"
+                label="Ville"
+                value= {AppartmentToEdit?.city}
+                onChange={handleEditChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                margin='normal'
+                variant='outlined'
+                id="zipcode"
+                name="zipcode"
+                label="Code Postal"
+                value= {AppartmentToEdit?.zipcode}
+                onChange={handleEditChange}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <TextField 
+                margin='normal' 
+                variant='outlined'
+                id="rental"
+                name="rental"
+                label="rental"
+                value= {AppartmentToEdit?.rental}
+                onChange={handleEditChange}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField 
+                margin='normal'
+                fullWidth
+                variant='outlined'
+                id="rentalCharges"
+                name="rentalCharges"
+                label="Charges locatives"
+                value= {AppartmentToEdit?.rentalCharges}
+                onChange={handleEditChange}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField 
+                margin='normal'
+                fullWidth
+                variant='outlined'
+                id="securityDeposit"
+                name="securityDeposit"
+                label="Dépot de sécurité"
+                value= {AppartmentToEdit?.securityDeposit}
+                onChange={handleEditChange}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                }}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
             variant='outlined'
             onClick={handleEditCancel}
+            color="error"
           >
             Annuler
           </Button>
