@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import AppartmentService from '../../api/AppartmentService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
-import {  Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography, DialogContentText } from '@mui/material';
+import {  InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography, DialogContentText } from '@mui/material';
 import AddAppartmentButton from './AddAppartmentButton';
 import { useMediaQuery } from '@mui/material';
+import { toast } from 'react-toastify';
 
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -54,6 +55,17 @@ function AppartmentsList() {
       setAppartments(appartments.map((selectedAppartment) =>
       (selectedAppartment.id === updatedAppartment.id ? updatedAppartment : selectedAppartment)));
       setOpenEditDialog(false);
+      navigate(`/appartments/${id}`, { state: { appartment: AppartmentToEdit } });
+      toast.success('Appartement modifié avec succès', {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 4500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     })
     .catch ((error) => {
       console.log(error); 
@@ -221,6 +233,9 @@ function AppartmentsList() {
             label="rental"
             value= {AppartmentToEdit?.rental}
             onChange={handleEditChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
           />
           <TextField 
             margin='normal'
@@ -231,6 +246,9 @@ function AppartmentsList() {
             label="Charges locatives"
             value= {AppartmentToEdit?.rentalCharges}
             onChange={handleEditChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
           />
           <TextField 
             margin='normal'
@@ -241,6 +259,9 @@ function AppartmentsList() {
             label="Dépot de sécurité"
             value= {AppartmentToEdit?.securityDeposit}
             onChange={handleEditChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            }}
           />
         </DialogContent>
         <DialogActions>
