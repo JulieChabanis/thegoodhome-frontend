@@ -20,9 +20,12 @@ function AppartmentsList() {
   const [sortingMethod, setSortingMethod] = useState('city');
   const navigate = useNavigate();
 
-  const [AppartmentToEdit, setAppartmentToEdit] = useState({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
+  const [appartmentToEdit, setAppartmentToEdit] = useState({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editingAppartmentId, setEditingAppartmentId] = useState(null);
+
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [appartmentToDelete, setAppartmentToDelete] = useState();
   // Generate Breackpoints 
   const isMd = useMediaQuery("(max-width:1200px)")
   const isXsOrSm = useMediaQuery("(max-width:900px)")
@@ -31,6 +34,7 @@ function AppartmentsList() {
 
   useEffect(() => {
     getAppartments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortingMethod]);
 
   // GET Appartments List
@@ -59,13 +63,13 @@ function AppartmentsList() {
   };
 
   const handleEditConfirm = (id) => {
-    AppartmentService.updateAppartment(editingAppartmentId, AppartmentToEdit)
+    AppartmentService.updateAppartment(editingAppartmentId, appartmentToEdit)
     .then ((response) => {
       const updatedAppartment = response.data;
       setAppartments(appartments.map((selectedAppartment) =>
       (selectedAppartment.id === updatedAppartment.id ? updatedAppartment : selectedAppartment)));
       setOpenEditDialog(false);
-      navigate(`/appartments/${id}`, { state: { appartment: AppartmentToEdit } });
+      navigate(`/appartments/${id}`, { state: { appartment: appartmentToEdit } });
       toast.success('Appartement modifié avec succès', {
         position: toast.POSITION.BOTTOM_LEFT,
         autoClose: 4500,
@@ -84,12 +88,45 @@ function AppartmentsList() {
 
   const handleEditChange = (event) =>  {
     const {name, value} = event.target;
-    setAppartmentToEdit({ ...AppartmentToEdit, [name] : value});
+    setAppartmentToEdit({ ...appartmentToEdit, [name] : value});
   }
 
   const handleEditCancel = (event) => {
     setAppartmentToEdit({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
     setOpenEditDialog(false);
+  }
+
+  // DELETE Appartment from List
+  const handleDeleteClick = (id) => {
+    setAppartmentToDelete( {id });
+      setOpenDeleteDialog(true); 
+  }
+
+  const handleDeleteConfirm = () => {
+    AppartmentService.deleteAppartmentById(appartmentToDelete.id)
+    .then (response => {
+      console.log(response.data);
+      setAppartments(appartments.filter((appartment) => appartment.id !== appartmentToDelete.id));
+      setOpenDeleteDialog(false);
+      toast.info(`Appartement ${appartmentToDelete.id} supprimé`, {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
+
+  const handleDeleteCancel = () => {
+    setAppartmentToDelete(null);
+    setOpenDeleteDialog(false);
   }
 
   // Open Card Appartment by ID
@@ -159,7 +196,7 @@ function AppartmentsList() {
                   <IconButton color='secondary' onClick={() => handleEditClick(appartment.id)}>
                     <EditIcon  />
                   </IconButton>
-                  <IconButton color='secondary'>
+                  <IconButton color='secondary' onClick={() => handleDeleteClick(appartment.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </CardActions>
@@ -174,6 +211,7 @@ function AppartmentsList() {
         onChange={handleChangePage}
         sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}
       />
+      {/*Add Confirmation UPDATE Dialog*/}
       <Dialog
         open={openEditDialog}
         onClose={handleEditCancel}
@@ -192,7 +230,7 @@ function AppartmentsList() {
             id="title"
             name="title"
             label="Titre"
-            value= {AppartmentToEdit?.title}
+            value= {appartmentToEdit?.title}
             onChange={handleEditChange}
           />
           <TextField 
@@ -204,7 +242,7 @@ function AppartmentsList() {
             id="description"
             name="description"
             label="Description"
-            value= {AppartmentToEdit?.description}
+            value= {appartmentToEdit?.description}
             onChange={handleEditChange}
           />
           <TextField 
@@ -214,7 +252,7 @@ function AppartmentsList() {
             id="address"
             name="address"
             label="address"
-            value= {AppartmentToEdit?.address}
+            value= {appartmentToEdit?.address}
             onChange={handleEditChange}
           />
           <TextField 
@@ -224,7 +262,7 @@ function AppartmentsList() {
             id="additionalAddress"
             name="additionalAddress"
             label="Addresse Complémentaire"
-            value= {AppartmentToEdit?.additionalAddress}
+            value= {appartmentToEdit?.additionalAddress}
             onChange={handleEditChange}
           />
           <Grid container spacing={2}>
@@ -236,7 +274,7 @@ function AppartmentsList() {
                 id="city"
                 name="city"
                 label="Ville"
-                value= {AppartmentToEdit?.city}
+                value= {appartmentToEdit?.city}
                 onChange={handleEditChange}
               />
             </Grid>
@@ -248,7 +286,7 @@ function AppartmentsList() {
                 id="zipcode"
                 name="zipcode"
                 label="Code Postal"
-                value= {AppartmentToEdit?.zipcode}
+                value= {appartmentToEdit?.zipcode}
                 onChange={handleEditChange}
               />
             </Grid>
@@ -261,7 +299,7 @@ function AppartmentsList() {
                 id="rental"
                 name="rental"
                 label="rental"
-                value= {AppartmentToEdit?.rental}
+                value= {appartmentToEdit?.rental}
                 onChange={handleEditChange}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
@@ -276,7 +314,7 @@ function AppartmentsList() {
                 id="rentalCharges"
                 name="rentalCharges"
                 label="Charges locatives"
-                value= {AppartmentToEdit?.rentalCharges}
+                value= {appartmentToEdit?.rentalCharges}
                 onChange={handleEditChange}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
@@ -291,7 +329,7 @@ function AppartmentsList() {
                 id="securityDeposit"
                 name="securityDeposit"
                 label="Dépot de sécurité"
-                value= {AppartmentToEdit?.securityDeposit}
+                value= {appartmentToEdit?.securityDeposit}
                 onChange={handleEditChange}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">€</InputAdornment>,
@@ -318,6 +356,36 @@ function AppartmentsList() {
           </Button>
         </DialogActions>
       </Dialog>
+      {/*Add Confirmation DELETE Dialog*/}
+      <Box>
+        <Dialog
+        open={openDeleteDialog}
+        onClose={handleDeleteCancel}
+        >
+          <DialogTitle>
+          {"SUPPRIMER L'APPARTEMENT"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogActions>
+              <Button 
+                variant="outlined" 
+                onClick={handleDeleteCancel} 
+                color="secondary"
+              >
+                Annuler
+              </Button>
+              <Button 
+                variant="outlined" 
+                startIcon={<DeleteIcon />} 
+                onClick={handleDeleteConfirm} 
+                color="error"
+              >
+                Supprimer
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+      </Box>
     </Box>
   );
 }
