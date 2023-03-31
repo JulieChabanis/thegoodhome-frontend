@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppartmentService from '../../api/AppartmentService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
-import {  InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography, DialogContentText } from '@mui/material';
+import { Tabs, Tab, InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography, DialogContentText } from '@mui/material';
 import AddAppartmentButton from './AddAppartmentButton';
 import { useMediaQuery } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -11,11 +11,15 @@ import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import EuroSymbolIcon from '@mui/icons-material/EuroSymbol';
 
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
+  const [sortingMethod, setSortingMethod] = useState('city');
   const navigate = useNavigate();
+
   const [AppartmentToEdit, setAppartmentToEdit] = useState({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editingAppartmentId, setEditingAppartmentId] = useState(null);
@@ -27,13 +31,19 @@ function AppartmentsList() {
 
   useEffect(() => {
     getAppartments();
-  }, []);
+  }, [sortingMethod]);
 
   // GET Appartments List
   const getAppartments = () => {
     AppartmentService.getAppartments()
       .then(response => {
-        setAppartments(response.data);
+        let sortedAppartments = response.data.slice(); // Sorted Appartments CITY or RENTAL
+        if (sortingMethod === 'city') {
+          sortedAppartments.sort((a, b) => a.city.localeCompare(b.city)); // sort by city name
+        } else if (sortingMethod === 'rental') {
+          sortedAppartments.sort((a, b) => a.rental - b.rental); // sort by rental amount
+        }
+        setAppartments(sortedAppartments);
       })
       .catch(error => {
         console.log(error);
@@ -103,7 +113,18 @@ function AppartmentsList() {
     <Box m='20px'>
       <Box display='flex' flexDirection='column'>
       <Header title='APPARTMENTS' subtitle='Gestion des appartements' />
-      <AddAppartmentButton />
+        <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Tabs 
+            indicatorColor="secondary"
+            textColor="secondary" 
+            value={sortingMethod} 
+            onChange={(e, value) => setSortingMethod(value)}
+          >
+            <Tab value="city" label="Trier par : Villes A-Z)" icon={<LocationCityIcon/>}  />
+            <Tab icon={<EuroSymbolIcon />} value="rental" label="Prix loyer (€-€€€)" />
+          </Tabs>
+        <AddAppartmentButton />
+        </Box>
       </Box>
       <Box m='15px 0 0 0'>
         {/*Appartments Cards Map*/}
