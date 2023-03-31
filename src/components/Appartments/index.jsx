@@ -21,8 +21,8 @@ function AppartmentsList() {
   const [editingAppartmentId, setEditingAppartmentId] = useState(null);
   // Generate Breackpoints 
   const isMd = useMediaQuery("(max-width:1200px)")
-  const isXsOrSm = useMediaQuery("(max-width:1000px)")
-  const appartmentsPerPage = isXsOrSm ? 2 : isMd ? 6 : 8;
+  const isXsOrSm = useMediaQuery("(max-width:900px)")
+  const appartmentsPerPage = isXsOrSm ? 4 : isMd ? 6 : 8;
 
 
   useEffect(() => {
