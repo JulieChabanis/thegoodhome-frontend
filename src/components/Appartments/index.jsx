@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import AppartmentService from '../../api/AppartmentService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Global/Header';
-import { Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography } from '@mui/material';
+import {  Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box,Pagination, Grid, CardActions, Card, IconButton, CardMedia, CardContent, Typography, DialogContentText } from '@mui/material';
 import AddAppartmentButton from './AddAppartmentButton';
 import { useMediaQuery } from '@mui/material';
 
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 function AppartmentsList() {
   const [appartments, setAppartments] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const [AppartmentToEdit, setAppartmentToEdit] = useState({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingAppartmentId, setEditingAppartmentId] = useState(null);
   // Generate Breackpoints 
   const isMd = useMediaQuery("(max-width:1200px)")
   const isXsOrSm = useMediaQuery("(max-width:1000px)")
@@ -34,6 +38,37 @@ function AppartmentsList() {
         console.log(error);
       });
   };
+
+  // Edit Appartment from Card
+  const handleEditClick = (id) => {
+    const selectedAppartment = appartments.find(appartment => appartment.id === id);
+    setEditingAppartmentId(id);
+    setAppartmentToEdit({...selectedAppartment});
+    setOpenEditDialog(true);
+  };
+
+  const handleEditConfirm = (id) => {
+    AppartmentService.updateAppartment(editingAppartmentId, AppartmentToEdit)
+    .then ((response) => {
+      const updatedAppartment = response.data;
+      setAppartments(appartments.map((selectedAppartment) =>
+      (selectedAppartment.id === updatedAppartment.id ? updatedAppartment : selectedAppartment)));
+      setOpenEditDialog(false);
+    })
+    .catch ((error) => {
+      console.log(error); 
+    });
+  };
+
+  const handleEditChange = (event) =>  {
+    const {name, value} = event.target;
+    setAppartmentToEdit({ ...AppartmentToEdit, [name] : value});
+  }
+
+  const handleEditCancel = (event) => {
+    setAppartmentToEdit({title: '', description: '', address: '', additionalAddress: '', city: '', zipcode: '', rental: '', rentalCharges: '', securityDeposit: ''});
+    setOpenEditDialog(false);
+  }
 
   // Open Card Appartment by ID
   const handleClickCard = (id) => {
@@ -88,7 +123,7 @@ function AppartmentsList() {
                   <IconButton color='secondary' onClick={() => handleClickCard(appartment.id)}>
                     <PreviewRoundedIcon />
                   </IconButton>
-                  <IconButton color='secondary'>
+                  <IconButton color='secondary' onClick={() => handleEditClick(appartment.id)}>
                     <EditIcon  />
                   </IconButton>
                   <IconButton color='secondary'>
@@ -106,6 +141,125 @@ function AppartmentsList() {
         onChange={handleChangePage}
         sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}
       />
+      <Dialog
+        open={openEditDialog}
+        onClose={handleEditCancel}
+      >
+        <DialogTitle>
+          {"MODIFIER L'APPARTEMENT"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Modifier les informations de l'appartement
+          </DialogContentText>
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="title"
+            name="title"
+            label="Titre"
+            value= {AppartmentToEdit?.title}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="description"
+            name="description"
+            label="Description"
+            value= {AppartmentToEdit?.description}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="address"
+            name="address"
+            label="address"
+            value= {AppartmentToEdit?.address}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="additionalAddress"
+            name="additionalAddress"
+            label="Addresse Complémentaire"
+            value= {AppartmentToEdit?.additionalAddress}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="city"
+            name="city"
+            label="Ville"
+            value= {AppartmentToEdit?.city}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="zipcode"
+            name="zipcode"
+            label="Code Postal"
+            value= {AppartmentToEdit?.zipcode}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="rental"
+            name="rental"
+            label="rental"
+            value= {AppartmentToEdit?.rental}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="rentalCharges"
+            name="rentalCharges"
+            label="Charges locatives"
+            value= {AppartmentToEdit?.rentalCharges}
+            onChange={handleEditChange}
+          />
+          <TextField 
+            margin='normal'
+            fullWidth
+            variant='outlined'
+            id="securityDeposit"
+            name="securityDeposit"
+            label="Dépot de sécurité"
+            value= {AppartmentToEdit?.securityDeposit}
+            onChange={handleEditChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant='outlined'
+            onClick={handleEditCancel}
+          >
+            Annuler
+          </Button>
+          <Button
+            variant="outlined"
+            endIcon={<SendRoundedIcon />} 
+            onClick={handleEditConfirm}
+            color="secondary"
+          >
+            Modifier
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
