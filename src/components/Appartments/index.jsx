@@ -134,10 +134,10 @@ function AppartmentsList() {
               <Card elevation={4} sx={{ minHeight:'100px', maxWidth:'410px', minWidth:'150px'}}>
                 <CardMedia
                   component='img'
-                  height='110'
-                  image='https://picsum.photos/600'
+                  height='130'
+                  image={`${process.env.PUBLIC_URL}/static/images/appartments/appartment11.JPG`}
                 />
-                <CardContent sx={{ maxHeight:'130px'}}>
+                <CardContent sx={{ maxHeight:'100px'}}>
                   <Typography variant='body2' color='text.secondary'>
                     {appartment.city}
                   </Typography>
