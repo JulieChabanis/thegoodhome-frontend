@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const LEASE_CONTRACT_REST_API_URL = "http://localhost:8080/api/contrats";
+const LEASE_CONTRACT_REST_API_URL = "http://localhost:8080/api/contracts";
 
 const getAllLeaseContracts = () => {
   return axios.get(LEASE_CONTRACT_REST_API_URL);

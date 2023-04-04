@@ -6,7 +6,7 @@ import AppartmentService from '../../../api/AppartmentService';
 import TenantService from '../../../api/TenantService';
 import LeaseContractService from '../../../api/LeaseContractService';
 
-const LeaseContract = () => {
+const GenerateLeaseContract = () => {
   const navigate = useNavigate(); 
   const [ appartments, setAppartments ] = useState([]); 
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
@@ -116,4 +116,4 @@ const LeaseContract = () => {
   )
 }
 
-export default LeaseContract
+export default GenerateLeaseContract

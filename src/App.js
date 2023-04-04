@@ -18,7 +18,7 @@ import AppartmentsList from './components/Appartments/index';
 
 import CreateAppartment from './components/Appartments/Requests/CreateAppartment';
 import CardInfosAppart from './components/Appartments/CardInfosAppart';
-import LeaseContract from './components/Actions/GenerateLeaseContract';
+import GenerateLeaseContract from './components/LeaseContracts/Requests/GenerateLeaseContract';
 
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
               <Route path='/appartments' element={<AppartmentsList />} />
               <Route path='/appartments/ajouter' element={<CreateAppartment />} />
               <Route path='/appartments/:id' element={<CardInfosAppart />} />
-              <Route path='/ajouter-contrat' element={<LeaseContract/>} />
+              <Route path='/ajouter-contrat' element={<GenerateLeaseContract/>} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
