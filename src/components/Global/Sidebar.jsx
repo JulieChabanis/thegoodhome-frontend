@@ -14,6 +14,7 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import FolderCopyRoundedIcon from '@mui/icons-material/FolderCopyRounded';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -131,10 +132,10 @@ const Sidebar = () => {
                 color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
-                Gestion
+                Locataires
               </Typography>
               <Item
-                title='Locataires'
+                title='Mes Locataires'
                 to="/tenants"
                 icon={<FaceRoundedIcon />}
                 selected={selected}
@@ -144,6 +145,13 @@ const Sidebar = () => {
                 title='Dossiers'
                 to="/"
                 icon={<FolderSharedOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title='Suivi Paiement'
+                to="/"
+                icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -173,8 +181,22 @@ const Sidebar = () => {
                 color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
-                Planning
+                Gestion
               </Typography>
+              <Item
+                title='Générer un contrat'
+                to="/ajouter-contrat"
+                icon={<AddIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title='Mes contrats'
+                to="/"
+                icon={<FolderCopyRoundedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
               <Item
                 title='Agences'
                 to="/agencies"
