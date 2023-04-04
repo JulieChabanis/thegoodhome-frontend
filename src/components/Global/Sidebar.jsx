@@ -192,7 +192,7 @@ const Sidebar = () => {
               />
               <Item
                 title='Mes contrats'
-                to="/mes-contrats"
+                to="/contracts"
                 icon={<FolderCopyRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
