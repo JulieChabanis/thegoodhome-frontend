@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import AppartmentService from '../../../api/AppartmentService';
 import TenantService from '../../../api/TenantService';
 import LeaseContractService from '../../../api/LeaseContractService';
+import AssignmentReturnedOutlinedIcon from '@mui/icons-material/AssignmentReturnedOutlined';
+import { toast } from 'react-toastify';
 
 const GenerateLeaseContract = () => {
   const navigate = useNavigate(); 
+
   const [ appartments, setAppartments ] = useState([]); 
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
   const [ tenants, setTenants ] = useState([]);
@@ -61,12 +64,23 @@ const GenerateLeaseContract = () => {
 
   const handleSubmit = () => {
     const leaseContract = {
-      appartmentEntity: {id : selectedAppartment}, 
-      tenantEntity: {id : selectedTenant},
+      appartmentEntity: {id: selectedAppartment}, 
+      tenantEntity: {id: selectedTenant},
       createdAt: isoDate,
     }; 
 
     LeaseContractService.createLeaseContract(leaseContract)
+    navigate('/contracts');
+    toast.success('Contrat de Location généré avec succés', {
+      position: toast.POSITION.BOTTOM_LEFT,
+      autoClose: 4500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
   }
 
   const handleTenantChange = (event) => {
@@ -83,53 +97,58 @@ const GenerateLeaseContract = () => {
         title={"CREER UN NOUVEAU CONTRAT DE LOCATION"}
         subtitle={"Associer un locataire à un appartement"}
       />
-      <Box>
-      <Typography>
-          Choisir un appartement
-      </Typography>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="appartment-select-label">
-          Appartement
-        </InputLabel>
-        <Select
-          labelId="appartment-select-label"
-          id="appartment-select"
-          value={selectedAppartment}
-          onChange={handleAppartmentChange}
-        >
-          {availableAppartments.map(appartment => (
-            <MenuItem key={appartment.id} value={appartment.id}>
-              {appartment.title}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Box m="50px">
+       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant='h5'>
+              Choisir un appartement :
+          </Typography>
+          <FormControl sx={{ m: 1, minWidth: 280 }}>
+            <InputLabel id="appartment-select-label">
+              Appartement
+            </InputLabel>
+            <Select
+              labelId="appartment-select-label"
+              id="appartment-select"
+              value={selectedAppartment}
+              onChange={handleAppartmentChange}
+            >
+              {availableAppartments.map(appartment => (
+                <MenuItem key={appartment.id} value={appartment.id}>
+                  {appartment.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Typography variant='h5'>
+              Choisir un locataire à associer : 
+          </Typography>
+          <FormControl sx={{ m: 1, minWidth: 280 }}>
+            <InputLabel id="tenant-select-label">
+              Locataires
+            </InputLabel>
+            <Select
+              labelId="tenant-select-label"
+              id="tenant-select"
+              value={selectedTenant}
+              onChange={handleTenantChange}
+            >
+              {tenants.map(tenant => (
+                <MenuItem key={tenant.id} value={tenant.id}>
+                  {`${tenant.name} ${tenant.lastName}`}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button 
+          sx={{
+            fontWeight: 'bold',
+          }}
+            variant="contained" 
+            startIcon={<AssignmentReturnedOutlinedIcon/>}
+            onClick={handleSubmit}>
+                Générer le bail de location
+          </Button>
       </Box>
-
-      <Box>
-      <Typography>
-          Choisir un locataire à associer
-      </Typography>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="tenant-select-label">
-          Locataires
-        </InputLabel>
-        <Select
-          labelId="tenant-select-label"
-          id="tenant-select"
-          value={selectedTenant}
-          onChange={handleTenantChange}
-        >
-          {tenants.map(tenant => (
-            <MenuItem key={tenant.id} value={tenant.id}>
-              {`${tenant.name} ${tenant.lastName}`}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button variant="contained" onClick={handleSubmit}>
-            Créer le bail de location
-      </Button>
       </Box>
     </Box>
   )
