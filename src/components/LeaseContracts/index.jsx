@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../Global/Header';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import LeaseContractService from '../../api/LeaseContractService';
 import { Box, useTheme } from '@mui/material';
 import { tokens } from "../UI/Themes/theme";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 function LeaseContractsList() {
 const theme = useTheme();
@@ -31,7 +32,7 @@ const columns = [
     headerName: 'ID',
     headerAlign: 'center',
     align: 'center',
-    flex: 0.5
+    flex: 0.2,
   }, 
   {
     field: 'tenantEntity.name',
@@ -40,25 +41,23 @@ const columns = [
     headerAlign: 'left',
     align: 'left',
     valueGetter: (params) => `${params.row.tenantEntity.name} ${params.row.tenantEntity.lastName}`,
-    flex: 1
+    flex: 1,
   },
   {
     field: 'appartmentEntity.title',
     headerName: 'Appartement',
-    cellClassName: "name-column--cell",
     headerAlign: 'left',
     align: 'left',
     valueGetter: (params) => params.row.appartmentEntity.title,
-    flex: 1
+    flex: 1,
   },
   {
     field: 'appartmentEntity.city',
     headerName: 'Ville',
-    cellClassName: "name-column--cell",
     headerAlign: 'left',
     align: 'left',
     valueGetter: (params) => params.row.appartmentEntity.city,
-    flex: 1
+    flex: 0.8,
   },
   {
     field: 'appartmentEntity.rental',
@@ -67,16 +66,30 @@ const columns = [
     headerAlign: 'left',
     align: 'left',
     valueGetter: (params) => params.row.appartmentEntity.rental + " €",
-    flex: 1
+    flex: 0.8,
   },
   {
     field: 'createdAt',
     headerName: 'Début Bail',
-    cellClassName: "name-column--cell",
     headerAlign: 'left',
     align: 'left',
-    flex: 1
+    flex: 0.8,
   },
+  {
+    field: 'actions',
+    headerName: 'Action',
+    type: 'actions', 
+    flex : 1,
+    getActions: () => {
+      return [
+        <GridActionsCellItem
+          icon={<PreviewIcon />}
+          label='voir la fiche'
+          onClick=""
+        />,
+      ]
+    }
+  }
 ];
 
   return (
@@ -84,7 +97,10 @@ const columns = [
       <Header title="CONTRATS DE LOCATION" subtitle="Mes contrats de location"/>
       <Box>
       </Box> 
-      <Box m='40px 0 40px 0' height='50vh' sx={{
+      <Box 
+        m='40px 0 40px 0' 
+        height='50vh' 
+        sx={{
         '& .MuiDataGrid-root': {
           border: 'none',
         }, 
@@ -105,11 +121,12 @@ const columns = [
         '& .MuiDataGrid-footerContainer' : {
           borderTop: 'none',
           backgroundColor: colors.blue[700],
-        },
+        }, 
       }}>
       <DataGrid 
        getRowHeight={() => 'auto'} 
        getEstimatedRowHeight={() => 200} 
+       sortModel={[ { field: 'id', sort: 'desc', }, ]}
        rows={leaseContracts}
        columns={columns}
        />
