@@ -12,22 +12,41 @@ const GenerateLeaseContract = () => {
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
   const [ tenants, setTenants ] = useState([]);
   const [ selectedTenant, setSelectedTenant ] = useState('');
+  const [ leases, setLeases ] = useState([]);
+  const [availableAppartments, setAvailableAppartments ] = useState([]);
   const currentDate = new Date();
   const isoDate = currentDate.toISOString();
 
   useEffect(() => {
-    getAppartments();
     getTenants();
-  }, []); 
+    getLeases();
+  }, []);
+  
+  useEffect(() => {
+    getAppartments();
+  }, [leases]);
 
   const getAppartments = () => {
     AppartmentService.getAppartments()
       .then(response => {
-        setAppartments(response.data);
+        const fileteredAppartments = response.data.filter(appartment =>
+           !leases.some(lease => lease.appartmentEntity.id === appartment.id));
+               setAppartments(fileteredAppartments);
+               setAvailableAppartments(fileteredAppartments);
       })
       .catch(error => {
         console.log(error);
       });
+  }
+
+  const getLeases = () => {
+    LeaseContractService.getAllLeaseContracts()
+    .then(response => {
+      setLeases(response.data);
+    })
+    .catch (error => {
+      console.log(error);
+    });
   }
 
   const getTenants = () => {
@@ -78,7 +97,7 @@ const GenerateLeaseContract = () => {
           value={selectedAppartment}
           onChange={handleAppartmentChange}
         >
-          {appartments.map(appartment => (
+          {availableAppartments.map(appartment => (
             <MenuItem key={appartment.id} value={appartment.id}>
               {appartment.title}
             </MenuItem>
