@@ -14,7 +14,7 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AddIcon from '@mui/icons-material/Add';
-import FolderCopyRoundedIcon from '@mui/icons-material/FolderCopyRounded';
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -126,7 +126,20 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-
+              <Typography
+                variant='h6'
+                color={colors.grey[300]}
+                sx={{ m: '15px 0 5px 20px' }}
+              >
+                Gestion
+              </Typography>
+              <Item
+                title='Générer un contrat'
+                to="/ajouter-contrat"
+                icon={<AddIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
               <Typography
                 variant='h6'
                 color={colors.grey[300]}
@@ -142,14 +155,14 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Dossiers'
-                to="/"
+                title='Mes contrats'
+                to="/contracts"
                 icon={<FolderSharedOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title='Suivi Paiement'
+                title='Paiements'
                 to="/"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
@@ -170,7 +183,7 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Liste'
+                title='Mes Apparts'
                 to="/appartments"
                 icon={<CottageOutlinedIcon />}
                 selected={selected}
@@ -181,25 +194,11 @@ const Sidebar = () => {
                 color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
-                Gestion
+                Mon organisation
               </Typography>
               <Item
-                title='Générer un contrat'
-                to="/ajouter-contrat"
-                icon={<AddIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title='Mes contrats'
-                to="/contracts"
-                icon={<FolderCopyRoundedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title='Agences'
-                to="/agencies"
+                title='Calendrier'
+                to="/"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -208,6 +207,13 @@ const Sidebar = () => {
                 title='Paramètres'
                 to="/"
                 icon={<SettingsRoundedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title='Agences Partenaires'
+                to="/agencies"
+                icon={<HolidayVillageIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />

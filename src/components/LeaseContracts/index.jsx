@@ -4,6 +4,7 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import LeaseContractService from '../../api/LeaseContractService';
 import { Box, useTheme } from '@mui/material';
 import { tokens } from "../UI/Themes/theme";
+import AddContractButton from './AddContractButton';
 import PreviewIcon from '@mui/icons-material/Preview';
 
 function LeaseContractsList() {
@@ -95,6 +96,7 @@ const columns = [
   return (
     <Box m='20px'>
       <Header title="CONTRATS DE LOCATION" subtitle="Mes contrats de location"/>
+      < AddContractButton />
       <Box>
       </Box> 
       <Box 

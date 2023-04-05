@@ -122,7 +122,7 @@ const GenerateLeaseContract = () => {
           <Typography variant='h5'sx={{mb: 1}}>
               Choisir un appartement :
           </Typography>
-          <FormControl sx={{ m: 1, minWidth: 280 }}>
+          <FormControl  color="secondary" sx={{ m: 1, minWidth: 280 }}>
             <InputLabel id="appartment-select-label">
               Appartement
             </InputLabel>
@@ -131,6 +131,7 @@ const GenerateLeaseContract = () => {
               id="appartment-select"
               value={selectedAppartment}
               onChange={handleAppartmentChange}
+              required
             >
               {availableAppartments.map(appartment => (
                 <MenuItem key={appartment.id} value={appartment.id}>
@@ -142,11 +143,12 @@ const GenerateLeaseContract = () => {
           <Typography variant='h5' sx={{ mt: 2, mb: 1}}>
               Choisir un locataire à associer : 
           </Typography>
-          <FormControl sx={{ m: 1, minWidth: 280}}>
+          <FormControl  color="secondary" sx={{ m: 1, minWidth: 280}}>
             <InputLabel id="tenant-select-label">
               Locataires
             </InputLabel>
             <Select
+              color="secondary"
               labelId="tenant-select-label"
               id="tenant-select"
               value={selectedTenant}
@@ -162,7 +164,7 @@ const GenerateLeaseContract = () => {
           <Typography variant='h5' sx={{ mt: 2, mb: 1}}>
               Montant de la caution à payer :
           </Typography>
-          <FormControl sx={{ m: 1, mb: 4, minWidth: 280 }}>
+          <FormControl  color="secondary" sx={{ m: 1, mb: 4, minWidth: 280 }}>
           <TextField 
             id='securityDepositAmount'
             label='Dépôt de sécurité'
