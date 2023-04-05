@@ -13,17 +13,14 @@ const GenerateLeaseContract = () => {
 
   const [ appartments, setAppartments ] = useState([]); 
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
-
   const [ tenants, setTenants ] = useState([]);
   const [ selectedTenant, setSelectedTenant ] = useState('');
-
   const [ leases, setLeases ] = useState([]);
   const [availableAppartments, setAvailableAppartments ] = useState([]);
-
   const [securityDepositAmount, setSecurityDepositAmount] = useState(0);
   const [securityDepositPaid, setSecurityDepositPaid] = useState(false); 
   const [selectedAppartmentDetails, setSelectedAppartmentDetails] = useState({});
-
+  const [isCheckedBox, setIsCheckedBox] = useState(false);
   const currentDate = new Date();
   const isoDate = currentDate.toISOString();
 
@@ -110,6 +107,7 @@ const GenerateLeaseContract = () => {
 
   const handleConfirmSecurityDepositPaid = (event) => {
     setSecurityDepositPaid(event.target.checked);
+    setIsCheckedBox(event.target.checked);
   };
 
   return (
@@ -182,6 +180,7 @@ const GenerateLeaseContract = () => {
             fontWeight: 'bold',
           }}
             variant="contained" 
+            disabled={!isCheckedBox}
             startIcon={<AssignmentReturnedOutlinedIcon/>}
             onClick={handleSubmit}>
                 Générer le bail de location
