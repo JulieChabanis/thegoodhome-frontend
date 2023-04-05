@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../Global/Header'
-import { Box, Button, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, Checkbox, InputLabel, Select, MenuItem, Typography, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import AppartmentService from '../../../api/AppartmentService';
 import TenantService from '../../../api/TenantService';
@@ -13,10 +13,16 @@ const GenerateLeaseContract = () => {
 
   const [ appartments, setAppartments ] = useState([]); 
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
+
   const [ tenants, setTenants ] = useState([]);
   const [ selectedTenant, setSelectedTenant ] = useState('');
+
   const [ leases, setLeases ] = useState([]);
   const [availableAppartments, setAvailableAppartments ] = useState([]);
+
+  const [securityDepositAmount, setSecurityDepositAmount] = useState(0);
+  const [securityDepositPaid, setSecurityDepositPaid] = useState(false); 
+
   const currentDate = new Date();
   const isoDate = currentDate.toISOString();
 
@@ -62,10 +68,20 @@ const GenerateLeaseContract = () => {
     });
   }
 
+  const handleSecurityDepositAmountChange = (event) => {
+    setSecurityDepositAmount(event.target.value);
+  };
+
+  const handleConfirmSecurityDepositPaid = (event) => {
+    setSecurityDepositPaid(event.target.checked);
+  }
+
   const handleSubmit = () => {
     const leaseContract = {
       appartmentEntity: {id: selectedAppartment}, 
       tenantEntity: {id: selectedTenant},
+      securityDepositAmount: selectedAppartment.securityDeposit,
+      securityDepositPaid: false,
       createdAt: isoDate,
     }; 
 
@@ -139,6 +155,23 @@ const GenerateLeaseContract = () => {
               ))}
             </Select>
           </FormControl>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={securityDepositPaid}
+                onChange={handleConfirmSecurityDepositPaid}
+              /> 
+            }
+            label='Confirmer le Paiement du dépôt de sécurité du logement'
+          />
+          <TextField 
+            id='securityDepositAmount'
+            label='Payer le dépôt de sécurité du logement'
+            type='number'
+            value={securityDepositAmount}
+            onChange={handleSecurityDepositAmountChange}
+            fullWidth
+          />
           <Button 
           sx={{
             fontWeight: 'bold',
