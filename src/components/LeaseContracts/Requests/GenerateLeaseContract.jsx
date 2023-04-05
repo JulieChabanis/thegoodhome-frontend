@@ -174,6 +174,7 @@ const GenerateLeaseContract = () => {
            sx={{mt: 3}}
             control={
               <Checkbox
+                color='secondary'
                 checked={securityDepositPaid}
                 onChange={handleConfirmSecurityDepositPaid}
               /> 
@@ -185,6 +186,7 @@ const GenerateLeaseContract = () => {
           sx={{
             fontWeight: 'bold',
           }}
+            color='secondary'
             variant="contained" 
             disabled={!isCheckedBox}
             startIcon={<AssignmentReturnedOutlinedIcon/>}
