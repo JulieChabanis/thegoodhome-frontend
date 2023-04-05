@@ -118,7 +118,7 @@ const GenerateLeaseContract = () => {
       />
       <Box m="50px">
        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant='h5'>
+          <Typography variant='h5'sx={{mb: 1}}>
               Choisir un appartement :
           </Typography>
           <FormControl sx={{ m: 1, minWidth: 280 }}>
@@ -138,10 +138,10 @@ const GenerateLeaseContract = () => {
               ))}
             </Select>
           </FormControl>
-          <Typography variant='h5'>
+          <Typography variant='h5' sx={{ mt: 2, mb: 1}}>
               Choisir un locataire à associer : 
           </Typography>
-          <FormControl sx={{ m: 1, minWidth: 280 }}>
+          <FormControl sx={{ m: 1, minWidth: 280}}>
             <InputLabel id="tenant-select-label">
               Locataires
             </InputLabel>
@@ -158,23 +158,29 @@ const GenerateLeaseContract = () => {
               ))}
             </Select>
           </FormControl>
+          <Typography variant='h5' sx={{ mt: 2, mb: 1}}>
+              Montant de la caution à payer :
+          </Typography>
+          <FormControl sx={{ m: 1, mb: 4, minWidth: 280 }}>
           <TextField 
             id='securityDepositAmount'
-            label='Payer le dépôt de sécurité du logement'
+            label='Dépôt de sécurité'
             type='number'
             value={securityDepositAmount}
             onChange={handleSecurityDepositAmountChange}
             fullWidth
           />
            <FormControlLabel
+           sx={{mt: 3}}
             control={
               <Checkbox
                 checked={securityDepositPaid}
                 onChange={handleConfirmSecurityDepositPaid}
               /> 
             }
-            label='Confirmer le paiement du dépôt de sécurité par le locataire'
+            label='Confirmer le paiement du dépôt de sécurité par le locataire ce jour'
           />
+          </FormControl>
           <Button 
           sx={{
             fontWeight: 'bold',
