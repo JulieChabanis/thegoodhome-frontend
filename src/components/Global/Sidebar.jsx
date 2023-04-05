@@ -163,7 +163,7 @@ const Sidebar = () => {
               />
               <Item
                 title='Suivi Paiements'
-                to="/"
+                to="/soldes-paiements"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
