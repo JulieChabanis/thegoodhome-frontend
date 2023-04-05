@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Header from '../../Global/Header'
 import { Box, Button, FormControl, FormControlLabel, Checkbox, InputLabel, Select, MenuItem, Typography, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 const GenerateLeaseContract = () => {
   const navigate = useNavigate(); 
 
+  // eslint-disable-next-line no-unused-vars
   const [ appartments, setAppartments ] = useState([]); 
   const [ selectedAppartment, setSelectedAppartment ] = useState('');
   const [ tenants, setTenants ] = useState([]);
@@ -29,22 +30,22 @@ const GenerateLeaseContract = () => {
     getLeases();
   }, []);
   
-  useEffect(() => {
-    getAppartments();
-  }, [leases]);
-
-  const getAppartments = () => {
+  const getAppartments = useCallback(() => {
     AppartmentService.getAppartments()
       .then(response => {
         const fileteredAppartments = response.data.filter(appartment =>
            !leases.some(lease => lease.appartmentEntity.id === appartment.id));
-               setAppartments(fileteredAppartments);
-               setAvailableAppartments(fileteredAppartments);
+        setAppartments(fileteredAppartments);
+        setAvailableAppartments(fileteredAppartments);
       })
       .catch(error => {
         console.log(error);
       });
-  }
+  }, [leases]);
+
+  useEffect(() => {
+    getAppartments();
+  }, [getAppartments]);
 
   const getLeases = () => {
     LeaseContractService.getAllLeaseContracts()
@@ -102,7 +103,7 @@ const GenerateLeaseContract = () => {
   };
 
   const handleSecurityDepositAmountChange = () => {
-    setSecurityDepositAmount(selectedAppartmentDetails.securityDeposit);
+    setSecurityDepositAmount(selectedAppartmentDetails?.securityDeposit ?? 0);
   };
 
   const handleConfirmSecurityDepositPaid = (event) => {
