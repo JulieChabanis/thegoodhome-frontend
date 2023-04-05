@@ -20,8 +20,9 @@ const GenerateLeaseContract = () => {
   const [ leases, setLeases ] = useState([]);
   const [availableAppartments, setAvailableAppartments ] = useState([]);
 
-  const [securityDepositAmount, setSecurityDepositAmount] = useState(0);
+  const [securityDepositAmount, setSecurityDepositAmount] = useState();
   const [securityDepositPaid, setSecurityDepositPaid] = useState(false); 
+  const [selectedAppartmentDetails, setSelectedAppartmentDetails] = useState({});
 
   const currentDate = new Date();
   const isoDate = currentDate.toISOString();
@@ -68,20 +69,12 @@ const GenerateLeaseContract = () => {
     });
   }
 
-  const handleSecurityDepositAmountChange = (event) => {
-    setSecurityDepositAmount(event.target.value);
-  };
-
-  const handleConfirmSecurityDepositPaid = (event) => {
-    setSecurityDepositPaid(event.target.checked);
-  }
-
   const handleSubmit = () => {
     const leaseContract = {
       appartmentEntity: {id: selectedAppartment}, 
       tenantEntity: {id: selectedTenant},
       securityDepositAmount: selectedAppartment.securityDeposit,
-      securityDepositPaid: false,
+      securityDepositPaid: securityDepositPaid,
       createdAt: isoDate,
     }; 
 
@@ -104,8 +97,20 @@ const GenerateLeaseContract = () => {
   }
 
   const handleAppartmentChange = (event) => {
-    setSelectedAppartment(event.target.value);
-  }
+    const selectedAppartmentId = event.target.value;
+    const selectedAppartmentDetails = availableAppartments.find(appartment => appartment.id === selectedAppartmentId);
+    setSelectedAppartment(selectedAppartmentId);
+    setSelectedAppartmentDetails(selectedAppartmentDetails);
+    setSecurityDepositAmount(selectedAppartmentDetails.securityDeposit);
+  };
+
+  const handleSecurityDepositAmountChange = () => {
+    setSecurityDepositAmount(selectedAppartmentDetails.securityDeposit);
+  };
+
+  const handleConfirmSecurityDepositPaid = (event) => {
+    setSecurityDepositPaid(event.target.checked);
+  };
 
   return (
     <Box m='20px'>
@@ -155,15 +160,6 @@ const GenerateLeaseContract = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={securityDepositPaid}
-                onChange={handleConfirmSecurityDepositPaid}
-              /> 
-            }
-            label='Confirmer le Paiement du dépôt de sécurité du logement'
-          />
           <TextField 
             id='securityDepositAmount'
             label='Payer le dépôt de sécurité du logement'
@@ -171,6 +167,15 @@ const GenerateLeaseContract = () => {
             value={securityDepositAmount}
             onChange={handleSecurityDepositAmountChange}
             fullWidth
+          />
+           <FormControlLabel
+            control={
+              <Checkbox
+                checked={securityDepositPaid}
+                onChange={handleConfirmSecurityDepositPaid}
+              /> 
+            }
+            label='Confirmer le paiement du dépôt de sécurité par le locataire'
           />
           <Button 
           sx={{
