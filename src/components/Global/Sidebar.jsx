@@ -11,10 +11,10 @@ import FaceRoundedIcon from '@mui/icons-material/FaceRounded';
 import CottageOutlinedIcon from '@mui/icons-material/CottageOutlined';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -162,7 +162,7 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Paiements'
+                title='Suivi Paiements'
                 to="/"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
@@ -204,9 +204,9 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Paramètres'
+                title='Mes Comptes'
                 to="/"
-                icon={<SettingsRoundedIcon />}
+                icon={<BarChartIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
