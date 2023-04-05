@@ -20,7 +20,7 @@ const GenerateLeaseContract = () => {
   const [ leases, setLeases ] = useState([]);
   const [availableAppartments, setAvailableAppartments ] = useState([]);
 
-  const [securityDepositAmount, setSecurityDepositAmount] = useState();
+  const [securityDepositAmount, setSecurityDepositAmount] = useState(0);
   const [securityDepositPaid, setSecurityDepositPaid] = useState(false); 
   const [selectedAppartmentDetails, setSelectedAppartmentDetails] = useState({});
 
@@ -73,7 +73,7 @@ const GenerateLeaseContract = () => {
     const leaseContract = {
       appartmentEntity: {id: selectedAppartment}, 
       tenantEntity: {id: selectedTenant},
-      securityDepositAmount: selectedAppartment.securityDeposit,
+      securityDepositAmount: securityDepositAmount,
       securityDepositPaid: securityDepositPaid,
       createdAt: isoDate,
     }; 
