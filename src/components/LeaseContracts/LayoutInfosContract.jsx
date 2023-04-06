@@ -10,6 +10,7 @@ import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import Face2Icon from '@mui/icons-material/Face2';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
 
 const LayoutInfosContract = () => {
   const theme = useTheme();
@@ -115,15 +116,53 @@ const LayoutInfosContract = () => {
           </Box>
         </Grid>
       </Grid>
+      <Box mt="20px">
+        <Button
+          variant='outlined'
+          startIcon={<PictureAsPdfRoundedIcon />}
+          sx={{
+            ml: 2,
+            mb: 1,
+            background: 'none',
+            color: `${colors.grey[100]} !important`, 
+            fontWeight: 'bold',
+            borderColor: `${colors.grey[100]}!important`, 
+            '&:hover': {
+              background: `${colors.grey[100]}!important`,
+              color: `${colors.grey[800]}!important`, 
+            }
+          }}
+        >
+          Voir le Contrat de Bail
+        </Button>
+        <Button
+          variant='outlined'
+          startIcon={<PictureAsPdfRoundedIcon />}
+          sx={{
+            ml: 2,
+            mb: 1,
+            background: 'none',
+            color: `${colors.grey[100]} !important`, 
+            fontWeight: 'bold',
+            borderColor: `${colors.grey[100]}!important`, 
+            '&:hover': {
+              background: `${colors.grey[100]}!important`,
+              color: `${colors.grey[800]}!important`, 
+            }
+          }}
+        >
+          Quittances Loyer
+        </Button>
+      </Box>
 
       <Grid ml='0px' mt="10px" container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={12}>
           <Box sx={{ ml: 2 }}>
           <Typography variant='h2' fontWeight='bold'>
               Infos sur le Locataire : 
           </Typography>
           </Box>  
-            <Grid container spacing={3} sx={{flexDirection: 'row', m:1}}>
+            <Grid container spacing={2} sx={{flexDirection: 'row', m:1}}>
               <Box sx={{ display: 'flex', mr:2,  alignItems: 'start' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', m: 1 }}>
                     <Icon sx={{ alignItems:'start', mb: 1}}>
