@@ -23,6 +23,10 @@ const createLeaseContract = (leaseContract) => {
 
 }
 
+const deleteLeaseContractById = (id) => {
+  return axios.delete(`${LEASE_CONTRACT_REST_API_URL}/${id}`);
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAllLeaseContracts, 
@@ -30,4 +34,5 @@ export default {
   getLeaseContractByTenantId, 
   getLeaseContractByAppartmentId, 
   createLeaseContract,
+  deleteLeaseContractById,
 }

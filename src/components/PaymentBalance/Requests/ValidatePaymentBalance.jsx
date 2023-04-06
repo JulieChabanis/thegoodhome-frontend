@@ -24,7 +24,7 @@ const ValidatePaymentBalance = () => {
   const getLeaseContracts = useCallback(() => {
     LeaseContractService.getAllLeaseContracts()
       .then(response => {
-        setLeaseContracts(response.data);
+        setLeaseContracts(response.data.filter(contract => !contract.isPaid));
       })
       .catch(error => {
         console.log(error);
@@ -54,7 +54,6 @@ const ValidatePaymentBalance = () => {
 
   const calculateRentalPaymentAmountWithTax = (rental) => {
     return rental * 0.08; 
-
   }
 
   const handleRentalPaymentAmount = useCallback(() => {
