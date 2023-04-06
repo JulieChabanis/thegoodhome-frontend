@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../Global/Header';
+import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import LeaseContractService from '../../api/LeaseContractService';
 import { Box, useTheme } from '@mui/material';
 import { tokens } from "../UI/Themes/theme";
 import AddContractButton from './AddContractButton';
+
 import PreviewIcon from '@mui/icons-material/Preview';
 
 function LeaseContractsList() {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
+const navigate = useNavigate();
 const [leaseContracts, setLeaseContracts] = useState([]); 
 
 useEffect(() => {
@@ -25,6 +28,12 @@ const getAllLeaseContrats = () => {
   .catch(error => {
     console.log(error); 
   });
+};
+
+const handleClickContract = (id) => {
+  const selectedLeaseContract = leaseContracts.find((leaseContract) => leaseContract.id === id);
+  console.log('Selected Lease Contract:', selectedLeaseContract);
+  navigate(`/contracts/${selectedLeaseContract.id}`, {state: {leaseContract: selectedLeaseContract} });
 };
 
 const columns = [
@@ -81,12 +90,13 @@ const columns = [
     headerName: 'Action',
     type: 'actions', 
     flex : 1,
-    getActions: () => {
+    getActions: (params) => {
+      const leaseContract= params.row;
       return [
         <GridActionsCellItem
           icon={<PreviewIcon />}
           label='voir la fiche'
-          onClick=""
+          onClick={() => handleClickContract(leaseContract.id)}
         />,
       ]
     }
