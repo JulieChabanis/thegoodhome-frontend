@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../Global/Header';
 import PaymentBalanceService from '../../../api/PaymentBalanceService';
 import LeaseContractService from '../../../api/LeaseContractService';
-import { Paper, FormControlLabel, TextField, Checkbox, Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { Paper, Button, FormControlLabel, TextField, Checkbox, Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
+import PaidIcon from '@mui/icons-material/Paid';
 
 const ValidatePaymentBalance = () => {
   const navigate = useNavigate(); 
@@ -65,24 +66,29 @@ const ValidatePaymentBalance = () => {
 
   const handleSubmit = () => {
     const paymentBalance = {
-      leaseContractsEntity: { id: selectedLeaseContract },
+      leaseContractEntity: { id: selectedLeaseContract },
       rentalPaymentAmount : rentalPaymentAmount,
-      isPaid: isPaid,
+      paid: isPaid,
       paymentDate: isoDate,
     };
     
     PaymentBalanceService.createPaymentBalance(paymentBalance)
-    navigate('/soldes-paiements');
-    toast.success('Paiement de la Quittance du mois confirmé', {
-      position: toast.POSITION.BOTTOM_LEFT,
-      autoClose: 4500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      });
+    .then(() => {
+      navigate('/soldes-paiements');
+      toast.success('Paiement de la Quittance du mois confirmé', {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 4500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    })
+    .catch(error => {
+      console.log(error)
+    })
   };
 
 
@@ -175,6 +181,18 @@ const ValidatePaymentBalance = () => {
             label='Confirmer la reception paiement du loyer de ce mois-ci ?'
           />
           </FormControl>
+          <Button 
+            sx={{
+              fontWeight: 'bold',
+            }}
+              color='secondary'
+              variant="contained" 
+              disabled={!isCheckedBox}
+              startIcon={<PaidIcon/>}
+              onClick={handleSubmit}
+            >
+                  Confirmer le paiemeny pour ce mois-ci
+          </Button>
 
       </Box>
     </Box>
