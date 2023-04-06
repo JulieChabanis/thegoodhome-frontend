@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Global/Header';
 import PaymentBalanceService from '../../../api/PaymentBalanceService';
@@ -21,23 +21,7 @@ const ValidatePaymentBalance = () => {
   const currentDate = new Date(); 
   const isoDate = currentDate.toISOString();
 
-  useEffect(() => {
-    getLeaseContracts();
-  }, []);
-
-  useEffect(() => {
-    if (selectedLeaseContract) {
-      getLeaseContractDetails(selectedLeaseContract);
-    }
-  }, [selectedLeaseContract]);
-
-  useEffect(() => {
-    if (leaseContractDetails) {
-      handleRentalPaymentAmount();
-    }
-  }, [leaseContractDetails]);
-
-  const getLeaseContracts = () => {
+  const getLeaseContracts = useCallback(() => {
     LeaseContractService.getAllLeaseContracts()
       .then(response => {
         setLeaseContracts(response.data);
@@ -45,9 +29,13 @@ const ValidatePaymentBalance = () => {
       .catch(error => {
         console.log(error);
       });
-  };
+  }, []);
 
-  const getLeaseContractDetails = (id) => {
+  useEffect(() => {
+    getLeaseContracts();
+  }, [getLeaseContracts]);
+
+  const getLeaseContractDetails = useCallback((id) => {
     LeaseContractService.getLeaseContractById(id)
       .then(response => {
         setLeaseContractDetails(response.data);
@@ -55,20 +43,33 @@ const ValidatePaymentBalance = () => {
       .catch(error => {
         console.log(error);
       });
-  };
+      
+  }, []);
+
+  useEffect(() => {
+    if (selectedLeaseContract) {
+      getLeaseContractDetails(selectedLeaseContract);
+    }
+  }, [selectedLeaseContract, getLeaseContractDetails]);
 
   const calculateRentalPaymentAmountWithTax = (rental) => {
     return rental * 0.08; 
 
   }
 
-  const handleRentalPaymentAmount = () => {
+  const handleRentalPaymentAmount = useCallback(() => {
     const rental = leaseContractDetails.appartmentEntity?.rental ?? 0;
     setRentalPaymentAmount(rental);
 
     const rentalWithTax = calculateRentalPaymentAmountWithTax(rental);
     setRentalPaymentAmountWithTax(rentalWithTax)
-  };
+  }, [leaseContractDetails]);
+
+  useEffect(() => {
+    if (leaseContractDetails) {
+      handleRentalPaymentAmount();
+    }
+  }, [leaseContractDetails, handleRentalPaymentAmount]);
 
   const handleConfirmRentalPayment = (event) => {
     setIsPaid(event.target.checked);
