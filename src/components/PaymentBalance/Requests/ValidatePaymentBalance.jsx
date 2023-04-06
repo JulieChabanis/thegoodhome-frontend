@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../Global/Header';
 import PaymentBalanceService from '../../../api/PaymentBalanceService';
 import LeaseContractService from '../../../api/LeaseContractService';
-import { Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { Paper, Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 
 
 const ValidatePaymentBalance = () => {
@@ -83,36 +83,44 @@ const ValidatePaymentBalance = () => {
             </Select>
           </FormControl>
           {leaseContractDetails && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
-              <Typography variant='h3' mb="2">
-                Informations du contrat de location sélectionné :
-              </Typography>
-              <Typography variant='h4'>
-                Locataire actuel :
-              </Typography>
-              <Typography variant='h6' mb="2">
-              {`Nom du locataire : ${leaseContractDetails.tenantEntity.name} ${leaseContractDetails.tenantEntity.lastName}` }
-              </Typography>
-              <Typography variant='h6' mb="2">
-              {`email : ${leaseContractDetails.tenantEntity.email}  ${leaseContractDetails.tenantEntity.phone}` }
-              </Typography>
-              <Typography variant='h6' mb="2">
-              {`Tel : ${leaseContractDetails.tenantEntity.phone}` }
-              </Typography>
-              <Typography variant='h4'>
-                Bien Loué :
-              </Typography>
-              <Typography>
-                {`Appartement: ${leaseContractDetails.appartmentEntity.title}`}
-              </Typography>
-              <Typography>
-                {`Prix du loyer/mois CC : ${leaseContractDetails.appartmentEntity.rental}€`}
-              </Typography>
-              <Typography>
-                {`Addresse : ${leaseContractDetails.appartmentEntity.address} ${leaseContractDetails.appartmentEntity.zipcode} ${leaseContractDetails.appartmentEntity.city}`}
-              </Typography>
-            </Box>
-          )}
+    <Box sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
+        <Typography variant='h3'>
+            Informations du contrat de location sélectionné :
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
+                <Typography variant='h4' mb='10px' fontWeight='bold'>
+                    Locataire actuel :
+                </Typography>
+                <Typography variant='h5'fontWeight='bold'>
+                    {`${leaseContractDetails.tenantEntity.name} ${leaseContractDetails.tenantEntity.lastName}` }
+                </Typography>
+                <Typography variant='h6'>
+                    {`${leaseContractDetails.tenantEntity.email}` }
+                </Typography>
+                <Typography variant='h6'>
+                    {`Tel : ${leaseContractDetails.tenantEntity.phone}` }
+                </Typography>
+            </Paper>
+            <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
+                <Typography variant='h4' mb='10px' fontWeight='bold'>
+                    Bien Loué :
+                </Typography>
+                <Typography variant='h5'fontWeight='bold'>
+                    {`Appartement: ${leaseContractDetails.appartmentEntity.title}`}
+                </Typography>
+                <Typography variant='h6'>
+                    {`Prix du loyer/mois CC : ${leaseContractDetails.appartmentEntity.rental}€`}
+                </Typography>
+                <Typography variant='h6'>
+                    {`Addresse : ${leaseContractDetails.appartmentEntity.address} ${leaseContractDetails.appartmentEntity.zipcode} ${leaseContractDetails.appartmentEntity.city}`}
+                </Typography>
+            </Paper>
+        </Box>
+    </Box>
+)}
+
+
         </Box>
       </Box>
     </Box>
