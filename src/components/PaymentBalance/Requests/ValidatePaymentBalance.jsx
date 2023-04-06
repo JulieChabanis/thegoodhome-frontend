@@ -107,13 +107,16 @@ const ValidatePaymentBalance = () => {
                     Bien Loué :
                 </Typography>
                 <Typography variant='h5'fontWeight='bold'>
-                    {`Appartement: ${leaseContractDetails.appartmentEntity.title}`}
+                    {`${leaseContractDetails.appartmentEntity.title}`}
                 </Typography>
                 <Typography variant='h6'>
                     {`Prix du loyer/mois CC : ${leaseContractDetails.appartmentEntity.rental}€`}
                 </Typography>
                 <Typography variant='h6'>
                     {`Addresse : ${leaseContractDetails.appartmentEntity.address} ${leaseContractDetails.appartmentEntity.zipcode} ${leaseContractDetails.appartmentEntity.city}`}
+                </Typography>
+                <Typography variant='h6'>
+                    {`Locataire depuis le : ${leaseContractDetails.createdAt}`}
                 </Typography>
             </Paper>
         </Box>
