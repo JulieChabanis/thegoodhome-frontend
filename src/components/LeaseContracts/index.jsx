@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import PreviewIcon from '@mui/icons-material/Preview';
+import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
 
 function LeaseContractsList() {
 const theme = useTheme();
@@ -136,6 +137,12 @@ const columns = [
           label='voir la fiche'
           onClick={() => handleClickContract(leaseContract.id)}
         />,
+        // TODO Add Link to Open Bail PDF
+        <GridActionsCellItem
+        icon={<PictureAsPdfRoundedIcon />}
+        label='Ouvrir le contrat de Bail'
+        onClick={() => handleDeleteClick(leaseContract.id)}
+      />,
         <GridActionsCellItem
         icon={<DeleteIcon />}
         label='Supprimer le contrat'
