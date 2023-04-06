@@ -17,6 +17,7 @@ import TenantsList from './components/Tenants/index';
 import AppartmentsList from './components/Appartments/index';
 import LeaseContractsList from './components/LeaseContracts/index';
 import PaymentBalancesList from './components/PaymentBalance/index';
+import AgencyAccountBalance from './components/AgenciesAccountBalance/index';
 
 import CreateAppartment from './components/Appartments/Requests/CreateAppartment';
 import CardInfosAppart from './components/Appartments/CardInfosAppart';
@@ -49,6 +50,7 @@ function App() {
               <Route path='/contracts/:id' element={<LayoutInfosContract/>} />
               <Route path='/soldes-paiements' element={<PaymentBalancesList />} />
               <Route path='/valider-paiement' element={<ValidatePaymentBalance />} />
+              <Route path='/mes-comptes'element={<AgencyAccountBalance />} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
