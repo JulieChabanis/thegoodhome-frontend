@@ -3,10 +3,12 @@ import Header from '../Global/Header';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import LeaseContractService from '../../api/LeaseContractService';
-import { Box, useTheme } from '@mui/material';
+import { Box, Dialog, Button, DialogTitle, DialogContent, DialogContentText, DialogActions, useTheme } from '@mui/material';
 import { tokens } from "../UI/Themes/theme";
 import AddContractButton from './AddContractButton';
+import { toast } from 'react-toastify';
 
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import PreviewIcon from '@mui/icons-material/Preview';
 
 function LeaseContractsList() {
@@ -14,6 +16,9 @@ const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
 const [leaseContracts, setLeaseContracts] = useState([]); 
+
+const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+const [leaseContractToDelete, setLeaseContractToDelete] = useState(); 
 
 useEffect(() => {
   getAllLeaseContrats()
@@ -35,6 +40,39 @@ const handleClickContract = (id) => {
   console.log('Selected Lease Contract:', selectedLeaseContract);
   navigate(`/contracts/${selectedLeaseContract.id}`, {state: {leaseContract: selectedLeaseContract} });
 };
+
+// Delete Lease Contract
+const handleDeleteClick = (id) => {
+  setLeaseContractToDelete({ id });
+  setOpenDeleteDialog(true);
+}
+
+const handleDeleteConfirm = () => {
+  LeaseContractService.deleteLeaseContractById(leaseContractToDelete.id)
+  .then (response => {
+    console.log(response.data);
+    setLeaseContracts(leaseContracts.filter((leaseContract) => leaseContract.id !== leaseContractToDelete.id));
+    setOpenDeleteDialog(false);
+    toast.info(`Contrat de Location ${leaseContractToDelete.id} supprimé`, {
+      position: toast.POSITION.BOTTOM_LEFT,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  })
+  .catch(error => {
+    console.log(error);
+  })
+};
+
+const handleDeleteCancel = () => {
+  setLeaseContractToDelete(null);
+  setOpenDeleteDialog(false); 
+}
 
 const columns = [
   {
@@ -98,6 +136,11 @@ const columns = [
           label='voir la fiche'
           onClick={() => handleClickContract(leaseContract.id)}
         />,
+        <GridActionsCellItem
+        icon={<DeleteIcon />}
+        label='Supprimer le contrat'
+        onClick={() => handleDeleteClick(leaseContract.id)}
+      />,
       ]
     }
   }
@@ -140,6 +183,34 @@ const columns = [
        rows={leaseContracts}
        columns={columns}
        />
+      </Box>
+      <Box>
+        <Dialog
+          open={openDeleteDialog}
+          onClose={handleDeleteCancel}
+          sx={{
+            '& .MuiDialog-paper': {
+              backgroundColor: colors.primary[800],
+            }
+          }}
+        >
+          <DialogTitle>
+            {"SUPPRIMER UN CONTRAT"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Êtes-vous sûr de vouloir supprimer le contrat {leaseContractToDelete?.id} ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleDeleteCancel} color="secondary">
+              Annuler
+            </Button>
+            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleDeleteConfirm} color="error">
+              Supprimer
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   )
