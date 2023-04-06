@@ -24,9 +24,14 @@ const ValidatePaymentBalance = () => {
   useEffect(() => {
     if (selectedLeaseContract) {
       getLeaseContractDetails(selectedLeaseContract);
-      handleRentalPaymentAmount();
     }
   }, [selectedLeaseContract]);
+
+  useEffect(() => {
+    if (leaseContractDetails) {
+      handleRentalPaymentAmount();
+    }
+  }, [leaseContractDetails]);
 
   const getLeaseContracts = () => {
     LeaseContractService.getAllLeaseContracts()
@@ -49,7 +54,7 @@ const ValidatePaymentBalance = () => {
   };
 
   const handleRentalPaymentAmount = () => {
-    const rental = leaseContractDetails?.appartmentEntity?.rental ?? 0;
+    const rental = leaseContractDetails.appartmentEntity?.rental ?? 0;
     setRentalPaymentAmount(rental);
   };
 
