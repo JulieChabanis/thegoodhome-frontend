@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, useTheme, Grid, Link } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import Header from '../Global/Header';
 import { tokens } from "../UI/Themes/theme";
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
@@ -20,6 +20,7 @@ useEffect(() => {
 const getAllPaymentBalances = () => {
   PaymentBalanceService.getAllPaymentBalances()
   .then (response => {
+    setPaymentBalances(response.data)
     console.log(response.data);
   })
   .catch (error => {
@@ -29,10 +30,11 @@ const getAllPaymentBalances = () => {
 
 const columns = [
   {
-    field:'leaseContract.id',
+    field:'leaseContractEntity.id',
     headerName: 'Num Contrat',
     headerAlign: 'center',
     align: 'center',
+    valueGetter: (params) => `${params.row.leaseContractEntity.id}`,
     flex: 0.5
   }, 
   {
@@ -46,7 +48,7 @@ const columns = [
   },
   {
     field: 'appartmentEntity.rental',
-    headerName: 'Prix',
+    headerName: 'Loyer € / CC',
     cellClassName: "name-column--cell",
     headerAlign: 'left',
     align: 'left',
