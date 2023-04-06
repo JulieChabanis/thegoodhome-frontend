@@ -3,14 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../Global/Header';
 import PaymentBalanceService from '../../../api/PaymentBalanceService';
 import LeaseContractService from '../../../api/LeaseContractService';
-import { Paper, Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
-
+import { Paper, FormControlLabel, TextField, Checkbox, Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const ValidatePaymentBalance = () => {
   const navigate = useNavigate(); 
   const [leaseContracts, setLeaseContracts] = useState([]);
   const [selectedLeaseContract, setSelectedLeaseContract] = useState('');
   const [leaseContractDetails, setLeaseContractDetails] = useState(null);
+  const [rentalPaymentAmount, setRentalPaymentAmount] = useState(0);
+  const [isPaid, setIsPaid] = useState(false);
+  const [isCheckedBox, setIsCheckedBox] = useState(false);
   const currentDate = new Date(); 
   const isoDate = currentDate.toISOString();
 
@@ -21,6 +24,7 @@ const ValidatePaymentBalance = () => {
   useEffect(() => {
     if (selectedLeaseContract) {
       getLeaseContractDetails(selectedLeaseContract);
+      handleRentalPaymentAmount();
     }
   }, [selectedLeaseContract]);
 
@@ -44,13 +48,36 @@ const ValidatePaymentBalance = () => {
       });
   };
 
+  const handleRentalPaymentAmount = () => {
+    const rental = leaseContractDetails?.appartmentEntity?.rental ?? 0;
+    setRentalPaymentAmount(rental);
+  };
+
+  const handleConfirmRentalPayment = (event) => {
+    setIsPaid(event.target.checked);
+    setIsCheckedBox(event.target.checked);
+  }
+
   const handleSubmit = () => {
     const paymentBalance = {
       leaseContractsEntity: { id: selectedLeaseContract },
-      isPaid: false,
+      rentalPaymentAmount : rentalPaymentAmount,
+      isPaid: isPaid,
       paymentDate: isoDate,
     };
-    // TODO: Save payment balance to backend
+    
+    PaymentBalanceService.createPaymentBalance(paymentBalance)
+    navigate('/soldes-paiements');
+    toast.success('Paiement de la Quittance du mois confirmé', {
+      position: toast.POSITION.BOTTOM_LEFT,
+      autoClose: 4500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
   };
 
 
@@ -83,48 +110,67 @@ const ValidatePaymentBalance = () => {
             </Select>
           </FormControl>
           {leaseContractDetails && (
-    <Box sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
-        <Typography variant='h3'>
-            Informations du contrat de location sélectionné :
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
-                <Typography variant='h4' mb='10px' fontWeight='bold'>
-                    Locataire actuel :
-                </Typography>
-                <Typography variant='h5'fontWeight='bold'>
-                    {`${leaseContractDetails.tenantEntity.name} ${leaseContractDetails.tenantEntity.lastName}` }
-                </Typography>
-                <Typography variant='h6'>
-                    {`${leaseContractDetails.tenantEntity.email}` }
-                </Typography>
-                <Typography variant='h6'>
-                    {`Tel : ${leaseContractDetails.tenantEntity.phone}` }
-                </Typography>
-            </Paper>
-            <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
-                <Typography variant='h4' mb='10px' fontWeight='bold'>
-                    Bien Loué :
-                </Typography>
-                <Typography variant='h5'fontWeight='bold'>
-                    {`${leaseContractDetails.appartmentEntity.title}`}
-                </Typography>
-                <Typography variant='h6'>
-                    {`Prix du loyer/mois CC : ${leaseContractDetails.appartmentEntity.rental}€`}
-                </Typography>
-                <Typography variant='h6'>
-                    {`Addresse : ${leaseContractDetails.appartmentEntity.address} ${leaseContractDetails.appartmentEntity.zipcode} ${leaseContractDetails.appartmentEntity.city}`}
-                </Typography>
-                <Typography variant='h6'>
-                    {`Locataire depuis le : ${leaseContractDetails.createdAt}`}
-                </Typography>
-            </Paper>
+          <Box sx={{ display: 'flex', flexDirection: 'column', m: 2 }}>
+              <Typography variant='h3'>
+                  Informations du contrat de location sélectionné :
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                  <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
+                      <Typography variant='h4' mb='10px' fontWeight='bold'>
+                          Locataire actuel :
+                      </Typography>
+                      <Typography variant='h5'fontWeight='bold'>
+                          {`${leaseContractDetails.tenantEntity.name} ${leaseContractDetails.tenantEntity.lastName}` }
+                      </Typography>
+                      <Typography variant='h6'>
+                          {`${leaseContractDetails.tenantEntity.email}` }
+                      </Typography>
+                      <Typography variant='h6'>
+                          {`Tel : ${leaseContractDetails.tenantEntity.phone}` }
+                      </Typography>
+                  </Paper>
+                  <Paper elevation={3} sx={{ m:2, p: 2, borderRadius: 2, border: '1px solid #f2f0f0', color: '#3d3d3d', bgcolor: '#f2f0f0' }}>
+                      <Typography variant='h4' mb='10px' fontWeight='bold'>
+                          Bien Loué :
+                      </Typography>
+                      <Typography variant='h5'fontWeight='bold'>
+                          {`${leaseContractDetails.appartmentEntity.title}`}
+                      </Typography>
+                      <Typography variant='h6'>
+                          {`Prix du loyer/mois CC : ${leaseContractDetails.appartmentEntity.rental}€`}
+                      </Typography>
+                      <Typography variant='h6'>
+                          {`Addresse : ${leaseContractDetails.appartmentEntity.address} ${leaseContractDetails.appartmentEntity.zipcode} ${leaseContractDetails.appartmentEntity.city}`}
+                      </Typography>
+                      <Typography variant='h6'>
+                          {`Locataire depuis le : ${leaseContractDetails.createdAt}`}
+                      </Typography>
+                  </Paper>
+              </Box>
+          </Box>
+          )}
         </Box>
-    </Box>
-)}
+        <FormControl fullWidth color="secondary" sx={{ ml: 1, mt: 4, mb: 4, minWidth: 280 }}>
+          <TextField 
+            id='rental-payment-amount'
+            label='Loyer à payer CC '
+            type='number'
+            value={rentalPaymentAmount}
+            onChange={handleRentalPaymentAmount}
+          />
+           <FormControlLabel
+           sx={{mt: 3}}
+            control={
+              <Checkbox
+                color='secondary'
+                checked={isPaid}
+                onChange={handleConfirmRentalPayment}
+              /> 
+            }
+            label='Confirmer la reception paiement du loyer de ce mois-ci ?'
+          />
+          </FormControl>
 
-
-        </Box>
       </Box>
     </Box>
   );
