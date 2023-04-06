@@ -205,7 +205,7 @@ const Sidebar = () => {
               />
               <Item
                 title='Mes Comptes'
-                to="/"
+                to="/valider-paiement"
                 icon={<BarChartIcon />}
                 selected={selected}
                 setSelected={setSelected}

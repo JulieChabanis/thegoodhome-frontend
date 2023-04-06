@@ -21,6 +21,7 @@ import PaymentBalancesList from './components/PaymentBalance/index';
 import CreateAppartment from './components/Appartments/Requests/CreateAppartment';
 import CardInfosAppart from './components/Appartments/CardInfosAppart';
 import GenerateLeaseContract from './components/LeaseContracts/Requests/GenerateLeaseContract';
+import ValidatePaymentBalance from './components/PaymentBalance/Requests/ValidatePaymentBalance';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
               <Route path='/ajouter-contrat' element={<GenerateLeaseContract/>} />
               <Route path='/contracts' element={<LeaseContractsList/>} />
               <Route path='/soldes-paiements' element={<PaymentBalancesList />} />
+              <Route path='/valider-paiement' element={<ValidatePaymentBalance />} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
           </main>
