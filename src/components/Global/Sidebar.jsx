@@ -162,7 +162,14 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title='Suivi Paiements'
+                title='Gérer Paiements'
+                to="/valider-paiement"
+                icon={<CalendarMonthRoundedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title='Voir Paiements'
                 to="/soldes-paiements"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
@@ -205,7 +212,7 @@ const Sidebar = () => {
               />
               <Item
                 title='Mes Comptes'
-                to="/"
+                to="/valider-paiement"
                 icon={<BarChartIcon />}
                 selected={selected}
                 setSelected={setSelected}

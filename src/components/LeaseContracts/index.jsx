@@ -97,8 +97,6 @@ const columns = [
     <Box m='20px'>
       <Header title="CONTRATS DE LOCATION" subtitle="Mes contrats de location"/>
       < AddContractButton />
-      <Box>
-      </Box> 
       <Box 
         m='40px 0 40px 0' 
         height='50vh' 
