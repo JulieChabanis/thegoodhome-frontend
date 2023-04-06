@@ -12,9 +12,12 @@ const ValidatePaymentBalance = () => {
   const [leaseContracts, setLeaseContracts] = useState([]);
   const [selectedLeaseContract, setSelectedLeaseContract] = useState('');
   const [leaseContractDetails, setLeaseContractDetails] = useState(null);
+
   const [rentalPaymentAmount, setRentalPaymentAmount] = useState(0);
+  const [rentalPaymentAmountWithTax, setRentalPaymentAmountWithTax] = useState(0);
   const [isPaid, setIsPaid] = useState(false);
   const [isCheckedBox, setIsCheckedBox] = useState(false);
+
   const currentDate = new Date(); 
   const isoDate = currentDate.toISOString();
 
@@ -54,9 +57,17 @@ const ValidatePaymentBalance = () => {
       });
   };
 
+  const calculateRentalPaymentAmountWithTax = (rental) => {
+    return rental * 0.08; 
+
+  }
+
   const handleRentalPaymentAmount = () => {
     const rental = leaseContractDetails.appartmentEntity?.rental ?? 0;
     setRentalPaymentAmount(rental);
+
+    const rentalWithTax = calculateRentalPaymentAmountWithTax(rental);
+    setRentalPaymentAmountWithTax(rentalWithTax)
   };
 
   const handleConfirmRentalPayment = (event) => {
@@ -68,7 +79,8 @@ const ValidatePaymentBalance = () => {
     const paymentBalance = {
       leaseContractEntity: { id: selectedLeaseContract },
       rentalPaymentAmount : rentalPaymentAmount,
-      paid: isPaid,
+      isPaid: isPaid,
+      rentalPaymentAmountWithTax : rentalPaymentAmountWithTax,
       paymentDate: isoDate,
     };
     
@@ -169,6 +181,9 @@ const ValidatePaymentBalance = () => {
             value={rentalPaymentAmount}
             onChange={handleRentalPaymentAmount}
           />
+          <Typography>
+          {`Vous allez prelever 8% de frais d'agence sur ce loyer, soit : ${rentalPaymentAmountWithTax} € ajouté à vos comptes.`}
+          </Typography>
            <FormControlLabel
            sx={{mt: 3}}
             control={
@@ -191,7 +206,7 @@ const ValidatePaymentBalance = () => {
               startIcon={<PaidIcon/>}
               onClick={handleSubmit}
             >
-                  Confirmer le paiemeny pour ce mois-ci
+                  Confirmer le paiement pour ce mois-ci
           </Button>
 
       </Box>
