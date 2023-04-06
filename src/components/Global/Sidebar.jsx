@@ -15,6 +15,8 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 const Item = ({ title, to, icon, selected, setSelected}) => {
   const theme = useTheme();
@@ -164,14 +166,14 @@ const Sidebar = () => {
               <Item
                 title='Gérer Paiements'
                 to="/valider-paiement"
-                icon={<CalendarMonthRoundedIcon />}
+                icon={<CurrencyExchangeIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title='Voir Paiements'
                 to="/soldes-paiements"
-                icon={<CalendarMonthRoundedIcon />}
+                icon={<PaymentsIcon  />}
                 selected={selected}
                 setSelected={setSelected}
               />

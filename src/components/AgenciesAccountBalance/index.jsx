@@ -103,7 +103,7 @@ function AgencyAccountBalance() {
       />
       <Box 
         m='40px 0 40px 0' 
-        height='50vh' 
+        height='40vh' 
         sx={{
         '& .MuiDataGrid-root': {
           border: 'none',
