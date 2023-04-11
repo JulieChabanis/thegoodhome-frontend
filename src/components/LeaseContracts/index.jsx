@@ -7,6 +7,7 @@ import { Box, Dialog, Button, DialogTitle, DialogContent, DialogContentText, Dia
 import { tokens } from "../UI/Themes/theme";
 import AddContractButton from './AddContractButton';
 import { toast } from 'react-toastify';
+import { openPdf } from '../../api/PdfLeaseContractService'; 
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -20,6 +21,7 @@ const [leaseContracts, setLeaseContracts] = useState([]);
 
 const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 const [leaseContractToDelete, setLeaseContractToDelete] = useState(); 
+
 
 useEffect(() => {
   getAllLeaseContrats()
@@ -141,7 +143,7 @@ const columns = [
         <GridActionsCellItem
         icon={<PictureAsPdfRoundedIcon />}
         label='Ouvrir le contrat de Bail'
-        onClick={() => handleDeleteClick(leaseContract.id)}
+        onClick={openPdf}
       />,
         <GridActionsCellItem
         icon={<DeleteIcon />}
