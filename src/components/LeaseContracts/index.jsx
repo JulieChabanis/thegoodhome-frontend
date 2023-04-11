@@ -7,7 +7,7 @@ import { Box, Dialog, Button, DialogTitle, DialogContent, DialogContentText, Dia
 import { tokens } from "../UI/Themes/theme";
 import AddContractButton from './AddContractButton';
 import { toast } from 'react-toastify';
-import { openPdf } from '../../api/PdfLeaseContractService'; 
+import { generatePdf } from '../../api/PdfLeaseContractService'; 
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -143,7 +143,7 @@ const columns = [
         <GridActionsCellItem
         icon={<PictureAsPdfRoundedIcon />}
         label='Ouvrir le contrat de Bail'
-        onClick={openPdf}
+        onClick={() => generatePdf(leaseContract.id)}
       />,
         <GridActionsCellItem
         icon={<DeleteIcon />}
