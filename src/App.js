@@ -48,6 +48,7 @@ function App() {
               <Route path='/ajouter-contrat' element={<GenerateLeaseContract/>} />
               <Route path='/contracts' element={<LeaseContractsList/>} />
               <Route path='/contracts/:id' element={<LayoutInfosContract/>} />
+              <Route path='/pdf/:id' />
               <Route path='/soldes-paiements' element={<PaymentBalancesList />} />
               <Route path='/valider-paiement' element={<ValidatePaymentBalance />} />
               <Route path='/mes-comptes'element={<AgencyAccountBalance />} />
