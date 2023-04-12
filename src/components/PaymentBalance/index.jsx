@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { generateRentReceiptPdf } from '../../api/PdfRentReceiptService';
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import PreviewIcon from '@mui/icons-material/Preview';
 import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
 import { toast } from 'react-toastify';
 
@@ -118,12 +117,6 @@ const columns = [
     getActions: (params) => {
       const paymentBalance = params.row;
       return [
-        // TO DO : Add Link to Open Tenant Balance
-        <GridActionsCellItem
-          icon={<PreviewIcon />}
-          label='voir la fiche'
-          onClick=""
-        />,
         <GridActionsCellItem
         icon={<PictureAsPdfRoundedIcon />}
         label='Voir les quittances'
