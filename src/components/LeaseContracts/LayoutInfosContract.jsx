@@ -4,6 +4,7 @@ import { useLocation, useNavigate} from 'react-router-dom';
 import Header from '../Global/Header';
 import Carousel from 'react-material-ui-carousel';
 import { tokens } from "../UI/Themes/theme";
+import { generatePdf } from '../../api/PdfLeaseContractService'; 
 
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
@@ -120,6 +121,7 @@ const LayoutInfosContract = () => {
         <Button
           variant='outlined'
           startIcon={<PictureAsPdfRoundedIcon />}
+          onClick={() => generatePdf(selectedContract.id)}
           sx={{
             ml: 2,
             mb: 1,
