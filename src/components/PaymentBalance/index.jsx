@@ -5,6 +5,7 @@ import { tokens } from "../UI/Themes/theme";
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import PaymentBalanceService from '../../api/PaymentBalanceService';
 import { useEffect, useState } from 'react';
+import { generateRentReceiptPdf } from '../../api/PdfRentReceiptService';
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -123,10 +124,10 @@ const columns = [
           label='voir la fiche'
           onClick=""
         />,
-        // TO DO : Add Link to Open Quittance
         <GridActionsCellItem
         icon={<PictureAsPdfRoundedIcon />}
         label='Voir les quittances'
+        onClick={() => generateRentReceiptPdf(paymentBalance.id)}
         />,
         <GridActionsCellItem
         icon={<DeleteIcon />}

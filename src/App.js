@@ -51,6 +51,7 @@ function App() {
               <Route path='/pdf/:id' />
               <Route path='/soldes-paiements' element={<PaymentBalancesList />} />
               <Route path='/valider-paiement' element={<ValidatePaymentBalance />} />
+              <Route path='/rent-receipt/:id' />
               <Route path='/mes-comptes'element={<AgencyAccountBalance />} />
               <Route path='/agencies' element={<AgenciesList />} />
             </Routes>
