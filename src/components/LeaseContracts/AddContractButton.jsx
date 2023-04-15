@@ -13,6 +13,7 @@ export default function AddAppartmentButton() {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
+  // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {

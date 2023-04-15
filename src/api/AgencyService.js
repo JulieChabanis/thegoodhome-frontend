@@ -10,6 +10,7 @@ const createAgency = (agency) => {
   return axios.post(AGENCY_REST_API_URL, agency); 
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAgencies, 
   createAgency,
