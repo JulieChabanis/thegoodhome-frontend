@@ -12,7 +12,7 @@ import MyProSidebar from './components/Global/Sidebar';
 import Dashboard from './components/Dashboard';
 
 // Import API Data from Data Grid
-import AgenciesList from './components/Agencies/index';
+import AgenciesList from './components/Agencies/Index';
 import TenantsList from './components/Tenants/index';
 import AppartmentsList from './components/Appartments/index';
 import LeaseContractsList from './components/LeaseContracts/index';
