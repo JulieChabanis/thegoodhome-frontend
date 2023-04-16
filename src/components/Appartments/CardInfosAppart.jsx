@@ -4,7 +4,6 @@ import { useLocation, useNavigate} from 'react-router-dom';
 import Header from '../Global/Header';
 import Carousel from 'react-material-ui-carousel'
 import { tokens } from "../UI/Themes/theme";
-// import AppartmentService from '../../api/AppartmentService';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EuroRoundedIcon from '@mui/icons-material/EuroRounded';
 import CloseIcon from '@mui/icons-material/Close';
