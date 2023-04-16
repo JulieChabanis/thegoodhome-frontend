@@ -123,7 +123,7 @@ const Sidebar = () => {
             <Box paddingLeft={isCollapsed ? undefined : '10%'}>
               <Item
                 title='Dashboard'
-                to='/'
+                to='/dashboard'
                 icon={<DashboardCustomizeRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -207,7 +207,7 @@ const Sidebar = () => {
               </Typography>
               <Item
                 title='Calendrier'
-                to="/"
+                to="/dashboard"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}
