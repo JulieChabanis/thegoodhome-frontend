@@ -38,7 +38,7 @@ const CreateAgency = forwardRef((props, ref) => {
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
-          navigate ('/agencies');
+          navigate ('/mes-comptes');
         })
         .catch(err => {
           console.log(err);
