@@ -1,6 +1,4 @@
-# The Good Home WEBAPP 
-
-This project 
+# The Good Home Front-end WEB-App
 
 "This project is a prototype of a Real Estate Rental Management software. It allows performing CRUD operations from a SpringBoot API that processes and stores the data.
 
