@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -11,6 +12,7 @@ import AgencyService from '../../../api/AgencyService';
 const CreateAgency = forwardRef((props, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate(); 
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,7 @@ const CreateAgency = forwardRef((props, ref) => {
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
-          window.location.reload(); // recharger la page après avoir effectué la requête POST
+          navigate ('/agencies');
         })
         .catch(err => {
           console.log(err);
