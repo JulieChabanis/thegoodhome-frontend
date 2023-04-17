@@ -207,7 +207,7 @@ const Sidebar = () => {
               </Typography>
               <Item
                 title='Calendrier'
-                to="/"
+                to="/dashboard"
                 icon={<CalendarMonthRoundedIcon />}
                 selected={selected}
                 setSelected={setSelected}

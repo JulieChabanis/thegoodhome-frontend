@@ -2,7 +2,7 @@
   "name": "thegoodhome-frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy" : "https://thegoodhome-api.herokuapp.com",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -20,11 +20,14 @@
     "react-pro-sidebar": "^0.7.1",
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.1",
+    "svgo": "^3.0.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.0.2"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1"
+    "@jridgewell/sourcemap-codec": "^1.4.15",
+    "@rollup/plugin-terser": "^0.4.1",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

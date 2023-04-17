@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTheme } from '@emotion/react';
 import * as Yup from 'yup';
@@ -13,6 +14,7 @@ import { toast } from 'react-toastify';
 const CreateTenant = forwardRef((props, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate(); 
 
   const formik = useFormik({
     initialValues: {
@@ -36,6 +38,7 @@ const CreateTenant = forwardRef((props, ref) => {
         .then(res => {
           console.log(res.data);
           setSubmitting(false);
+          navigate ('/ajouter-contrat');
           toast.success('Locataire ajouté avec succès', {
             position: toast.POSITION.BOTTOM_LEFT,
             autoClose: 4500,
@@ -46,7 +49,6 @@ const CreateTenant = forwardRef((props, ref) => {
             progress: undefined,
             theme: "colored",
             });
-            window.location.reload();// recharger la page après avoir effectué la requête POST
         })
         .catch(err => {
           console.log(err);

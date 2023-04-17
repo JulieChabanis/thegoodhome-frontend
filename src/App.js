@@ -9,10 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 // Import Global Components
 import Topbar from './components/Global/Topbar';
 import MyProSidebar from './components/Global/Sidebar';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
+import HeroPage from './components/HeroPage';
 
 // Import API Data from Data Grid
-import AgenciesList from './components/Agencies/index';
+import AgenciesList from './components/Agencies/Index';
 import TenantsList from './components/Tenants/index';
 import AppartmentsList from './components/Appartments/index';
 import LeaseContractsList from './components/LeaseContracts/index';
@@ -40,7 +41,8 @@ function App() {
           <main className='content'>
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
-              <Route path='/' element={<Dashboard />} />
+              <Route path='/' element={<HeroPage/>} />
+              <Route path='/dashboard' element={<HeroPage/>} />
               <Route path='/tenants' element={<TenantsList />} />
               <Route path='/appartments' element={<AppartmentsList />} />
               <Route path='/appartments/ajouter' element={<CreateAppartment />} />
