@@ -6,11 +6,11 @@ const HeroPage = () => {
   const theme = useTheme();
 
   return (
-    <Box height='100%'>
+    <Box height='90%'>
       <Box
         sx={{
           position: 'relative',
-          height: '90%',
+          height: '100%',
           overflow: 'hidden',
         }}
       >

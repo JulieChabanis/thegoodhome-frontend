@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Import Global Components
 import Topbar from './components/Global/Topbar';
 import MyProSidebar from './components/Global/Sidebar';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
 import HeroPage from './components/HeroPage';
 
 // Import API Data from Data Grid
@@ -41,8 +41,8 @@ function App() {
           <main className='content'>
             <Topbar SetIsSidebar={SetIsSidebar} />
             <Routes>
-              <Route path='/' element={<HeroPage />} />
-              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/' element={<HeroPage/>} />
+              <Route path='/dashboard' element={<HeroPage/>} />
               <Route path='/tenants' element={<TenantsList />} />
               <Route path='/appartments' element={<AppartmentsList />} />
               <Route path='/appartments/ajouter' element={<CreateAppartment />} />
