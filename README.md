@@ -1,4 +1,12 @@
-# Getting Started with Create React App
+# The Good Home WEBAPP 
+
+This project 
+
+"This project is a prototype of a Real Estate Rental Management software. It allows performing CRUD operations from a SpringBoot API that processes and stores the data.
+
+Note: The Good Home Front-end is not directly linked to the database. You can complete this code with MockDatas and retrieve the Back-end part from my other GitHub repository [The Good Home Back-end](https://github.com/JulieChabanis/TheGoodHome-WebApp-backend).
+
+### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
