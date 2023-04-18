@@ -6,7 +6,7 @@ import TenantService from '../../api/TenantService';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import PreviewIcon from '@mui/icons-material/Preview';
+// import PreviewIcon from '@mui/icons-material/Preview';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -165,11 +165,11 @@ function TenantsList() {
       flex: 1,
       getActions:({ id }) => {
         return [
-          <GridActionsCellItem
+          /*<GridActionsCellItem
           icon={<PreviewIcon/>}
           label='voir le locataire'
           onClick=""
-          />,
+          />,*/
           <GridActionsCellItem
           icon={<EditIcon/>}
           label='Modifier un locataire'
