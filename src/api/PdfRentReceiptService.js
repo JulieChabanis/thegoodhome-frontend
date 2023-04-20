@@ -5,6 +5,11 @@ import axios from "axios";
 const generateRentReceiptPdf = async (pdfPaymentBalanceId) => {
   try {
     const response = await axios.get(`${process.env.REACT_APP_PDF_RENT_RECEIPT_URL_API}/${pdfPaymentBalanceId}`, {
+      auth: {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      },
+    }, {
       responseType: 'blob', 
     }); 
     const blob = new Blob([response.data], {
