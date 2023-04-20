@@ -4,46 +4,76 @@ import axios from "axios";
 
 const getAppartments= () => {
   return axios.get(process.env.REACT_APP_APPARTMENT_DATA_URL_API, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
     },
   }); 
 }
 
 const createAppartment = (appartment) => {
   return axios.post(process.env.REACT_APP_APPARTMENT_DATA_URL_API, appartment, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   }); 
 }
 
 const getAppartmentById = (appartmentId) => {
   return axios.get(process.env.REACT_APP_APPARTMENT_DATA_URL_API + "/" + appartmentId, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
 const updateAppartment = (id, appartmentEntity) => {
   return axios.put(`${process.env.REACT_APP_APPARTMENT_DATA_URL_API}/${id}`, appartmentEntity, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
 const deleteAppartmentById = (id) => {
   return axios.delete(`${process.env.REACT_APP_APPARTMENT_DATA_URL_API}/${id}`, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 

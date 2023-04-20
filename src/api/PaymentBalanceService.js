@@ -4,37 +4,61 @@ import axios from "axios";
 
 const getAllPaymentBalances = () => {
   return axios.get(process.env.REACT_APP_PAYMENT_BALANCE_DATA_URL_API, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   })
 }
 
 const getPaymentBalanceById = (paymentBalanceId) => {
   return axios.get(`${process.env.REACT_APP_PAYMENT_BALANCE_DATA_URL_API}/${paymentBalanceId}`, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
 const createPaymentBalance = (paymentBalance) => {
   return axios.post(process.env.REACT_APP_PAYMENT_BALANCE_DATA_URL_API, paymentBalance, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
 const deletePaymentBalancetById = (id) => {
   return axios.delete(`${process.env.REACT_APP_PAYMENT_BALANCE_DATA_URL_API}/${id}`, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 

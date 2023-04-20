@@ -31,29 +31,47 @@ const getLeaseContractByTenantId = (tenantId) => {
 
 const getLeaseContractByAppartmentId = (appartmentId) => {
   return axios.get(`${process.env.REACT_APP_LEASE_CONTRACT_DATA_URL_API}/appartments/${appartmentId}/contracts`, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
 const createLeaseContract = (leaseContract) => {
   return axios.post(process.env.REACT_APP_LEASE_CONTRACT_DATA_URL_API, leaseContract, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 
 }
 
 const deleteLeaseContractById = (id) => {
   return axios.delete(`${process.env.REACT_APP_LEASE_CONTRACT_DATA_URL_API}/${id}`, {
-    auth: {
-      username: process.env.REACT_APP_KEY_USER_AUTH,
-      password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
-    },
+    headers: {
+      common: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      auth :  {
+        username: process.env.REACT_APP_KEY_USER_AUTH,
+        password: process.env.REACT_APP_KEY_PASSWORD_AUTH,
+      }
+    }
   });
 }
 
