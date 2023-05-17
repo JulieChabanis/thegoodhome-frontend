@@ -31,7 +31,7 @@ const getAllLeaseContrats = () => {
   LeaseContractService.getAllLeaseContracts()
   .then (response => {
     setLeaseContracts(response.data)
-    console.log(response.data);
+    // console.log(response.data);
   })
   .catch(error => {
     console.log(error); 
@@ -40,7 +40,7 @@ const getAllLeaseContrats = () => {
 
 const handleClickContract = (id) => {
   const selectedLeaseContract = leaseContracts.find((leaseContract) => leaseContract.id === id);
-  console.log('Selected Lease Contract:', selectedLeaseContract);
+  // console.log('Selected Lease Contract:', selectedLeaseContract);
   navigate(`/contracts/${selectedLeaseContract.id}`, {state: {leaseContract: selectedLeaseContract} });
 };
 

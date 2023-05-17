@@ -37,7 +37,7 @@ function TenantsList() {
     TenantService.getTenants()
     .then(response => {
         setTenants(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
     .catch(error => {
         console.log(error);

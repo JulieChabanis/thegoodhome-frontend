@@ -22,7 +22,7 @@ function AgencyAccountBalance() {
     PaymentBalanceService.getAllPaymentBalances()
     .then (response => {
       setPaymentBalances(response.data)
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch (error => {
       console.log(error);

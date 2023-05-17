@@ -132,7 +132,7 @@ function AppartmentsList() {
   // Open Card Appartment by ID
   const handleClickCard = (id) => {
     const selectedAppartment = appartments.find((appartment) => appartment.id === id);
-    console.log('Selected appartment:', selectedAppartment);
+    // console.log('Selected appartment:', selectedAppartment);
     navigate(`/appartments/${selectedAppartment.id}`, { state: { appartment: selectedAppartment } });
   };
 

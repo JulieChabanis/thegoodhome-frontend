@@ -27,7 +27,7 @@ function AgenciesList() {
     AgencyService.getAgencies()
     .then(response => {
         setAgencies(response.data)
-        console.log(response.data);
+        // console.log(response.data);
       })
     .catch(error => {
         console.log(error);
